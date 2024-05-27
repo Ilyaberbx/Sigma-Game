@@ -1,4 +1,4 @@
-namespace Odumbrata.Core.Systems.Movement
+namespace Odumbrata.Movement
 {
     public interface IBrain
     {

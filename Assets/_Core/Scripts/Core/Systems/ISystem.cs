@@ -1,4 +1,4 @@
-namespace Odumbrata.Core.Systems
+namespace Odumbrata
 {
     public interface ISystem
     { }
