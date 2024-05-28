@@ -10,10 +10,14 @@ namespace Odumbrata.Movement.Brains
     {
         [SerializeField] private Camera _camera;
 
+        private NavMeshPath _path;
+
         public bool TryGetPath(NavMeshAgent agent, out NavMeshPath path)
         {
             path = new NavMeshPath();
 
+            DrawPath(_path);
+            
             if (!Input.GetMouseButtonDown(0))
             {
                 return false;
@@ -25,7 +29,8 @@ namespace Odumbrata.Movement.Brains
             {
                 if (agent.CalculatePath(info.point, path))
                 {
-                    DrawPath(path);
+                    _path = path;
+                    
                     return true;
                 }
             }
@@ -36,10 +41,13 @@ namespace Odumbrata.Movement.Brains
 
         private void DrawPath(NavMeshPath path)
         {
-            for (int i = 0; i < path.corners.Length - 1; i++)
-                Debug.DrawLine(path.corners[i], path.corners[i + 1], Color.red);
+            if (_path != null)
+            {
+                for (int i = 0; i < path.corners.Length - 1; i++)
+                {
+                    Debug.DrawLine(path.corners[i], path.corners[i + 1], Color.red);
+                }
+            }
         }
-
-
     }
 }

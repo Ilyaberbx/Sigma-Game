@@ -14,10 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stats:
   - rid: 7099748419729620993
+  - rid: 7099748419729620995
+  - rid: 7099748419729620996
   references:
     version: 2
     RefIds:
     - rid: 7099748419729620993
       type: {class: WalkSpeedStat, ns: Odumbrata.Stats.Implementations, asm: Assembly-CSharp}
       data:
-        _value: 15
+        _value: 10
+    - rid: 7099748419729620995
+      type: {class: AccelerationStat, ns: Odumbrata.Stats.Implementations, asm: Assembly-CSharp}
+      data:
+        _value: 2000
+    - rid: 7099748419729620996
+      type: {class: AngularSpeedStat, ns: Odumbrata.Stats.Implementations, asm: Assembly-CSharp}
+      data:
+        _value: 200
