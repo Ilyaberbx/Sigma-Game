@@ -17,7 +17,7 @@ namespace Odumbrata.Movement
             _agent = agent;
         }
 
-        public void Tick()
+        public void Move()
         {
             if (_stats.TryGet<WalkSpeedStat>(out var walk))
             {

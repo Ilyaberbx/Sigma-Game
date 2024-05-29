@@ -28,7 +28,7 @@ namespace Odumbrata.Services.Updates
                 return;
             }
 
-            _tickSystem.Tick(Time.deltaTime);
+            _tickSystem.Tick(Time.fixedDeltaTime);
         }
 
         #region ITickRegistry

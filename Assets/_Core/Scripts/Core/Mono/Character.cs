@@ -1,29 +1,45 @@
+using System;
 using Better.Attributes.Runtime.Select;
+using Better.Locators.Runtime;
 using Odumbrata.Movement;
 using Odumbrata.Movement.Brains;
+using Odumbrata.Services.Updates;
+using Odumbrata.Tick;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace Odumbrata.Mono
 {
-    public class Character : Entity
+    public class Character : Entity, IUpdatable
     {
         [SerializeField] private NavMeshAgent _agent;
         [SerializeReference, Select] private IBrain _brain;
 
         private MoveSystem _moveSystem;
+        private UpdateService _updateService;
         
-        protected override void Initialize()
+        protected override void OnAwake()
         {
-            base.Initialize();
+            base.OnAwake();
 
             _moveSystem = new MoveSystem(_brain, Stats, _agent);
+            
+            _updateService = ServiceLocator.Get<UpdateService>();
         }
 
-        //TODO: Tick Service
-        private void Update()
+        private void Start()
         {
-            _moveSystem.Tick();
+            _updateService.Subscribe(this);
+        }
+
+        private void OnDestroy()
+        {
+            _updateService.Unsubscribe(this);
+        }
+        
+        public void Tick(float deltaTime)
+        {
+            _moveSystem.Move();
         }
     }
 }

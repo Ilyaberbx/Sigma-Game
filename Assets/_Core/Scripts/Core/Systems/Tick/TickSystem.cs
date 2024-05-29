@@ -3,7 +3,7 @@ using Better.Commons.Runtime.Extensions;
 
 namespace Odumbrata.Tick
 {
-    public sealed class TickSystem<TTickable> : ITickRegistry<TTickable>, ITickable where TTickable : ITickable
+    public sealed class TickSystem<TTickable> : ITickRegistry<TTickable>, ITickable, ISystem where TTickable : ITickable
     {
         private readonly List<TTickable> _tickables;
 

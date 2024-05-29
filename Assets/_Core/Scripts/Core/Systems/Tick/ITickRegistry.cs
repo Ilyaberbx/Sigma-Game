@@ -5,9 +5,4 @@ namespace Odumbrata.Tick
         void Subscribe(TTickable tickable);
         void Unsubscribe(TTickable tickable);
     }
-
-    public interface ITickable
-    {
-        void Tick(float deltaTime);
-    }
 }

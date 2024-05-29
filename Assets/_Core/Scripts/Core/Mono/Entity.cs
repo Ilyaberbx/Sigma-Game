@@ -1,4 +1,3 @@
-using System;
 using Odumbrata.Stats;
 using UnityEngine;
 
@@ -14,10 +13,10 @@ namespace Odumbrata.Mono
         
         private void Awake()
         {
-            Initialize();
+            OnAwake();
         }
         
-        protected virtual void Initialize()
+        protected virtual void OnAwake()
         {
             _statsSystem = new StatsSystem(_statsDatabase.Stats);
         }
