@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Odumbrata.Stats.Abstractions
+namespace Odumbrata.Stats
 {
     [Serializable]
     public abstract class ParameterizedStat<TValue> : IStat

@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using Better.Attributes.Runtime.Select;
-using Odumbrata.Stats.Abstractions;
 using UnityEngine;
 
-namespace Odumbrata.Stats.Data
+namespace Odumbrata.Stats
 {
     [CreateAssetMenu(fileName = "Entity Stats", menuName = "Databases/Stats", order = 0)]
     public class StatsDatabase : ScriptableObject

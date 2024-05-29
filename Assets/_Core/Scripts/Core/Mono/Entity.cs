@@ -1,6 +1,5 @@
 using System;
 using Odumbrata.Stats;
-using Odumbrata.Stats.Data;
 using UnityEngine;
 
 namespace Odumbrata.Mono

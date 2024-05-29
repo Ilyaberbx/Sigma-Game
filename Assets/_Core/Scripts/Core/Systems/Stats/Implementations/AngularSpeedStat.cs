@@ -1,7 +1,6 @@
-using Odumbrata.Stats.Abstractions;
-
-namespace Odumbrata.Stats.Implementations
+namespace Odumbrata.Stats
 {
     public class AngularSpeedStat : ParameterizedStat<int>
-    { }
+    {
+    }
 }

@@ -1,4 +1,4 @@
-namespace Odumbrata.Stats.Abstractions
+namespace Odumbrata.Stats
 {
     public interface IStat
     { }

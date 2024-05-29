@@ -1,6 +1,5 @@
 using Odumbrata.Movement.Brains;
 using Odumbrata.Stats;
-using Odumbrata.Stats.Implementations;
 using UnityEngine.AI;
 
 namespace Odumbrata.Movement
@@ -18,7 +17,7 @@ namespace Odumbrata.Movement
             _agent = agent;
         }
 
-        public void Tick(float deltaTime)
+        public void Tick()
         {
             if (_stats.TryGet<WalkSpeedStat>(out var walk))
             {
