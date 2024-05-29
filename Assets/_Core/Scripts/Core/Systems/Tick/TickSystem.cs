@@ -1,53 +1,43 @@
 using System.Collections.Generic;
 using Better.Commons.Runtime.Extensions;
+using Odumbrata.Commons.DataManagement;
 
 namespace Odumbrata.Tick
 {
-    public sealed class TickSystem<TTickable> : ITickRegistry<TTickable>, ITickable, ISystem where TTickable : ITickable
+    public sealed class TickSystem<TTickable> : ISubscriptionHandler<TTickable>, ITickable, ISystem where TTickable : ITickable
     {
-        private readonly List<TTickable> _tickables;
-
-        public TickSystem(List<TTickable> tickables)
-        {
-            _tickables = tickables;
-        }
-
+        private readonly Register<TTickable> _tickablesRegister;
+        private IReadOnlyList<TTickable> Tickables => _tickablesRegister.Elements;
+        
         public TickSystem()
         {
-            _tickables = new();
+            _tickablesRegister = new();
         }
 
-        public void Subscribe(TTickable tickable)
-        {
-            _tickables.Add(tickable);
-        }
 
-        public void Unsubscribe(TTickable tickable)
-        {
-            if (tickable == null)
-            {
-                return;
-            }
-
-            if (_tickables.Contains(tickable))
-            {
-                return;
-            }
-
-            _tickables.Remove(tickable);
-        }
+        #region ITickale
 
         public void Tick(float deltaTime)
         {
-            if (_tickables.IsEmpty())
+            if (Tickables.IsEmpty())
             {
                 return;
             }
 
-            foreach (var tickable in _tickables)
+            foreach (var tickable in Tickables)
             {
                 tickable.Tick(deltaTime);
             }
         }
+
+        #endregion
+
+        #region ISubscriptionHandler
+
+        public void Subscribe(TTickable tickable) => _tickablesRegister.Subscribe(tickable);
+
+        public void Unsubscribe(TTickable tickable) => _tickablesRegister.Unsubscribe(tickable);
+
+        #endregion
     }
 }

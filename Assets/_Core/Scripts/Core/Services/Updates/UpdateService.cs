@@ -1,12 +1,13 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Better.Services.Runtime;
+using Odumbrata.Commons.DataManagement;
 using Odumbrata.Tick;
 using UnityEngine;
 
 namespace Odumbrata.Services.Updates
 {
-    public class UpdateService : MonoService, ITickRegistry<IUpdatable>
+    public class UpdateService : MonoService, ISubscriptionHandler<IUpdatable>
     {
         private TickSystem<IUpdatable> _tickSystem;
 
