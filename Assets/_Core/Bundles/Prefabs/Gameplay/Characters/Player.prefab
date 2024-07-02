@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 7426498318877376101}
   - component: {fileID: 74253263244128845}
   - component: {fileID: 8477012755458012535}
-  - component: {fileID: 6695280323179352188}
+  - component: {fileID: 5966156081046639161}
+  - component: {fileID: 2217719864716318951}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -108,7 +109,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6695280323179352188
+--- !u!114 &5966156081046639161
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -117,17 +118,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 3598425598833424416}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a29a319353a4783873867f42607e0a7, type: 3}
+  m_Script: {fileID: 11500000, guid: 64519282a4c54a54b5d5b9b6ae6654c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _statsDatabase: {fileID: 0}
-  _agent: {fileID: 0}
-  _brain:
-    rid: 7099748419729620994
-  references:
-    version: 2
-    RefIds:
-    - rid: 7099748419729620994
-      type: {class: InputBrain, ns: Odumbrata.Movement.Brains, asm: Assembly-CSharp}
-      data:
-        _camera: {fileID: 0}
+--- !u!195 &2217719864716318951
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3598425598833424416}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 0
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4

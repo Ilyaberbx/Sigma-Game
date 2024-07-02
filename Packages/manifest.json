@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.tdw.better.commons": "0.0.12",
     "com.tdw.better.locators": "0.1.11",
     "com.tdw.better.logger": "0.1.0",
     "com.tdw.better.saves": "0.1.0",

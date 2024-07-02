@@ -13,21 +13,21 @@ MonoBehaviour:
   m_Name: Player Stats
   m_EditorClassIdentifier: 
   _stats:
-  - rid: 7099748419729620993
-  - rid: 7099748419729620995
-  - rid: 7099748419729620996
+  - rid: 8941574966938173440
+  - rid: 8941574966938173441
+  - rid: 8941574966938173442
   references:
     version: 2
     RefIds:
-    - rid: 7099748419729620993
-      type: {class: WalkSpeedStat, ns: Odumbrata.Stats.Implementations, asm: Assembly-CSharp}
-      data:
-        _value: 10
-    - rid: 7099748419729620995
-      type: {class: AccelerationStat, ns: Odumbrata.Stats.Implementations, asm: Assembly-CSharp}
-      data:
-        _value: 2000
-    - rid: 7099748419729620996
-      type: {class: AngularSpeedStat, ns: Odumbrata.Stats.Implementations, asm: Assembly-CSharp}
+    - rid: 8941574966938173440
+      type: {class: AccelerationStat, ns: Odumbrata.Gameplay.Systems, asm: Assembly-CSharp}
       data:
         _value: 200
+    - rid: 8941574966938173441
+      type: {class: AngularSpeedStat, ns: Odumbrata.Gameplay.Systems, asm: Assembly-CSharp}
+      data:
+        _value: 200
+    - rid: 8941574966938173442
+      type: {class: WalkSpeedStat, ns: Odumbrata.Gameplay.Systems, asm: Assembly-CSharp}
+      data:
+        _value: 20
