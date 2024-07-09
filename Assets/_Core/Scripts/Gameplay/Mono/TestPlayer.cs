@@ -20,10 +20,9 @@ namespace Odumbrata.Gameplay.Mono
 
         private void Start()
         {
-            _updateSubscriptionHandler = ServiceLocator.Get<UpdateService>();
-            
             _moveSystem = new MoveSystem(new InputBrain(), new StatsSystem(_statsDatabase.Stats), _agent);
 
+            _updateSubscriptionHandler = ServiceLocator.Get<UpdateService>();
             _updateSubscriptionHandler.Subscribe(this); // TODO Game tick service
         }
 
