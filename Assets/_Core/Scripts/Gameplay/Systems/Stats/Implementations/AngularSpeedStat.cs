@@ -1,6 +1,6 @@
-namespace Odumbrata.Gameplay.Systems
+namespace Odumbrata.Systems.Stats
 {
-    public class AngularSpeedStat : BaseParameterizedStat<int>
+    public class AngularSpeedStat : BaseParameterizedStat<float>
     {
     }
 }

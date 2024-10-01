@@ -1,14 +1,19 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Better.Services.Runtime;
 using Odumbrata.Core;
+using Odumbrata.Systems;
+using Odumbrata.Systems.Movement.States;
 
 namespace Odumbrata.Global.Services
 {
-    public abstract class BaseTickService<TTickable> : MonoService, ISubscriptionHandler<TTickable>, ITickable
+    public abstract class BaseTickService<TTickable> : MonoService, IRegister<TTickable>, ITickable
         where TTickable : ITickable
     {
         private TickSystem<TTickable> _tickSystem;
+
+        public IReadOnlyList<TTickable> Elements => _tickSystem.Elements;
 
         protected sealed override Task OnInitializeAsync(CancellationToken cancellationToken)
         {
@@ -21,16 +26,16 @@ namespace Odumbrata.Global.Services
             return Task.CompletedTask;
         }
 
-        #region ISubscriptionHandler
+        #region IRegister
 
-        public void Subscribe(TTickable tickable)
+        public void Add(TTickable tickable)
         {
-            _tickSystem.Subscribe(tickable);
+            _tickSystem.Add(tickable);
         }
 
-        public void Unsubscribe(TTickable tickable)
+        public void Remove(TTickable tickable)
         {
-            _tickSystem.Unsubscribe(tickable);
+            _tickSystem.Remove(tickable);
         }
 
         #endregion

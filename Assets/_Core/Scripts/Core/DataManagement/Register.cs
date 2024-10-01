@@ -1,21 +1,17 @@
 using System.Collections.Generic;
 using Better.Commons.Runtime.Extensions;
+using Odumbrata.Systems.Movement.States;
 using Odumbrata.Utils;
 
 namespace Odumbrata.Core
 {
-    public class Register<TElement> : ISubscriptionHandler<TElement>
+    public class Register<TElement> : IRegister<TElement>
     {
         public IReadOnlyList<TElement> Elements => _elements;
 
-        private readonly List<TElement> _elements;
+        private readonly List<TElement> _elements = new();
 
-        public Register()
-        {
-            _elements = new List<TElement>();
-        }
-
-        public void Subscribe(TElement element)
+        public void Add(TElement element)
         {
             if (ObjectValidator.IsNull(element))
             {
@@ -25,14 +21,14 @@ namespace Odumbrata.Core
             _elements.Add(element);
         }
 
-        public void Unsubscribe(TElement element)
+        public void Remove(TElement element)
         {
             if (ObjectValidator.IsNull(element))
             {
                 return;
             }
 
-            if (_elements.IsEmpty())
+            if (_elements.IsNullOrEmpty())
             {
                 return;
             }

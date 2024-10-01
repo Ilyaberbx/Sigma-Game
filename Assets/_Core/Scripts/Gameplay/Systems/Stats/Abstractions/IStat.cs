@@ -1,4 +1,4 @@
-namespace Odumbrata.Gameplay.Systems
+namespace Odumbrata.Systems.Stats
 {
     public interface IStat
     { }

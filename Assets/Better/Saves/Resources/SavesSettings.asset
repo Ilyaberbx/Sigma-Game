@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c218397f5f2a594aa566bd2ca577e08, type: 3}
   m_Name: SavesSettings
   m_EditorClassIdentifier: 
-  _folderName: BetterSaves
+  _folderName: Odumbrata

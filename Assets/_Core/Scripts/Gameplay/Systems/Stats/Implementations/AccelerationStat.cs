@@ -1,6 +1,6 @@
-namespace Odumbrata.Gameplay.Systems
+namespace Odumbrata.Systems.Stats
 {
-    public class AccelerationStat : BaseParameterizedStat<int>
+    public class AccelerationStat : BaseParameterizedStat<float>
     {
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Better.Attributes.Runtime.Select;
-using Odumbrata.Gameplay.Systems;
+using Odumbrata.Systems;
+using Odumbrata.Systems.Stats;
 using UnityEngine;
 
 namespace Odumbrata.Databases

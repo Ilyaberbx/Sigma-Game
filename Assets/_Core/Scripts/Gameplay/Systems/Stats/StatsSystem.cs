@@ -1,42 +1,43 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Better.Attributes.Runtime.Select;
 using Better.Commons.Runtime.Utility;
 using Odumbrata.Core;
+using UnityEngine;
 
-namespace Odumbrata.Gameplay.Systems
+namespace Odumbrata.Systems.Stats
 {
-    public sealed class StatsSystem : ISystem
+    [Serializable]
+    public sealed class StatsSystem : BaseSystem
     {
-        private readonly IReadOnlyList<IStat> _stats;
-        public StatsSystem(IReadOnlyList<IStat> stats)
+        [SerializeReference, Select(typeof(IStat))]
+        private List<IStat> _stats;
+
+        public bool TryGet<TStat>(Type type, out TStat result) where TStat : class, IStat
         {
-            _stats = stats;
+            result = null;
+
+            if (type != typeof(TStat))
+            {
+                DebugUtility.LogException<InvalidCastException>();
+                return false;
+            }
+
+            var potentialStat = _stats.FirstOrDefault(temp => temp.GetType() == type);
+
+            if (potentialStat == default)
+            {
+                return false;
+            }
+
+            result = potentialStat as TStat;
+            return true;
         }
 
         public bool TryGet<TStat>(out TStat result) where TStat : class, IStat
         {
-            result = null;
-
-            foreach (var derivedStat in _stats)
-            {
-                var type = derivedStat.GetType();
-
-                if (type == typeof(TStat))
-                {
-                    if (derivedStat is TStat stat)
-                    {
-                        result = stat;
-                    }
-                    else
-                    {
-                        DebugUtility.LogException<InvalidCastException>();
-                    }
-                    
-                    return true;
-                }
-            }
-
-            return false;
+            return TryGet(typeof(TStat), out result);
         }
     }
 }
