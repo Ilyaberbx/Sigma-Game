@@ -1,55 +1,72 @@
 using System;
+using Better.Locators.Runtime;
+using Odumbrata.Core.Container;
+using Odumbrata.Global.Services;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace Odumbrata.Systems
+namespace Odumbrata.Systems.Brains
 {
     [Serializable]
-    public class InputBrainSystem : BaseBrainSystem
+    public class InputBrainSystem : BaseBrainSystem, IUpdatable
     {
-        public event Action OnPathInvalid;
-
+        [SerializeField] private NavMeshAgent _agent;
         [SerializeField] private Camera _camera;
 
-        private NavMeshPath _path;
+        private UpdateService _updateService;
 
-        public override bool TryGetPath(NavMeshAgent agent, out NavMeshPath path)
+        public override void Initialize(ISystemsContainerReadonly container)
         {
-            path = new NavMeshPath();
+            base.Initialize(container);
+
+            _updateService = ServiceLocator.Get<UpdateService>();
+
+            _updateService.Add(this);
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+
+            _updateService.Remove(this);
+        }
+
+        public void Tick(float deltaTime)
+        {
+            var path = new NavMeshPath();
 
 #if UNITY_EDITOR
-            DrawPath(_path);
+            DrawPath(Path);
 #endif
             if (!Input.GetMouseButtonDown(0))
             {
-                return false;
+                return;
             }
 
             var ray = _camera.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out var info))
             {
-                if (agent.CalculatePath(info.point, path))
+                if (_agent.CalculatePath(info.point, path))
                 {
-                    _path = path;
+                    Path = path;
 
-                    if (_path.status == NavMeshPathStatus.PathInvalid)
+                    if (Path.status == NavMeshPathStatus.PathInvalid)
                     {
-                        OnPathInvalid?.Invoke();
+                        InformPathInvalid();
+                        return;
                     }
 
-                    return true;
+                    InformPathValid(path);
                 }
             }
-
-            return false;
         }
 
-
 #if UNITY_EDITOR
+
         private void DrawPath(NavMeshPath path)
         {
-            if (_path != null) // TODO Preconditions Utils
+            if (Path != null) // TODO Preconditions Utils
             {
                 for (int i = 0; i < path.corners.Length - 1; i++)
                 {

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Better.Commons.Runtime.Extensions;
 using Odumbrata.Systems.Movement.States;
 
@@ -21,7 +22,7 @@ namespace Odumbrata.Core
                 return;
             }
 
-            foreach (var tickable in Elements)
+            foreach (var tickable in Elements.ToList())
             {
                 tickable.Tick(deltaTime);
             }

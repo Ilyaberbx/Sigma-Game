@@ -35,17 +35,17 @@ namespace Odumbrata.Systems.Movement
             }
         }
 
-        public void SetMove<TMoveState>() where TMoveState : BaseMoveState, new()
+        public void Set<TMoveState>() where TMoveState : BaseMoveState, new()
         {
-            if (!TryGetState<TMoveState>(out var moveState)) return;
+            if (!TryGetMove<TMoveState>(out var moveState)) return;
 
             _moveStateMachine.ChangeState(moveState);
         }
 
-        public void SetMove<TMoveState, TData>(TData data) where TMoveState : BaseMoveState<TData>, new()
+        public void Set<TMoveState, TData>(TData data) where TMoveState : BaseMoveState<TData>, new()
             where TData : BaseMoveData
         {
-            if (!TryGetState<TMoveState>(out var rawState)) return;
+            if (!TryGetMove<TMoveState>(out var rawState)) return;
 
             if (rawState is BaseMoveState<TData> processedState)
             {
@@ -54,7 +54,7 @@ namespace Odumbrata.Systems.Movement
             }
         }
 
-        private bool TryGetState<TMoveState>(out BaseMoveState moveState) where TMoveState : BaseMoveState, new()
+        private bool TryGetMove<TMoveState>(out BaseMoveState moveState) where TMoveState : BaseMoveState, new()
         {
             var type = typeof(TMoveState);
 

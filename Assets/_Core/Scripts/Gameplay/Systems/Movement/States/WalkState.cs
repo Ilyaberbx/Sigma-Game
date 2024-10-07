@@ -12,10 +12,9 @@ namespace Odumbrata.Systems.Movement.States
 
         public override void OnEntered()
         {
-            Debug.Log("Walk entered");
-
             Agent.isStopped = false;
-
+            Agent.angularSpeed = Data.AngularSpeedStat.Value;
+            Agent.acceleration = Data.AccelerationStat.Value;
             Agent.speed = Data.WalkStat.Value;
 
             Agent.SetPath(Data.Path);
@@ -23,8 +22,10 @@ namespace Odumbrata.Systems.Movement.States
 
         public override void OnExited()
         {
+            Agent.angularSpeed = 0f;
+            Agent.acceleration = 0f;
+            Agent.speed = 0f;
             Agent.isStopped = true;
-            Debug.Log("Walk exited");
         }
     }
 }

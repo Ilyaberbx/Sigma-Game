@@ -8,12 +8,10 @@ namespace Odumbrata.Systems.Movement.States
     {
         public override void OnEntered()
         {
-            Debug.Log("Idle entered");
         }
 
         public override void OnExited()
         {
-            Debug.Log("Idle exited");
         }
     }
 }
