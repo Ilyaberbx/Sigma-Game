@@ -30,10 +30,9 @@ namespace Odumbrata.Behaviour.Player.States
         public override void OnEntered()
         {
             _movementSystem.Set<IdleState>();
-
-            _inputBrainSystem.OnPathValid += OnValidPathReceived;
-
             _animationSystem.Set<IdleAnimation>();
+            
+            _inputBrainSystem.OnPathValid += OnValidPathReceived;
         }
 
         public override void OnExited()

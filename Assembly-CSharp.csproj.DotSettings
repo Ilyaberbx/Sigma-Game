@@ -23,6 +23,8 @@
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005C_005Fcore_005Cscripts_005Ccore_005Ctick_005Cvariations/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005C_005Fcore_005Cscripts_005Cgameplay/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005C_005Fcore_005Cscripts_005Cgameplay_005Cbehaviour_005Cabstractions/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005C_005Fcore_005Cscripts_005Cgameplay_005Cbehaviour_005Cimplementations_005Clevels_005Cabstractions/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005C_005Fcore_005Cscripts_005Cgameplay_005Cbehaviour_005Cimplementations_005Clevels_005Cimplementations/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005C_005Fcore_005Cscripts_005Cgameplay_005Cbehaviour_005Cimplementations_005Clevels_005Cmodules_005Cabstractions/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005C_005Fcore_005Cscripts_005Cgameplay_005Cbehaviour_005Cimplementations_005Clevel_005Cmodules_005Cabstractions/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005C_005Fcore_005Cscripts_005Cgameplay_005Cbehaviour_005Cimplementations_005Cplayer_005Cstates/@EntryIndexedValue">False</s:Boolean>
