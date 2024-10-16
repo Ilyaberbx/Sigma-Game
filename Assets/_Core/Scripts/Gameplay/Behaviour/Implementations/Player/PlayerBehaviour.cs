@@ -1,15 +1,22 @@
 using Better.Commons.Runtime.Extensions;
 using Odumbrata.Behaviour.Player.States;
+using Odumbrata.Services.Camera;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 namespace Odumbrata.Behaviour.Player
 {
-    public class PlayerBehaviour : BaseStateBehaviour<BasePlayerState>
+    public class PlayerBehaviour : BaseStateBehaviour<BasePlayerState>, ICameraTarget
     {
+        [SerializeField] private Transform _cameraFollowPoint;
+        [SerializeField] private Transform _cameraLookAt;
         [SerializeField] private NavMeshAgent _agent;
+
         private PlayerMoveState _moveState;
         private PlayerIdleState _idleState;
+        public Transform Follow => _cameraFollowPoint;
+        public Transform LookAt => _cameraLookAt;
 
         protected override void Start()
         {
