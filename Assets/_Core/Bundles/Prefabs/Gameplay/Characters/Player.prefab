@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2518035927926355745}
   - component: {fileID: 2217719864716318951}
   - component: {fileID: 9027714210997880714}
+  - component: {fileID: 8946585897172943193}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -69,10 +70,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _systems:
-  - rid: 4135814126795489295
-  - rid: 4530877008097837056
-  - rid: 4135814126795489288
-  - rid: 4135814240622870528
+  - rid: 4135814490814939136
+  - rid: 4135814490814939137
+  - rid: 4135814490814939138
+  - rid: 4135814490814939139
   _logStateChanges: 1
   _cameraFollowPoint: {fileID: 2518035927926355745}
   _cameraLookAt: {fileID: 2518035927926355745}
@@ -80,58 +81,71 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 4135814126795489288
-      type: {class: StatsSystem, ns: Odumbrata.Systems.Stats, asm: Assembly-CSharp}
+    - rid: 4135814490814939136
+      type: {class: StatsSystem, ns: Odumbrata.Features.Stats, asm: Assembly-CSharp}
       data:
         _stats:
-        - rid: 4135814126795489289
-        - rid: 4135814126795489290
-        - rid: 4135814126795489291
-    - rid: 4135814126795489289
-      type: {class: AccelerationStat, ns: Odumbrata.Systems.Stats, asm: Assembly-CSharp}
-      data:
-        _value: 200
-    - rid: 4135814126795489290
-      type: {class: AngularSpeedStat, ns: Odumbrata.Systems.Stats, asm: Assembly-CSharp}
-      data:
-        _value: 500
-    - rid: 4135814126795489291
-      type: {class: WalkStat, ns: Odumbrata.Systems.Stats, asm: Assembly-CSharp}
-      data:
-        _value: 5
-    - rid: 4135814126795489295
-      type: {class: InputBrainSystem, ns: Odumbrata.Systems.Brains, asm: Assembly-CSharp}
-      data:
-        _agent: {fileID: 2217719864716318951}
-        _camera: {fileID: 0}
-    - rid: 4135814240622870528
-      type: {class: AnimationSystem, ns: Odumbrata.Systems.Animations, asm: Assembly-CSharp}
-      data:
-        _animator: {fileID: 6676009959050808706}
-        _availableAnimations:
-        - rid: 4135814240622870529
-        - rid: 4135814240622870530
-    - rid: 4135814240622870529
-      type: {class: WalkAnimation, ns: Odumbrata.Systems.Animations.Implementations,
-        asm: Assembly-CSharp}
-      data: 
-    - rid: 4135814240622870530
-      type: {class: IdleAnimation, ns: Odumbrata.Systems.Animations.Implementations,
-        asm: Assembly-CSharp}
-      data: 
-    - rid: 4530877008097837056
-      type: {class: MovementSystem, ns: Odumbrata.Systems.Movement, asm: Assembly-CSharp}
+        - rid: 4135814490833551360
+        - rid: 4135814490833551361
+        - rid: 4135814490833551362
+    - rid: 4135814490814939137
+      type: {class: MovementSystem, ns: Odumbrata.Features.Movement, asm: Assembly-CSharp}
       data:
         _config:
           _availableMoves:
-          - rid: 4530877008097837060
-          - rid: 4530877008097837061
-    - rid: 4530877008097837060
-      type: {class: IdleState, ns: Odumbrata.Systems.Movement.States, asm: Assembly-CSharp}
+          - rid: 4135814490833551363
+          - rid: 4135814490833551364
+    - rid: 4135814490814939138
+      type: {class: InputBrainSystem, ns: Odumbrata.Features.Brains, asm: Assembly-CSharp}
+      data:
+        _agent: {fileID: 2217719864716318951}
+    - rid: 4135814490814939139
+      type: {class: AnimationSystem, ns: Odumbrata.Features.Animations, asm: Assembly-CSharp}
+      data:
+        _animator: {fileID: 6676009959050808706}
+        _availableAnimations:
+        - rid: 4135814490833551365
+        - rid: 4135814490833551366
+    - rid: 4135814490833551360
+      type: {class: AccelerationStat, ns: Odumbrata.Features.Stats, asm: Assembly-CSharp}
+      data:
+        _value: 500
+    - rid: 4135814490833551361
+      type: {class: AngularSpeedStat, ns: Odumbrata.Features.Stats, asm: Assembly-CSharp}
+      data:
+        _value: 700
+    - rid: 4135814490833551362
+      type: {class: WalkStat, ns: Odumbrata.Features.Stats, asm: Assembly-CSharp}
+      data:
+        _value: 5
+    - rid: 4135814490833551363
+      type: {class: IdleState, ns: Odumbrata.Features.Movement.States, asm: Assembly-CSharp}
       data: 
-    - rid: 4530877008097837061
-      type: {class: WalkState, ns: Odumbrata.Systems.Movement.States, asm: Assembly-CSharp}
+    - rid: 4135814490833551364
+      type: {class: WalkState, ns: Odumbrata.Features.Movement.States, asm: Assembly-CSharp}
       data: 
+    - rid: 4135814490833551365
+      type: {class: IdleAnimation, ns: Odumbrata.Features.Animations.Implementations,
+        asm: Assembly-CSharp}
+      data: 
+    - rid: 4135814490833551366
+      type: {class: WalkAnimation, ns: Odumbrata.Features.Animations.Implementations,
+        asm: Assembly-CSharp}
+      data: 
+--- !u!114 &8946585897172943193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3598425598833424416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81b1bba8ab3e4a10b2671c833d3fdaa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scrollStep: 0.5
+  _scrollSpeed: 5
 --- !u!1001 &5852670156488972591
 PrefabInstance:
   m_ObjectHideFlags: 0

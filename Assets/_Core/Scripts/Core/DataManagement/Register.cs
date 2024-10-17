@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Better.Commons.Runtime.Extensions;
-using Odumbrata.Systems.Movement.States;
 using Odumbrata.Utils;
 
 namespace Odumbrata.Core
@@ -13,7 +12,7 @@ namespace Odumbrata.Core
 
         public void Add(TElement element)
         {
-            if (ObjectValidator.IsNull(element))
+            if (ObjectHelper.IsNull(element))
             {
                 return;
             }
@@ -23,7 +22,7 @@ namespace Odumbrata.Core
 
         public void Remove(TElement element)
         {
-            if (ObjectValidator.IsNull(element))
+            if (ObjectHelper.IsNull(element))
             {
                 return;
             }

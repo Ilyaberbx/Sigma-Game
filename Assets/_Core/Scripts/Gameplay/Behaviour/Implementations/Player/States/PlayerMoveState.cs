@@ -2,14 +2,14 @@ using System;
 using Better.Locators.Runtime;
 using Odumbrata.Core.Container;
 using Odumbrata.Extensions;
+using Odumbrata.Features.Animations;
+using Odumbrata.Features.Animations.Implementations;
+using Odumbrata.Features.Brains;
+using Odumbrata.Features.Movement;
+using Odumbrata.Features.Movement.Data;
+using Odumbrata.Features.Movement.States;
+using Odumbrata.Features.Stats;
 using Odumbrata.Global.Services;
-using Odumbrata.Systems.Animations;
-using Odumbrata.Systems.Animations.Implementations;
-using Odumbrata.Systems.Brains;
-using Odumbrata.Systems.Movement;
-using Odumbrata.Systems.Movement.Data;
-using Odumbrata.Systems.Movement.States;
-using Odumbrata.Systems.Stats;
 using UnityEngine.AI;
 
 namespace Odumbrata.Behaviour.Player.States

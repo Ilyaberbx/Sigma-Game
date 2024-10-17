@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 
 namespace Odumbrata.Behaviour.Player
 {
-    public class PlayerBehaviour : BaseStateBehaviour<BasePlayerState>, ICameraTarget
+    public sealed class PlayerBehaviour : BaseStateBehaviour<BasePlayerState>, ICameraTarget
     {
         [SerializeField] private Transform _cameraFollowPoint;
         [SerializeField] private Transform _cameraLookAt;

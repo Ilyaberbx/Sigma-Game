@@ -10,6 +10,7 @@ namespace Odumbrata
         [SerializeField] private PlayerBehaviour _player;
 
         private CameraService _cameraService;
+        private float _prevSize;
 
         private void Start()
         {

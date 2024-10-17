@@ -474,9 +474,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _installers:
   - rid: 4530876712640839680
+  - rid: 4135814469679579136
   references:
     version: 2
     RefIds:
+    - rid: 4135814469679579136
+      type: {class: PocoServicesInstaller, ns: Better.Contexts.Runtime.Installers,
+        asm: Better.Contexts.Runtime}
+      data:
+        _services:
+        - rid: 4135814469679579137
+    - rid: 4135814469679579137
+      type: {class: PhysicsService, ns: Odumbrata.Services.Physics, asm: Assembly-CSharp}
+      data: 
     - rid: 4530876712640839680
       type: {class: MonoServicesInstaller, ns: Better.Contexts.Runtime.Installers,
         asm: Better.Contexts.Runtime}
@@ -619,6 +629,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7842bbf3c8b48aeac79bc2daea7b543, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &941583930 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6676009959050808706, guid: 763831d3042391b468f200733202bc68,
+    type: 3}
+  m_PrefabInstance: {fileID: 2030316101}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1184670802
 GameObject:
   m_ObjectHideFlags: 0
@@ -737,6 +753,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb35ffedf3f34022933ac074a11d9d6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _zoomEase: 30
+  _maxOrtographicSize: 25
+  _minOrtographicSize: 7
+  _brain: {fileID: 330585548}
   _virtualCameras:
   - {fileID: 1184670803}
 --- !u!1001 &1539620065
@@ -805,8 +825,36 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4626351592921514201, guid: 3c1cedc736319cf468a68cc56be7e36a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1682632034}
   m_SourcePrefab: {fileID: 100100000, guid: 3c1cedc736319cf468a68cc56be7e36a, type: 3}
+--- !u!1 &1682632032 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4626351592921514201, guid: 3c1cedc736319cf468a68cc56be7e36a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1539620065}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1682632034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682632032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6522b8167b4a4da8b9555f6b92572a16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!195 &1971996937 stripped
+NavMeshAgent:
+  m_CorrespondingSourceObject: {fileID: 2217719864716318951, guid: 763831d3042391b468f200733202bc68,
+    type: 3}
+  m_PrefabInstance: {fileID: 2030316101}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2030316101
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -872,9 +920,174 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
         type: 3}
+      propertyPath: _systems.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: _systems.Array.data[0]
+      value: 4135814479706062848
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: _systems.Array.data[1]
+      value: 4135814479706062852
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: _systems.Array.data[2]
+      value: 4135814479706062855
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: _systems.Array.data[3]
+      value: 4135814479706062856
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: _systems.Array.data[4]
+      value: 4135814488785420288
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: managedReferences[4135814479706062848]
+      value: Assembly-CSharp Odumbrata.Features.Stats.StatsSystem
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: managedReferences[4135814479706062849]
+      value: Assembly-CSharp Odumbrata.Features.Stats.AccelerationStat
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: managedReferences[4135814479706062850]
+      value: Assembly-CSharp Odumbrata.Features.Stats.AngularSpeedStat
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: managedReferences[4135814479706062851]
+      value: Assembly-CSharp Odumbrata.Features.Stats.WalkStat
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: managedReferences[4135814479706062852]
+      value: Assembly-CSharp Odumbrata.Features.Movement.MovementSystem
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: managedReferences[4135814479706062853]
+      value: Assembly-CSharp Odumbrata.Features.Movement.States.IdleState
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: managedReferences[4135814479706062854]
+      value: Assembly-CSharp Odumbrata.Features.Movement.States.WalkState
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: managedReferences[4135814479706062855]
+      value: Assembly-CSharp Odumbrata.Features.Brains.InputBrainSystem
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: managedReferences[4135814479706062856]
+      value: Assembly-CSharp Odumbrata.Features.Animations.AnimationSystem
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: managedReferences[4135814479706062857]
+      value: Assembly-CSharp Odumbrata.Features.Animations.Implementations.IdleAnimation
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: managedReferences[4135814479706062858]
+      value: Assembly-CSharp Odumbrata.Features.Animations.Implementations.WalkAnimation
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: managedReferences[4135814488785420288]
+      value: Assembly-CSharp Odumbrata.Features.Interaction.InteractionSystem
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: managedReferences[4135814479706062849]._value
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: managedReferences[4135814479706062850]._value
+      value: 700
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: managedReferences[4135814479706062851]._value
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: managedReferences[4135814479706062855]._agent
+      value: 
+      objectReference: {fileID: 1971996937}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
       propertyPath: managedReferences[4135814126795489295]._camera
       value: 
       objectReference: {fileID: 330585545}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: managedReferences[4135814479706062856]._animator
+      value: 
+      objectReference: {fileID: 941583930}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: managedReferences[4135814479706062848]._stats.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: managedReferences[4135814479706062848]._stats.Array.data[0]
+      value: 4135814479706062849
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: managedReferences[4135814479706062848]._stats.Array.data[1]
+      value: 4135814479706062850
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: managedReferences[4135814479706062848]._stats.Array.data[2]
+      value: 4135814479706062851
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: managedReferences[4135814479706062856]._availableAnimations.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: managedReferences[4135814479706062852]._config._availableMoves.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: managedReferences[4135814479706062856]._availableAnimations.Array.data[0]
+      value: 4135814479706062857
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: managedReferences[4135814479706062856]._availableAnimations.Array.data[1]
+      value: 4135814479706062858
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: managedReferences[4135814479706062852]._config._availableMoves.Array.data[0]
+      value: 4135814479706062853
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: managedReferences[4135814479706062852]._config._availableMoves.Array.data[1]
+      value: 4135814479706062854
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -1,11 +1,11 @@
 using System;
 using Odumbrata.Core.Container;
 using Odumbrata.Extensions;
-using Odumbrata.Systems.Animations;
-using Odumbrata.Systems.Animations.Implementations;
-using Odumbrata.Systems.Brains;
-using Odumbrata.Systems.Movement;
-using Odumbrata.Systems.Movement.States;
+using Odumbrata.Features.Animations;
+using Odumbrata.Features.Animations.Implementations;
+using Odumbrata.Features.Brains;
+using Odumbrata.Features.Movement;
+using Odumbrata.Features.Movement.States;
 using UnityEngine.AI;
 
 namespace Odumbrata.Behaviour.Player.States

@@ -1,6 +1,8 @@
-namespace Odumbrata.Behaviour.Levels.Modules.Abstraction
+namespace Odumbrata.Behaviour.Levels.Modules
 {
-    public class BaseLevelModule
+    public abstract class BaseLevelModule
     {
+        public abstract void Initialize();
+        public abstract void Dispose();
     }
 }
