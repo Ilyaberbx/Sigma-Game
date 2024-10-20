@@ -13,22 +13,22 @@ namespace Odumbrata.Behaviour
 
         #region States
 
-        private readonly StateMachine<TBehaviourState> _stateMachine = new StateMachine<TBehaviourState>();
+        protected StateMachine<TBehaviourState> StateMachine { get; } = new StateMachine<TBehaviourState>();
 
         protected override void Start()
         {
             base.Start();
 
-            InitializeModules(_stateMachine);
+            InitializeModules(StateMachine);
 
-            _stateMachine.Run();
+            StateMachine.Run();
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
 
-            DisposeModules(_stateMachine);
+            DisposeModules(StateMachine);
         }
 
         protected virtual void InitializeModules(StateMachine<TBehaviourState> stateMachine)
@@ -53,12 +53,12 @@ namespace Odumbrata.Behaviour
 
             SetupState(state);
 
-            return _stateMachine.ChangeStateAsync(state, destroyCancellationToken);
+            return StateMachine.ChangeStateAsync(state, destroyCancellationToken);
         }
 
         protected Task SetState<TState>(TState state) where TState : TBehaviourState
         {
-            return _stateMachine.ChangeStateAsync(state, destroyCancellationToken);
+            return StateMachine.ChangeStateAsync(state, destroyCancellationToken);
         }
 
         protected void SetState<TState>() where TState : TBehaviourState, new()

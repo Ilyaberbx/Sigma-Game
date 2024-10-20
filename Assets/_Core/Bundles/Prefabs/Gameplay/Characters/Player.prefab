@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 2217719864716318951}
   - component: {fileID: 9027714210997880714}
   - component: {fileID: 8946585897172943193}
+  - component: {fileID: 6124812518883252965}
+  - component: {fileID: 8859696228400590370}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -70,10 +72,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _systems:
-  - rid: 4135814490814939136
-  - rid: 4135814490814939137
-  - rid: 4135814490814939138
-  - rid: 4135814490814939139
+  - rid: 4135814479706062848
+  - rid: 4135814479706062852
+  - rid: 4135814479706062855
+  - rid: 4135814479706062856
+  - rid: 4135814488785420288
   _logStateChanges: 1
   _cameraFollowPoint: {fileID: 2518035927926355745}
   _cameraLookAt: {fileID: 2518035927926355745}
@@ -81,57 +84,62 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 4135814490814939136
+    - rid: 4135814479706062848
       type: {class: StatsSystem, ns: Odumbrata.Features.Stats, asm: Assembly-CSharp}
       data:
         _stats:
-        - rid: 4135814490833551360
-        - rid: 4135814490833551361
-        - rid: 4135814490833551362
-    - rid: 4135814490814939137
+        - rid: 4135814479706062849
+        - rid: 4135814479706062850
+        - rid: 4135814479706062851
+    - rid: 4135814479706062849
+      type: {class: AccelerationStat, ns: Odumbrata.Features.Stats, asm: Assembly-CSharp}
+      data:
+        _value: 200
+    - rid: 4135814479706062850
+      type: {class: AngularSpeedStat, ns: Odumbrata.Features.Stats, asm: Assembly-CSharp}
+      data:
+        _value: 700
+    - rid: 4135814479706062851
+      type: {class: WalkStat, ns: Odumbrata.Features.Stats, asm: Assembly-CSharp}
+      data:
+        _value: 5
+    - rid: 4135814479706062852
       type: {class: MovementSystem, ns: Odumbrata.Features.Movement, asm: Assembly-CSharp}
       data:
+        _isActive: 1
         _config:
           _availableMoves:
-          - rid: 4135814490833551363
-          - rid: 4135814490833551364
-    - rid: 4135814490814939138
+          - rid: 4135814479706062853
+          - rid: 4135814479706062854
+    - rid: 4135814479706062853
+      type: {class: IdleState, ns: Odumbrata.Features.Movement.States, asm: Assembly-CSharp}
+      data: 
+    - rid: 4135814479706062854
+      type: {class: WalkState, ns: Odumbrata.Features.Movement.States, asm: Assembly-CSharp}
+      data: 
+    - rid: 4135814479706062855
       type: {class: InputBrainSystem, ns: Odumbrata.Features.Brains, asm: Assembly-CSharp}
       data:
         _agent: {fileID: 2217719864716318951}
-    - rid: 4135814490814939139
+    - rid: 4135814479706062856
       type: {class: AnimationSystem, ns: Odumbrata.Features.Animations, asm: Assembly-CSharp}
       data:
         _animator: {fileID: 6676009959050808706}
         _availableAnimations:
-        - rid: 4135814490833551365
-        - rid: 4135814490833551366
-    - rid: 4135814490833551360
-      type: {class: AccelerationStat, ns: Odumbrata.Features.Stats, asm: Assembly-CSharp}
-      data:
-        _value: 500
-    - rid: 4135814490833551361
-      type: {class: AngularSpeedStat, ns: Odumbrata.Features.Stats, asm: Assembly-CSharp}
-      data:
-        _value: 700
-    - rid: 4135814490833551362
-      type: {class: WalkStat, ns: Odumbrata.Features.Stats, asm: Assembly-CSharp}
-      data:
-        _value: 5
-    - rid: 4135814490833551363
-      type: {class: IdleState, ns: Odumbrata.Features.Movement.States, asm: Assembly-CSharp}
-      data: 
-    - rid: 4135814490833551364
-      type: {class: WalkState, ns: Odumbrata.Features.Movement.States, asm: Assembly-CSharp}
-      data: 
-    - rid: 4135814490833551365
+        - rid: 4135814479706062857
+        - rid: 4135814479706062858
+    - rid: 4135814479706062857
       type: {class: IdleAnimation, ns: Odumbrata.Features.Animations.Implementations,
         asm: Assembly-CSharp}
       data: 
-    - rid: 4135814490833551366
+    - rid: 4135814479706062858
       type: {class: WalkAnimation, ns: Odumbrata.Features.Animations.Implementations,
         asm: Assembly-CSharp}
       data: 
+    - rid: 4135814488785420288
+      type: {class: InteractionSystem, ns: Odumbrata.Features.Interaction, asm: Assembly-CSharp}
+      data:
+        _interactor: {fileID: 0}
 --- !u!114 &8946585897172943193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,7 +153,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scrollStep: 0.5
-  _scrollSpeed: 5
+--- !u!136 &6124812518883252965
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3598425598833424416}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Height: 6.82
+  m_Direction: 1
+  m_Center: {x: 0, y: 3, z: 0}
+--- !u!54 &8859696228400590370
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3598425598833424416}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &5852670156488972591
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -252,7 +309,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ecbde47bf78120e439b389ed2c9b455b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.8
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ecbde47bf78120e439b389ed2c9b455b,
         type: 3}

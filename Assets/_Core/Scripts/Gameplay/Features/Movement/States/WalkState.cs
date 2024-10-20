@@ -25,6 +25,8 @@ namespace Odumbrata.Features.Movement.States
             Agent.acceleration = 0f;
             Agent.speed = 0f;
             Agent.isStopped = true;
+
+            Agent.SetDestination(Agent.transform.position);
         }
     }
 }

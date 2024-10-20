@@ -50,10 +50,11 @@ namespace Odumbrata.Behaviour.Player.States
 
         public override void OnEntered()
         {
-            _updateService.Add(this);
             _inputBrainSystem.OnPathValid += OnValidPathReceived;
 
             Move(Path);
+
+            _updateService.Add(this);
         }
 
         public override void OnExited()

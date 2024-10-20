@@ -1,8 +1,10 @@
+using UnityEngine;
+
 namespace Odumbrata.Features.Interaction
 {
     public interface IInteractable
     {
-        public void StartInteraction();
-        public void FinishInteraction();
+        public void StartInteraction(Transform interactor);
+        public void FinishInteraction(Transform interactor);
     }
 }

@@ -12,13 +12,27 @@ namespace Odumbrata.Features.Movement
     [Serializable]
     public class MovementSystem : BaseSystem
     {
+        [SerializeField] private bool _isActive;
         [SerializeField] private MovementConfig _config;
-
         public BaseMoveState CurrentMove => _moveStateMachine.CurrentState;
 
         private StateMachine<BaseMoveState> _moveStateMachine;
 
         private Dictionary<Type, BaseMoveState> _movesMap;
+
+        public bool IsActive
+        {
+            get => _isActive;
+            set
+            {
+                if (value == false)
+                {
+                    Set<IdleState>();
+                }
+
+                _isActive = value;
+            }
+        }
 
         public override void Initialize(ISystemsContainerReadonly container)
         {
@@ -37,6 +51,11 @@ namespace Odumbrata.Features.Movement
 
         public void Set<TMoveState>() where TMoveState : BaseMoveState, new()
         {
+            if (!IsActive)
+            {
+                return;
+            }
+
             if (!TryGetMove<TMoveState>(out var moveState)) return;
 
             _moveStateMachine.ChangeState(moveState);
@@ -45,6 +64,11 @@ namespace Odumbrata.Features.Movement
         public void Set<TMoveState, TData>(TData data) where TMoveState : BaseMoveState<TData>, new()
             where TData : BaseMoveData
         {
+            if (!IsActive)
+            {
+                return;
+            }
+
             if (!TryGetMove<TMoveState>(out var rawState)) return;
 
             if (rawState is BaseMoveState<TData> processedState)
