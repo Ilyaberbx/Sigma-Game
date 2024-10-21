@@ -13,11 +13,17 @@ namespace Odumbrata.Behaviour.Common.Door
         [SerializeField] private Transform _root;
         [SerializeField] private DoorHandlerTriggerObserver _handlerObserver;
         [SerializeField] private float _delayBeforeClosing;
+        [SerializeField] private Collider _collider;
 
         public float DelayBeforeClosing => _delayBeforeClosing;
         public abstract bool LeftOpenedAfterTransition { get; }
         public abstract bool IsOpened { get; }
-        public abstract bool InProgress { get; }
+
+        public void SetActiveCollision(bool value)
+        {
+            _collider.enabled = value;
+        }
+
         public abstract Task Close();
         public abstract Task Open();
         public abstract Vector3 GetInteractionPosition(Side side);
@@ -35,11 +41,6 @@ namespace Odumbrata.Behaviour.Common.Door
 
         private void OnHandlerEntered(IDoorHandler handler)
         {
-            if (InProgress)
-            {
-                return;
-            }
-
             OnHandlerEnter.SafeInvoke(handler, this);
         }
     }

@@ -26,7 +26,7 @@ namespace Odumbrata.Behaviour.Player
             base.Start();
 
             _moveState = new PlayerMoveState(_agent);
-            _idleState = new PlayerIdleState();
+            _idleState = new PlayerIdleState(_agent);
 
             _moveState.OnReachDestination += OnDestinationReached;
             _idleState.OnValidPath += OnValidPath;

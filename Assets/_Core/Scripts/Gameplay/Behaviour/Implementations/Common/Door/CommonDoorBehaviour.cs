@@ -22,10 +22,8 @@ namespace Odumbrata.Behaviour.Common.Door
         [SerializeField] private Transform _backInteractionPoint;
 
         private bool _isOpened;
-        private bool _inProgress;
         public override bool LeftOpenedAfterTransition => _leftOpenedAfterTransition;
         public override bool IsOpened => _isOpened;
-        public override bool InProgress => _inProgress;
 
         public override Task Open()
         {
@@ -48,8 +46,6 @@ namespace Odumbrata.Behaviour.Common.Door
 
         private Tween Rotate(Vector3 to)
         {
-            _inProgress = true;
-
             return Root
                 .DORotate(to, _transitionDuration)
                 .SetEase(_transitionEase);
@@ -57,13 +53,11 @@ namespace Odumbrata.Behaviour.Common.Door
 
         private void OnOpened()
         {
-            _inProgress = false;
             _isOpened = true;
         }
 
         private void OnClosed()
         {
-            _inProgress = false;
             _isOpened = false;
         }
     }

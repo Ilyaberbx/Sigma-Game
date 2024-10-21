@@ -13,11 +13,11 @@ namespace Odumbrata.Behaviour.Common.Door
 
     public class DoorInteractionData
     {
-        public Vector3 InteractionPoint { get; }
+        public Vector3 InteractionPosition { get; }
 
-        public DoorInteractionData(Vector3 interactionPoint)
+        public DoorInteractionData(Vector3 interactionPosition)
         {
-            InteractionPoint = interactionPoint;
+            InteractionPosition = interactionPosition;
         }
     }
 }

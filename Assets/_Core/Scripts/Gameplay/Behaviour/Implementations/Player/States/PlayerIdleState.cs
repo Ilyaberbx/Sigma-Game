@@ -12,11 +12,17 @@ namespace Odumbrata.Behaviour.Player.States
 {
     public class PlayerIdleState : BasePlayerState
     {
+        private readonly NavMeshAgent _agent;
         public event Action<NavMeshPath> OnValidPath;
 
         private MovementSystem _movementSystem;
         private InputBrainSystem _inputBrainSystem;
         private AnimationSystem _animationSystem;
+
+        public PlayerIdleState(NavMeshAgent agent)
+        {
+            _agent = agent;
+        }
 
         public override void Initialize(ISystemsContainer container)
         {
@@ -29,9 +35,9 @@ namespace Odumbrata.Behaviour.Player.States
 
         public override void OnEntered()
         {
-            _movementSystem.Set<IdleState>();
+            _movementSystem.Set<IdleState, IdleData>(new IdleData(_agent));
             _animationSystem.Set<IdleAnimation>();
-            
+
             _inputBrainSystem.OnPathValid += OnValidPathReceived;
         }
 

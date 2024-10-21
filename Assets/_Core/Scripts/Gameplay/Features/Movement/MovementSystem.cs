@@ -6,15 +6,18 @@ using Odumbrata.Core.Container;
 using Odumbrata.Features.Movement.Data;
 using Odumbrata.Features.Movement.States;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Odumbrata.Features.Movement
 {
     [Serializable]
-    public class MovementSystem : BaseSystem
+    public sealed class MovementSystem : BaseSystem
     {
         [SerializeField] private bool _isActive;
         [SerializeField] private MovementConfig _config;
+        [SerializeField] private NavMeshAgent _agent;
         public BaseMoveState CurrentMove => _moveStateMachine.CurrentState;
+        public bool IsStopped => _agent.isStopped;
 
         private StateMachine<BaseMoveState> _moveStateMachine;
 
@@ -27,7 +30,7 @@ namespace Odumbrata.Features.Movement
             {
                 if (value == false)
                 {
-                    Set<IdleState>();
+                    Set<IdleState, IdleData>(new IdleData(_agent));
                 }
 
                 _isActive = value;
