@@ -3,21 +3,21 @@ using UnityEngine;
 
 namespace Odumbrata.Behaviour.Common.Door
 {
-    public interface IDoorHandler
+    public interface IDoorHandler : IBehaviour
     {
-        public Task HandleDoorOpeningStarted(DoorInteractionData data);
-        public Task HandleDoorOpeningEnded(DoorInteractionData data);
-
-        public Transform Transform { get; }
+        public Task HandleDoorPreOpening(DoorTransitionData data);
+        public Task HandleDoorPostOpening(DoorTransitionData data);
     }
 
-    public class DoorInteractionData
+    public class DoorTransitionData
     {
         public Vector3 InteractionPosition { get; }
+        public Vector3 LookAtPosition { get; }
 
-        public DoorInteractionData(Vector3 interactionPosition)
+        public DoorTransitionData(Vector3 interactionPosition, Vector3 lookAtPosition)
         {
             InteractionPosition = interactionPosition;
+            LookAtPosition = lookAtPosition;
         }
     }
 }

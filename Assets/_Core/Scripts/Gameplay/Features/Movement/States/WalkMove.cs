@@ -1,11 +1,12 @@
 using System;
+using Odumbrata.Extensions;
 using Odumbrata.Features.Movement.Data;
 using UnityEngine.AI;
 
 namespace Odumbrata.Features.Movement.States
 {
     [Serializable]
-    public class WalkState : BaseMoveState<WalkData>
+    public class WalkMove : BaseMove<WalkData>
     {
         private NavMeshAgent Agent => Data.Agent;
 

@@ -5,7 +5,7 @@ using UnityEngine.AI;
 namespace Odumbrata.Features.Movement.States
 {
     [Serializable]
-    public class IdleState : BaseMoveState<IdleData>
+    public class IdleMove : BaseMove<IdleData>
     {
         private bool _wasStopped;
 

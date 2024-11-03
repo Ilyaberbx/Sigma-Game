@@ -2,20 +2,21 @@ using System.Threading.Tasks;
 using Better.Commons.Runtime.Extensions;
 using Odumbrata.Behaviour.Common.Door;
 using Odumbrata.Behaviour.Player.States;
+using Odumbrata.Entity;
 using Odumbrata.Services.Camera;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace Odumbrata.Behaviour.Player
 {
-    public sealed class PlayerBehaviour : BaseStateBehaviour<BasePlayerState>, ICameraTarget, IDoorHandler
+    public sealed class PlayerBehaviour : BaseStateBehaviour<BaseEntityState>, ICameraTarget, IDoorHandler
     {
         [SerializeField] private Transform _cameraFollowPoint;
         [SerializeField] private Transform _cameraLookAt;
         [SerializeField] private NavMeshAgent _agent;
 
         private PlayerMoveState _moveState;
-        private PlayerIdleState _idleState;
+        private PlayerWaitForCallState _waitForCallState;
         private bool _wasMoving;
         private bool _waitingForDoor;
         public Transform Follow => _cameraFollowPoint;
@@ -26,15 +27,12 @@ namespace Odumbrata.Behaviour.Player
             base.Start();
 
             _moveState = new PlayerMoveState(_agent);
-            _idleState = new PlayerIdleState(_agent);
+            _waitForCallState = new PlayerWaitForCallState(_agent);
 
             _moveState.OnReachDestination += OnDestinationReached;
-            _idleState.OnValidPath += OnValidPath;
+            _waitForCallState.OnValidPath += OnValidPath;
 
-            SetupState(_moveState);
-            SetupState(_idleState);
-
-            SetState(_idleState).Forget();
+            SetStateAsync(_waitForCallState).Forget();
         }
 
         protected override void OnDestroy()
@@ -42,7 +40,7 @@ namespace Odumbrata.Behaviour.Player
             base.OnDestroy();
 
             _moveState.OnReachDestination -= OnDestinationReached;
-            _idleState.OnValidPath -= OnValidPath;
+            _waitForCallState.OnValidPath -= OnValidPath;
         }
 
         private void OnValidPath(NavMeshPath path)
@@ -52,30 +50,32 @@ namespace Odumbrata.Behaviour.Player
                 return;
             }
 
-            SetState(_moveState).Forget();
+            SetStateAsync(_moveState).Forget();
         }
 
         private void OnDestinationReached()
         {
-            SetState(_idleState).Forget();
+            SetStateAsync(_waitForCallState).Forget();
         }
 
-        public Task HandleDoorOpeningStarted(DoorInteractionData data)
+        public async Task HandleDoorPreOpening(DoorTransitionData data)
         {
             _wasMoving = StateMachine.CurrentState == _moveState;
             _waitingForDoor = true;
 
-            SetState(_idleState);
+            var facingData = new FacingData(Transform, data.InteractionPosition, data.LookAtPosition);
+            var faceAtState = new PlayerFaceAtState(_agent);
 
-            return Task.CompletedTask;
+            await SetStateAsync(faceAtState, facingData);
+            await SetStateAsync(_waitForCallState);
         }
 
-        public Task HandleDoorOpeningEnded(DoorInteractionData data)
+        public Task HandleDoorPostOpening(DoorTransitionData data)
         {
             if (_wasMoving)
             {
                 _wasMoving = false;
-                SetState(_moveState).Forget();
+                SetStateAsync(_moveState).Forget();
             }
 
             _waitingForDoor = false;

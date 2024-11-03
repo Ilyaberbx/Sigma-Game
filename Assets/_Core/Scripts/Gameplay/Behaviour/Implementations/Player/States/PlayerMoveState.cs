@@ -1,4 +1,6 @@
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Better.Locators.Runtime;
 using Odumbrata.Core.Container;
 using Odumbrata.Extensions;
@@ -36,10 +38,8 @@ namespace Odumbrata.Behaviour.Player.States
             _agent = agent;
         }
 
-        public override void Initialize(ISystemsContainer container)
+        protected override void Initialize(ISystemsContainer container)
         {
-            base.Initialize(container);
-
             _movementSystem = Container.GetSystem<MovementSystem>();
             _statsSystem = Container.GetSystem<StatsSystem>();
             _inputBrainSystem = Container.GetSystem<InputBrainSystem>();
@@ -48,20 +48,24 @@ namespace Odumbrata.Behaviour.Player.States
             _updateService = ServiceLocator.Get<UpdateService>();
         }
 
-        public override void OnEntered()
+        public override Task EnterAsync(CancellationToken token)
         {
             _inputBrainSystem.OnPathValid += OnValidPathReceived;
 
             Move(Path);
 
             _updateService.Add(this);
+
+            return Task.CompletedTask;
         }
 
-        public override void OnExited()
+        public override Task ExitAsync(CancellationToken token)
         {
             SetPath(null);
             _updateService.Remove(this);
             _inputBrainSystem.OnPathValid -= OnValidPathReceived;
+
+            return Task.CompletedTask;
         }
 
         public void Tick(float deltaTime)
@@ -88,7 +92,7 @@ namespace Odumbrata.Behaviour.Player.States
         private void Move(NavMeshPath path)
         {
             SetPath(path);
-            _movementSystem.Set<WalkState, WalkData>(_data);
+            _movementSystem.Set<WalkMove, WalkData>(_data);
             _animationSystem.Set<WalkAnimation>();
         }
 

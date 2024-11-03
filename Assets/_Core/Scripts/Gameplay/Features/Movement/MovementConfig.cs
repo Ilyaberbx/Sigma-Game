@@ -8,8 +8,8 @@ namespace Odumbrata.Features.Movement
     [Serializable]
     public class MovementConfig
     {
-        [SerializeReference, Select] private BaseMoveState[] _availableMoves;
+        [SerializeReference, Select] private BaseMove[] _availableMoves;
 
-        public BaseMoveState[] AvailableMoves => _availableMoves;
+        public BaseMove[] AvailableMoves => _availableMoves;
     }
 }

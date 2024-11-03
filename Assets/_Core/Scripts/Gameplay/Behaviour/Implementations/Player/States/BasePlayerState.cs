@@ -6,4 +6,9 @@ namespace Odumbrata.Behaviour.Player.States
     public abstract class BasePlayerState : BaseBehaviourState
     {
     }
+
+    [Serializable]
+    public abstract class BasePlayerState<TData> : BaseBehaviourState<TData>
+    {
+    }
 }

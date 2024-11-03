@@ -44,14 +44,14 @@ namespace Odumbrata.Behaviour.Levels.Modules
                 return;
             }
 
-            var interactionSide = GetSide(door, handler);
-            var interactionPosition = door.GetInteractionPosition(interactionSide);
-            var data = new DoorInteractionData(interactionPosition);
+            var transitionPosition = door.GetInteractionPosition(handler);
+            var lookAt = door.LookAtPoint.position;
+            var data = new DoorTransitionData(transitionPosition, lookAt);
 
             door.SetActiveCollision(false);
-            await handler.HandleDoorOpeningStarted(data);
+            await handler.HandleDoorPreOpening(data);
             await door.Open();
-            await handler.HandleDoorOpeningEnded(data);
+            await handler.HandleDoorPostOpening(data);
 
             if (door.LeftOpenedAfterTransition)
             {
@@ -63,12 +63,5 @@ namespace Odumbrata.Behaviour.Levels.Modules
             door.SetActiveCollision(true);
         }
 
-        private Side GetSide(BaseDoorBehaviour door, IDoorHandler handler)
-        {
-            var doorPosition = door.Transform.position;
-            var handlerPosition = handler.Transform.position;
-            var side = doorPosition.x >= handlerPosition.x ? Side.Back : Side.Front;
-            return side;
-        }
     }
 }

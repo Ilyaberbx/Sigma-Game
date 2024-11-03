@@ -8,7 +8,7 @@ using Odumbrata.Features.Movement.Data;
 namespace Odumbrata.Features.Movement.States
 {
     [Serializable]
-    public abstract class BaseMoveState : BaseState
+    public abstract class BaseMove : BaseState
     {
         protected ISystemsContainerReadonly Container { get; private set; }
 
@@ -28,7 +28,7 @@ namespace Odumbrata.Features.Movement.States
         }
     }
 
-    public abstract class BaseMoveState<TData> : BaseMoveState where TData : BaseMoveData
+    public abstract class BaseMove<TData> : BaseMove where TData : BaseMoveData
     {
         protected TData Data { get; private set; }
 

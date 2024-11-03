@@ -1,4 +1,6 @@
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Odumbrata.Core.Container;
 using Odumbrata.Extensions;
 using Odumbrata.Features.Animations;
@@ -10,7 +12,7 @@ using UnityEngine.AI;
 
 namespace Odumbrata.Behaviour.Player.States
 {
-    public class PlayerIdleState : BasePlayerState
+    public class PlayerWaitForCallState : BasePlayerState
     {
         private readonly NavMeshAgent _agent;
         public event Action<NavMeshPath> OnValidPath;
@@ -19,32 +21,35 @@ namespace Odumbrata.Behaviour.Player.States
         private InputBrainSystem _inputBrainSystem;
         private AnimationSystem _animationSystem;
 
-        public PlayerIdleState(NavMeshAgent agent)
+        public PlayerWaitForCallState(NavMeshAgent agent)
         {
             _agent = agent;
         }
 
-        public override void Initialize(ISystemsContainer container)
+        protected override void Initialize(ISystemsContainer container)
         {
-            base.Initialize(container);
-
             _inputBrainSystem = Container.GetSystem<InputBrainSystem>();
             _movementSystem = Container.GetSystem<MovementSystem>();
             _animationSystem = Container.GetSystem<AnimationSystem>();
         }
 
-        public override void OnEntered()
+        public override Task EnterAsync(CancellationToken token)
         {
-            _movementSystem.Set<IdleState, IdleData>(new IdleData(_agent));
+            _movementSystem.Set<IdleMove, IdleData>(new IdleData(_agent));
             _animationSystem.Set<IdleAnimation>();
 
             _inputBrainSystem.OnPathValid += OnValidPathReceived;
+
+            return Task.CompletedTask;
         }
 
-        public override void OnExited()
+        public override Task ExitAsync(CancellationToken token)
         {
             _inputBrainSystem.OnPathValid -= OnValidPathReceived;
+
+            return Task.CompletedTask;
         }
+
 
         private void OnValidPathReceived(NavMeshPath path)
         {

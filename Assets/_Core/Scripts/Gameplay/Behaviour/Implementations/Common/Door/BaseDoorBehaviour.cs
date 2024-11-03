@@ -10,6 +10,7 @@ namespace Odumbrata.Behaviour.Common.Door
     {
         public event Action<IDoorHandler, BaseDoorBehaviour> OnHandlerEnter;
 
+        [SerializeField] private Transform _lookAt;
         [SerializeField] private Transform _root;
         [SerializeField] private DoorHandlerTriggerObserver _handlerObserver;
         [SerializeField] private float _delayBeforeClosing;
@@ -26,8 +27,9 @@ namespace Odumbrata.Behaviour.Common.Door
 
         public abstract Task Close();
         public abstract Task Open();
-        public abstract Vector3 GetInteractionPosition(Side side);
+        public abstract Vector3 GetInteractionPosition(IDoorHandler handler);
         protected Transform Root => _root;
+        public Transform LookAtPoint => _lookAt;
 
         private void Start()
         {

@@ -1,29 +1,39 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Better.StateMachine.Runtime.States;
+using System.IO;
+using Better.Commons.Runtime.Utility;
 using Odumbrata.Core.Container;
+using Odumbrata.Entity;
 
 namespace Odumbrata.Behaviour
 {
-    [Serializable]
-    public abstract class BaseBehaviourState : BaseState
+    public abstract class BaseBehaviourState : BaseBehaviourState<object>
     {
+        public sealed override void Initialize(ISystemsContainer container, object data)
+        {
+            base.Initialize(container, data);
+
+            Initialize(container);
+        }
+
+        protected abstract void Initialize(ISystemsContainer container);
+    }
+
+    public abstract class BaseBehaviourState<TData> : BaseEntityState
+    {
+        protected TData Data { get; private set; }
         protected ISystemsContainer Container { get; private set; }
 
-        public virtual void Initialize(ISystemsContainer container)
+        public virtual void Initialize(ISystemsContainer container, TData data)
         {
+            Data = data;
             Container = container;
         }
 
-        public override Task EnterAsync(CancellationToken token)
+        public override void OnEntered()
         {
-            return Task.CompletedTask;
         }
 
-        public override Task ExitAsync(CancellationToken token)
+        public override void OnExited()
         {
-            return Task.CompletedTask;
         }
     }
 }

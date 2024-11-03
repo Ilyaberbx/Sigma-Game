@@ -5,12 +5,6 @@ using UnityEngine;
 
 namespace Odumbrata.Behaviour.Common.Door
 {
-    public enum Side
-    {
-        Front,
-        Back
-    }
-
     public class CommonDoorBehaviour : BaseDoorBehaviour
     {
         [SerializeField] private bool _leftOpenedAfterTransition;
@@ -32,16 +26,24 @@ namespace Odumbrata.Behaviour.Common.Door
                 .AsTask(destroyCancellationToken);
         }
 
-        public override Vector3 GetInteractionPosition(Side side)
-        {
-            return side == Side.Front ? _frontInteractionPoint.position : _backInteractionPoint.position;
-        }
-
         public override Task Close()
         {
             return Rotate(_closedRotation)
                 .OnComplete(OnClosed)
                 .AsTask(destroyCancellationToken);
+        }
+
+        public override Vector3 GetInteractionPosition(IDoorHandler handler)
+        {
+            var handlerPosition = handler.Position;
+
+            var frontPosition = _frontInteractionPoint.position;
+            var backPosition = _backInteractionPoint.position;
+
+            var frontDistance = Vector3.Distance(handlerPosition, frontPosition);
+            var backDistance = Vector3.Distance(handlerPosition, backPosition);
+
+            return frontDistance < backDistance ? frontPosition : backPosition;
         }
 
         private Tween Rotate(Vector3 to)

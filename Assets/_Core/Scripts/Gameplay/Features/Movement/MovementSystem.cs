@@ -16,12 +16,12 @@ namespace Odumbrata.Features.Movement
         [SerializeField] private bool _isActive;
         [SerializeField] private MovementConfig _config;
         [SerializeField] private NavMeshAgent _agent;
-        public BaseMoveState CurrentMove => _moveStateMachine.CurrentState;
+        public BaseMove CurrentMove => _moveStateMachine.CurrentState;
         public bool IsStopped => _agent.isStopped;
 
-        private StateMachine<BaseMoveState> _moveStateMachine;
+        private StateMachine<BaseMove> _moveStateMachine;
 
-        private Dictionary<Type, BaseMoveState> _movesMap;
+        private Dictionary<Type, BaseMove> _movesMap;
 
         public bool IsActive
         {
@@ -30,7 +30,7 @@ namespace Odumbrata.Features.Movement
             {
                 if (value == false)
                 {
-                    Set<IdleState, IdleData>(new IdleData(_agent));
+                    Set<IdleMove, IdleData>(new IdleData(_agent));
                 }
 
                 _isActive = value;
@@ -41,8 +41,8 @@ namespace Odumbrata.Features.Movement
         {
             base.Initialize(container);
 
-            _movesMap = new Dictionary<Type, BaseMoveState>();
-            _moveStateMachine = new StateMachine<BaseMoveState>();
+            _movesMap = new Dictionary<Type, BaseMove>();
+            _moveStateMachine = new StateMachine<BaseMove>();
             _moveStateMachine.Run();
 
             foreach (var availableMove in _config.AvailableMoves)
@@ -52,40 +52,45 @@ namespace Odumbrata.Features.Movement
             }
         }
 
-        public void Set<TMoveState>() where TMoveState : BaseMoveState, new()
+        public TMove Set<TMove>() where TMove : BaseMove, new()
         {
             if (!IsActive)
             {
-                return;
+                return null;
             }
 
-            if (!TryGetMove<TMoveState>(out var moveState)) return;
+            if (!TryGetMove<TMove>(out var move)) return null;
 
-            _moveStateMachine.ChangeState(moveState);
+            _moveStateMachine.ChangeState(move);
+            return (TMove)move;
         }
 
-        public void Set<TMoveState, TData>(TData data) where TMoveState : BaseMoveState<TData>, new()
+        public TMove Set<TMove, TData>(TData data) where TMove : BaseMove<TData>, new()
             where TData : BaseMoveData
         {
             if (!IsActive)
             {
-                return;
+                return null;
             }
 
-            if (!TryGetMove<TMoveState>(out var rawState)) return;
+            if (!TryGetMove<TMove>(out var rawMove)) return null;
 
-            if (rawState is BaseMoveState<TData> processedState)
+            if (rawMove is BaseMove<TData> actualMove)
             {
-                processedState.SetData(data);
-                _moveStateMachine.ChangeState(rawState);
+                actualMove.SetData(data);
+                _moveStateMachine.ChangeState(rawMove);
+
+                return (TMove)rawMove;
             }
+
+            return null;
         }
 
-        private bool TryGetMove<TMoveState>(out BaseMoveState moveState) where TMoveState : BaseMoveState, new()
+        private bool TryGetMove<TMoveState>(out BaseMove move) where TMoveState : BaseMove, new()
         {
             var type = typeof(TMoveState);
 
-            var success = _movesMap.TryGetValue(type, out moveState);
+            var success = _movesMap.TryGetValue(type, out move);
 
             return success;
         }
