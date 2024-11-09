@@ -12,38 +12,46 @@ namespace Odumbrata.Behaviour.Common.Door
 
         [SerializeField] private Transform _lookAt;
         [SerializeField] private Transform _root;
-        [SerializeField] private DoorHandlerTriggerObserver _handlerObserver;
+        [SerializeField] private DoorHandlerTriggerObserver[] _observers;
         [SerializeField] private float _delayBeforeClosing;
-        [SerializeField] private Collider _collider;
 
         public float DelayBeforeClosing => _delayBeforeClosing;
-        public abstract bool LeftOpenedAfterTransition { get; }
-        public abstract bool IsOpened { get; }
-
-        public void SetActiveCollision(bool value)
-        {
-            _collider.enabled = value;
-        }
-
-        public abstract Task Close();
-        public abstract Task Open();
-        public abstract Vector3 GetInteractionPosition(IDoorHandler handler);
-        protected Transform Root => _root;
         public Transform LookAtPoint => _lookAt;
+        protected Transform Root => _root;
 
         private void Start()
         {
-            _handlerObserver.OnTriggerEntered += OnHandlerEntered;
+            foreach (var observer in _observers)
+            {
+                observer.OnTriggerEntered += OnHandlerEntered;
+            }
         }
 
         private void OnDestroy()
         {
-            _handlerObserver.OnTriggerEntered -= OnHandlerEntered;
+            foreach (var observer in _observers)
+            {
+                observer.OnTriggerEntered -= OnHandlerEntered;
+            }
+        }
+
+        public void SetActiveObservers(bool value)
+        {
+            foreach (var observer in _observers)
+            {
+                observer.SetActive(value);
+            }
         }
 
         private void OnHandlerEntered(IDoorHandler handler)
         {
             OnHandlerEnter.SafeInvoke(handler, this);
         }
+
+        public abstract bool LeftOpenedAfterTransition { get; }
+        public abstract bool IsOpened { get; }
+        public abstract Task Close();
+        public abstract Task Open();
+        public abstract Vector3 GetInteractionPosition(IDoorHandler handler);
     }
 }

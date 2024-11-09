@@ -5,11 +5,26 @@ using UnityEngine;
 
 namespace Odumbrata.Core.Commons
 {
+    [RequireComponent(typeof(Collider))]
     public class TriggerObserverBehaviour<TComponent> : BaseBehaviour
     {
         public event Action<TComponent> OnTriggerEntered;
         public event Action<TComponent> OnTriggerExited;
         public event Action<TComponent> OnTriggerStaying;
+
+        private Collider _collider;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _collider = GetComponent<Collider>();
+        }
+
+        public void SetActive(bool value)
+        {
+            _collider.enabled = value;
+        }
 
         private void OnTriggerEnter(Collider other)
         {

@@ -7,6 +7,7 @@ using Odumbrata.Extensions;
 using Odumbrata.Features.Animations;
 using Odumbrata.Features.Animations.Implementations;
 using Odumbrata.Features.Brains;
+using Odumbrata.Features.InversionKinematics.Contexts;
 using Odumbrata.Features.Movement;
 using Odumbrata.Features.Movement.Data;
 using Odumbrata.Features.Movement.States;
@@ -27,15 +28,14 @@ namespace Odumbrata.Behaviour.Player.States
         private InputBrainSystem _inputBrainSystem;
         private StatsSystem _statsSystem;
 
-        private readonly NavMeshAgent _agent;
-
+        private readonly IHumanoidContext _humanoidContext;
         private WalkData _data;
 
         private NavMeshPath Path => _inputBrainSystem.Path;
 
-        public PlayerMoveState(NavMeshAgent agent)
+        public PlayerMoveState(IHumanoidContext humanoidContext)
         {
-            _agent = agent;
+            _humanoidContext = humanoidContext;
         }
 
         protected override void Initialize(ISystemsContainer container)
@@ -70,7 +70,7 @@ namespace Odumbrata.Behaviour.Player.States
 
         public void Tick(float deltaTime)
         {
-            if (_data.Path != null && _agent.remainingDistance <= 0)
+            if (_data.Path != null && _humanoidContext.Agent.remainingDistance <= 0)
             {
                 SetPath(null);
                 OnReachDestination.SafeInvoke();
@@ -115,7 +115,7 @@ namespace Odumbrata.Behaviour.Player.States
                 return false;
             }
 
-            data = new WalkData(_agent, walkStat, accelerationStat, angularSpeedStat);
+            data = new WalkData(_humanoidContext.Agent, walkStat, accelerationStat, angularSpeedStat);
 
             return true;
         }

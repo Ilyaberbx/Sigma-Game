@@ -11,6 +11,11 @@ namespace Odumbrata.Global.Services
     {
         private TickSystem<TTickable> _tickSystem;
 
+        public bool Contains(TTickable element)
+        {
+            return _tickSystem.Contains(element);
+        }
+
         public IReadOnlyList<TTickable> Elements => _tickSystem.Elements;
 
         protected sealed override Task OnInitializeAsync(CancellationToken cancellationToken)

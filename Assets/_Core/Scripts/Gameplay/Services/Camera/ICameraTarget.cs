@@ -4,8 +4,8 @@ namespace Odumbrata.Services.Camera
 {
     public interface ICameraTarget
     {
-        Transform Follow { get; }
+        Transform CameraFollow { get; }
 
-        Transform LookAt { get; }
+        Transform CameraLookAt { get; }
     }
 }

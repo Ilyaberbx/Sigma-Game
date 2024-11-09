@@ -765,6 +765,36 @@ PrefabInstance:
       propertyPath: m_Name
       value: CharacterDwelling
       objectReference: {fileID: 0}
+    - target: {fileID: 6398345029421085287, guid: 3c1cedc736319cf468a68cc56be7e36a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6398345029421085287, guid: 3c1cedc736319cf468a68cc56be7e36a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6398345029421085287, guid: 3c1cedc736319cf468a68cc56be7e36a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8036995860019192663, guid: 3c1cedc736319cf468a68cc56be7e36a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8036995860019192663, guid: 3c1cedc736319cf468a68cc56be7e36a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8036995860019192663, guid: 3c1cedc736319cf468a68cc56be7e36a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8864323027157403627, guid: 3c1cedc736319cf468a68cc56be7e36a,
         type: 3}
       propertyPath: m_LocalPosition.x

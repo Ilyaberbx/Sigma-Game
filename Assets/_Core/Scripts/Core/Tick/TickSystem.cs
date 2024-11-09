@@ -10,6 +10,12 @@ namespace Odumbrata.Core
         public bool IsInitialized => _register != null;
 
         private readonly Register<TTickable> _register = new();
+
+        public bool Contains(TTickable element)
+        {
+            return _register.Contains(element);
+        }
+
         public IReadOnlyList<TTickable> Elements => _register.Elements;
 
         #region ITickale

@@ -7,8 +7,8 @@ namespace Odumbrata.Extensions
     {
         public static void SetTarget(this ICinemachineCamera source, ICameraTarget target)
         {
-            source.Follow = target.Follow;
-            source.LookAt = target.LookAt;
+            source.Follow = target.CameraFollow;
+            source.LookAt = target.CameraLookAt;
         }
     }
 }

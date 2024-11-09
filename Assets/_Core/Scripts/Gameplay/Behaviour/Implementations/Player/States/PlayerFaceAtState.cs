@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Better.Locators.Runtime;
@@ -6,6 +7,9 @@ using Odumbrata.Core.Container;
 using Odumbrata.Extensions;
 using Odumbrata.Features.Animations;
 using Odumbrata.Features.Animations.Implementations;
+using Odumbrata.Features.InversionKinematics;
+using Odumbrata.Features.InversionKinematics.Contexts;
+using Odumbrata.Features.InversionKinematics.Profiles;
 using Odumbrata.Features.Movement;
 using Odumbrata.Features.Movement.Data;
 using Odumbrata.Features.Movement.States;
@@ -21,11 +25,13 @@ namespace Odumbrata.Behaviour.Player.States
         public Vector3 StayAtPosition { get; }
         public Vector3 LookAtPosition { get; }
         public Transform Player { get; }
+        public float Duration { get; }
 
-        public FacingData(Transform player, Vector3 stayAtPosition, Vector3 lookAtPosition)
+        public FacingData(Transform player, Vector3 stayAtPosition, Vector3 lookAtPosition, float duration)
         {
             StayAtPosition = stayAtPosition;
             LookAtPosition = lookAtPosition;
+            Duration = duration;
             Player = player;
         }
     }
@@ -37,19 +43,19 @@ namespace Odumbrata.Behaviour.Player.States
         private AnimationSystem _animationSystem;
         private MovementSystem _movementSystem;
         private StatsSystem _statsSystem;
+        private IkSystem _ikSystem;
 
-        private readonly NavMeshAgent _agent;
         private TaskCompletionSource<bool> _completionSource;
         private CancellationToken _token;
+        private readonly IHumanoidContext _humanoidContext;
 
         private Vector3 StayAtPosition => Data.StayAtPosition;
         private Vector3 LookAtPosition => Data.LookAtPosition;
         private Transform Player => Data.Player;
 
-
-        public PlayerFaceAtState(NavMeshAgent agent)
+        public PlayerFaceAtState(IHumanoidContext humanoidContext)
         {
-            _agent = agent;
+            _humanoidContext = humanoidContext;
         }
 
         public override void Initialize(ISystemsContainer container, FacingData data)
@@ -59,6 +65,7 @@ namespace Odumbrata.Behaviour.Player.States
             _animationSystem = container.GetSystem<AnimationSystem>();
             _movementSystem = container.GetSystem<MovementSystem>();
             _statsSystem = container.GetSystem<StatsSystem>();
+            _ikSystem = container.GetSystem<IkSystem>();
             _updateService = ServiceLocator.Get<UpdateService>();
         }
 
@@ -72,24 +79,19 @@ namespace Odumbrata.Behaviour.Player.States
 
             if (!canGo)
             {
+                _completionSource.SetResult(false);
+
                 return Task.CompletedTask;
             }
 
             var agent = Player.GetComponent<NavMeshAgent>();
-
             var sampledPosition = hit.position;
-
             var path = new NavMeshPath();
 
             if (agent.CalculatePath(sampledPosition, path))
             {
                 Walk(agent, path);
             }
-            else
-            {
-                _completionSource.SetResult(false);
-            }
-
 
             _updateService.Add(this);
 
@@ -100,18 +102,46 @@ namespace Odumbrata.Behaviour.Player.States
         {
             _updateService.Remove(this);
 
+            _ikSystem.ClearImmediately();
+
             return Task.CompletedTask;
         }
 
         public async void Tick(float deltaTime)
         {
-            if (_agent.remainingDistance <= 0 && _movementSystem.CurrentMove.GetType() == typeof(WalkMove))
+            var agent = _humanoidContext.Agent;
+            var isMoving = _movementSystem.CurrentMove.GetType() == typeof(WalkMove);
+
+            if (agent.remainingDistance <= 0 && isMoving)
             {
                 _movementSystem.Set<IdleMove>();
-                var agent = _agent.transform;
-                await agent.DOLookAt(LookAtPosition, 1, AxisConstraint.Y).AsTask(_token);
+                _animationSystem.Set<IdleAnimation>();
+
+                var halfDuration = Data.Duration / 2f;
+
+                await agent.transform.DOLookAt(LookAtPosition, halfDuration, AxisConstraint.Y).AsTask(_token);
+                await ApplyIkProfiles();
+                await _ikSystem.Clear(halfDuration);
+
                 _completionSource.SetResult(true);
             }
+        }
+
+        private async Task ApplyIkProfiles()
+        {
+            _ikSystem.ClearImmediately();
+
+            var faceAtProfile = new FaceAtProfile();
+            var grabProfile = new GrabProfile();
+
+            faceAtProfile.Initialize(_humanoidContext, Data.LookAtPosition);
+            grabProfile.Initialize(_humanoidContext, new GrabData(HandType.Right, Data.LookAtPosition));
+
+            var halfDuration = Data.Duration / 2f;
+
+            var ikData = new IkTransitionData(halfDuration, faceAtProfile, grabProfile);
+
+            await _ikSystem.ProcessTransition(ikData);
         }
 
         private void Walk(NavMeshAgent agent, NavMeshPath path)

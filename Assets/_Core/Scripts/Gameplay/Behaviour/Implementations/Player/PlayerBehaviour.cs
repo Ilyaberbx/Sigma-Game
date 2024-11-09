@@ -9,25 +9,24 @@ using UnityEngine.AI;
 
 namespace Odumbrata.Behaviour.Player
 {
-    public sealed class PlayerBehaviour : BaseStateBehaviour<BaseEntityState>, ICameraTarget, IDoorHandler
+    public sealed class PlayerBehaviour : BaseHumanoidBehaviour<BaseEntityState>, ICameraTarget, IDoorHandler
     {
         [SerializeField] private Transform _cameraFollowPoint;
         [SerializeField] private Transform _cameraLookAt;
-        [SerializeField] private NavMeshAgent _agent;
 
         private PlayerMoveState _moveState;
         private PlayerWaitForCallState _waitForCallState;
         private bool _wasMoving;
         private bool _waitingForDoor;
-        public Transform Follow => _cameraFollowPoint;
-        public Transform LookAt => _cameraLookAt;
+        public Transform CameraFollow => _cameraFollowPoint;
+        public Transform CameraLookAt => _cameraLookAt;
 
         protected override void Start()
         {
             base.Start();
 
-            _moveState = new PlayerMoveState(_agent);
-            _waitForCallState = new PlayerWaitForCallState(_agent);
+            _moveState = new PlayerMoveState(this);
+            _waitForCallState = new PlayerWaitForCallState(this);
 
             _moveState.OnReachDestination += OnDestinationReached;
             _waitForCallState.OnValidPath += OnValidPath;
@@ -63,8 +62,12 @@ namespace Odumbrata.Behaviour.Player
             _wasMoving = StateMachine.CurrentState == _moveState;
             _waitingForDoor = true;
 
-            var facingData = new FacingData(Transform, data.InteractionPosition, data.LookAtPosition);
-            var faceAtState = new PlayerFaceAtState(_agent);
+            var facingData = new FacingData(Transform,
+                data.InteractionPosition,
+                data.LookAtPosition,
+                data.Duration);
+
+            var faceAtState = new PlayerFaceAtState(this);
 
             await SetStateAsync(faceAtState, facingData);
             await SetStateAsync(_waitForCallState);

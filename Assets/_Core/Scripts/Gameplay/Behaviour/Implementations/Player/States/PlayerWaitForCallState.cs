@@ -6,6 +6,7 @@ using Odumbrata.Extensions;
 using Odumbrata.Features.Animations;
 using Odumbrata.Features.Animations.Implementations;
 using Odumbrata.Features.Brains;
+using Odumbrata.Features.InversionKinematics.Contexts;
 using Odumbrata.Features.Movement;
 using Odumbrata.Features.Movement.States;
 using UnityEngine.AI;
@@ -14,16 +15,17 @@ namespace Odumbrata.Behaviour.Player.States
 {
     public class PlayerWaitForCallState : BasePlayerState
     {
-        private readonly NavMeshAgent _agent;
         public event Action<NavMeshPath> OnValidPath;
 
         private MovementSystem _movementSystem;
         private InputBrainSystem _inputBrainSystem;
         private AnimationSystem _animationSystem;
 
-        public PlayerWaitForCallState(NavMeshAgent agent)
+        private readonly IHumanoidContext _humanoidContext;
+
+        public PlayerWaitForCallState(IHumanoidContext humanoidContext)
         {
-            _agent = agent;
+            _humanoidContext = humanoidContext;
         }
 
         protected override void Initialize(ISystemsContainer container)
@@ -35,7 +37,7 @@ namespace Odumbrata.Behaviour.Player.States
 
         public override Task EnterAsync(CancellationToken token)
         {
-            _movementSystem.Set<IdleMove, IdleData>(new IdleData(_agent));
+            _movementSystem.Set<IdleMove, IdleData>(new IdleData(_humanoidContext.Agent));
             _animationSystem.Set<IdleAnimation>();
 
             _inputBrainSystem.OnPathValid += OnValidPathReceived;

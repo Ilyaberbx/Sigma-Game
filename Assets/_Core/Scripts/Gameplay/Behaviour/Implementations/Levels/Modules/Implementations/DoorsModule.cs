@@ -8,11 +8,14 @@ namespace Odumbrata.Behaviour.Levels.Modules
     [Serializable]
     public class DoorsModuleConfig
     {
+        [SerializeField] private float _preOpenDuration;
         [SerializeField] private BaseDoorBehaviour[] _doors;
 
         public BaseDoorBehaviour[] Doors => _doors;
+        public float PreOpenDuration => _preOpenDuration;
     }
 
+    [Serializable]
     public class DoorsModule : BaseLevelModule<DoorsModuleConfig>
     {
         private const int ToMillisecondsEquivalent = 1000;
@@ -46,9 +49,9 @@ namespace Odumbrata.Behaviour.Levels.Modules
 
             var transitionPosition = door.GetInteractionPosition(handler);
             var lookAt = door.LookAtPoint.position;
-            var data = new DoorTransitionData(transitionPosition, lookAt);
+            var data = new DoorTransitionData(transitionPosition, lookAt, Config.PreOpenDuration);
 
-            door.SetActiveCollision(false);
+            door.SetActiveObservers(false);
             await handler.HandleDoorPreOpening(data);
             await door.Open();
             await handler.HandleDoorPostOpening(data);
@@ -60,8 +63,7 @@ namespace Odumbrata.Behaviour.Levels.Modules
 
             await Task.Delay((int)door.DelayBeforeClosing * ToMillisecondsEquivalent);
             await door.Close();
-            door.SetActiveCollision(true);
+            door.SetActiveObservers(true);
         }
-
     }
 }

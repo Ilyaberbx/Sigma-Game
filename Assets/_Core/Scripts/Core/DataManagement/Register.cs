@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Better.Commons.Runtime.Extensions;
 using Odumbrata.Utils;
 
@@ -9,6 +10,11 @@ namespace Odumbrata.Core
         public IReadOnlyList<TElement> Elements => _elements;
 
         private readonly List<TElement> _elements = new();
+
+        public bool Contains(TElement element)
+        {
+            return Elements.Contains(element);
+        }
 
         public void Add(TElement element)
         {
