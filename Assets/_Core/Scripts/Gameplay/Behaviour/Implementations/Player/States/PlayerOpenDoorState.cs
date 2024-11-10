@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Better.Commons.Runtime.Extensions;
 using Better.Locators.Runtime;
 using DG.Tweening;
 using Odumbrata.Core.Container;
@@ -36,9 +38,12 @@ namespace Odumbrata.Behaviour.Player.States
         }
     }
 
-    public class PlayerFaceAtState : BasePlayerState<FacingData>, IUpdatable
+    public class PlayerOpenDoorState : BasePlayerState<FacingData>, IUpdatable
     {
+        private const float DoorOpenedClearDuration = 1;
+
         private UpdateService _updateService;
+        private readonly IHumanoidContext _humanoidContext;
 
         private AnimationSystem _animationSystem;
         private MovementSystem _movementSystem;
@@ -47,13 +52,13 @@ namespace Odumbrata.Behaviour.Player.States
 
         private TaskCompletionSource<bool> _completionSource;
         private CancellationToken _token;
-        private readonly IHumanoidContext _humanoidContext;
 
         private Vector3 StayAtPosition => Data.StayAtPosition;
         private Vector3 LookAtPosition => Data.LookAtPosition;
         private Transform Player => Data.Player;
 
-        public PlayerFaceAtState(IHumanoidContext humanoidContext)
+
+        public PlayerOpenDoorState(IHumanoidContext humanoidContext)
         {
             _humanoidContext = humanoidContext;
         }
@@ -102,8 +107,6 @@ namespace Odumbrata.Behaviour.Player.States
         {
             _updateService.Remove(this);
 
-            _ikSystem.ClearImmediately();
-
             return Task.CompletedTask;
         }
 
@@ -111,20 +114,23 @@ namespace Odumbrata.Behaviour.Player.States
         {
             var agent = _humanoidContext.Agent;
             var isMoving = _movementSystem.CurrentMove.GetType() == typeof(WalkMove);
+            var doorReached = agent.remainingDistance <= 0 && isMoving;
 
-            if (agent.remainingDistance <= 0 && isMoving)
-            {
-                _movementSystem.Set<IdleMove>();
-                _animationSystem.Set<IdleAnimation>();
+            if (!doorReached) return;
 
-                var halfDuration = Data.Duration / 2f;
+            _movementSystem.Set<IdleMove>();
+            _animationSystem.Set<IdleAnimation>();
 
-                await agent.transform.DOLookAt(LookAtPosition, halfDuration, AxisConstraint.Y).AsTask(_token);
-                await ApplyIkProfiles();
-                await _ikSystem.Clear(halfDuration);
+            var tween = agent.transform.DOLookAt(LookAtPosition, Data.Duration / 2, AxisConstraint.Y);
+            var rotationTask = tween.AsTask(_token);
+            var ikTask = ApplyIkProfiles();
 
-                _completionSource.SetResult(true);
-            }
+            await rotationTask;
+            await ikTask;
+
+            _ikSystem.Clear(DoorOpenedClearDuration).Forget();
+
+            _completionSource.SetResult(true);
         }
 
         private async Task ApplyIkProfiles()
@@ -137,10 +143,7 @@ namespace Odumbrata.Behaviour.Player.States
             faceAtProfile.Initialize(_humanoidContext, Data.LookAtPosition);
             grabProfile.Initialize(_humanoidContext, new GrabData(HandType.Right, Data.LookAtPosition));
 
-            var halfDuration = Data.Duration / 2f;
-
-            var ikData = new IkTransitionData(halfDuration, faceAtProfile, grabProfile);
-
+            var ikData = new IkTransitionData(Data.Duration, faceAtProfile, grabProfile);
             await _ikSystem.ProcessTransition(ikData);
         }
 
@@ -162,7 +165,6 @@ namespace Odumbrata.Behaviour.Player.States
             }
 
             var walkData = new WalkData(agent, walkStat, accelerationStat, angularSpeedStat);
-
             walkData.SetPath(path);
 
             _movementSystem.Set<WalkMove, WalkData>(walkData);

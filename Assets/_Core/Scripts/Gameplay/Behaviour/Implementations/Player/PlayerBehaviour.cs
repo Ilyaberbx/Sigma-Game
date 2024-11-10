@@ -3,6 +3,7 @@ using Better.Commons.Runtime.Extensions;
 using Odumbrata.Behaviour.Common.Door;
 using Odumbrata.Behaviour.Player.States;
 using Odumbrata.Entity;
+using Odumbrata.Features.InversionKinematics;
 using Odumbrata.Services.Camera;
 using UnityEngine;
 using UnityEngine.AI;
@@ -65,9 +66,9 @@ namespace Odumbrata.Behaviour.Player
             var facingData = new FacingData(Transform,
                 data.InteractionPosition,
                 data.LookAtPosition,
-                data.Duration);
+                data.Duration / 2);
 
-            var faceAtState = new PlayerFaceAtState(this);
+            var faceAtState = new PlayerOpenDoorState(this);
 
             await SetStateAsync(faceAtState, facingData);
             await SetStateAsync(_waitForCallState);
