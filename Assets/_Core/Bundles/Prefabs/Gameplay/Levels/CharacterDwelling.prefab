@@ -80,17 +80,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _modulesToAdd:
   - rid: 4135814531014197252
+  - rid: 1112485053817421824
   references:
     version: 2
     RefIds:
+    - rid: 1112485053817421824
+      type: {class: InteractionModule, ns: Odumbrata.Behaviour.Levels.Modules, asm: Assembly-CSharp}
+      data:
+        _player: {fileID: 0}
     - rid: 4135814531014197252
       type: {class: DoorsModule, ns: Odumbrata.Behaviour.Levels.Modules, asm: Assembly-CSharp}
       data:
         _config:
-          _preOpenDuration: 4
+          _transitionDuration: 2
           _doors:
-          - {fileID: 5560594916784159360}
-          - {fileID: 8964697820263907283}
+          - {fileID: 7143975456163328941}
+          - {fileID: 5937518257102010110}
 --- !u!1001 &5433353959599344212
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -194,9 +199,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30cfb420bca4a974e80e7ebc453145e2, type: 3}
---- !u!114 &5560594916784159360 stripped
+--- !u!114 &7143975456163328941 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 453761018726887636, guid: 30cfb420bca4a974e80e7ebc453145e2,
+  m_CorrespondingSourceObject: {fileID: 2901260923204860409, guid: 30cfb420bca4a974e80e7ebc453145e2,
     type: 3}
   m_PrefabInstance: {fileID: 5433353959599344212}
   m_PrefabAsset: {fileID: 0}
@@ -480,9 +485,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8801463130039176967}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8964697820263907283 stripped
+--- !u!114 &5937518257102010110 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 453761018726887636, guid: 30cfb420bca4a974e80e7ebc453145e2,
+  m_CorrespondingSourceObject: {fileID: 2901260923204860409, guid: 30cfb420bca4a974e80e7ebc453145e2,
     type: 3}
   m_PrefabInstance: {fileID: 8801463130039176967}
   m_PrefabAsset: {fileID: 0}

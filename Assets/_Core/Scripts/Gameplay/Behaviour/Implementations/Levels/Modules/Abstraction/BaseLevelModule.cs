@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using Odumbrata.Core.EventSystem;
 using UnityEngine;
 
 namespace Odumbrata.Behaviour.Levels.Modules
@@ -7,11 +8,13 @@ namespace Odumbrata.Behaviour.Levels.Modules
     [Serializable]
     public abstract class BaseLevelModule
     {
-        private CancellationTokenSource _disposeCancellationSource;
+        protected EventSystem Events { get; private set; }
         protected CancellationToken DisposeCancellationToken => _disposeCancellationSource.Token;
+        private CancellationTokenSource _disposeCancellationSource;
 
-        public virtual void Initialize()
+        public virtual void Initialize(EventSystem events)
         {
+            Events = events;
             _disposeCancellationSource = new CancellationTokenSource();
         }
 

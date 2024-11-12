@@ -1,51 +1,38 @@
 using System;
 using System.Threading.Tasks;
-using Odumbrata.Behaviour.Common.Observers;
+using Odumbrata.Behaviour.Levels.Modules;
 using Odumbrata.Extensions;
 using UnityEngine;
 
 namespace Odumbrata.Behaviour.Common.Door
 {
-    public abstract class BaseDoorBehaviour : BaseBehaviour
+    public abstract class BaseDoorBehaviour : BaseBehaviour, IInteractable
     {
-        public event Action<IDoorHandler, BaseDoorBehaviour> OnHandlerEnter;
+        public event Action<IDoorHandler, BaseDoorBehaviour> OnInteraction;
 
         [SerializeField] private Transform _lookAt;
         [SerializeField] private Transform _root;
-        [SerializeField] private DoorHandlerTriggerObserver[] _observers;
         [SerializeField] private float _delayBeforeClosing;
 
+        private TaskCompletionSource<bool> _interactionSource;
         public float DelayBeforeClosing => _delayBeforeClosing;
         public Transform LookAtPoint => _lookAt;
         protected Transform Root => _root;
 
-        private void Start()
+        public Task Interact(InteractionData data)
         {
-            foreach (var observer in _observers)
-            {
-                observer.OnTriggerEntered += OnHandlerEntered;
-            }
+            var player = data.Player;
+
+            _interactionSource = new TaskCompletionSource<bool>();
+
+            OnInteraction.SafeInvoke(player, this);
+
+            return _interactionSource.Task;
         }
 
-        private void OnDestroy()
+        public void FireFinishInteraction()
         {
-            foreach (var observer in _observers)
-            {
-                observer.OnTriggerEntered -= OnHandlerEntered;
-            }
-        }
-
-        public void SetActiveObservers(bool value)
-        {
-            foreach (var observer in _observers)
-            {
-                observer.SetActive(value);
-            }
-        }
-
-        private void OnHandlerEntered(IDoorHandler handler)
-        {
-            OnHandlerEnter.SafeInvoke(handler, this);
+            _interactionSource?.SetResult(true);
         }
 
         public abstract bool LeftOpenedAfterTransition { get; }

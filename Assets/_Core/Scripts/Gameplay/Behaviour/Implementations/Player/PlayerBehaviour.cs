@@ -3,7 +3,6 @@ using Better.Commons.Runtime.Extensions;
 using Odumbrata.Behaviour.Common.Door;
 using Odumbrata.Behaviour.Player.States;
 using Odumbrata.Entity;
-using Odumbrata.Features.InversionKinematics;
 using Odumbrata.Services.Camera;
 using UnityEngine;
 using UnityEngine.AI;
@@ -17,7 +16,6 @@ namespace Odumbrata.Behaviour.Player
 
         private PlayerMoveState _moveState;
         private PlayerWaitForCallState _waitForCallState;
-        private bool _wasMoving;
         private bool _waitingForDoor;
         public Transform CameraFollow => _cameraFollowPoint;
         public Transform CameraLookAt => _cameraLookAt;
@@ -60,7 +58,6 @@ namespace Odumbrata.Behaviour.Player
 
         public async Task HandleDoorPreOpening(DoorTransitionData data)
         {
-            _wasMoving = StateMachine.CurrentState == _moveState;
             _waitingForDoor = true;
 
             var facingData = new FacingData(Transform,
@@ -72,19 +69,8 @@ namespace Odumbrata.Behaviour.Player
 
             await SetStateAsync(faceAtState, facingData);
             await SetStateAsync(_waitForCallState);
-        }
-
-        public Task HandleDoorPostOpening(DoorTransitionData data)
-        {
-            if (_wasMoving)
-            {
-                _wasMoving = false;
-                SetStateAsync(_moveState).Forget();
-            }
 
             _waitingForDoor = false;
-
-            return Task.CompletedTask;
         }
     }
 }

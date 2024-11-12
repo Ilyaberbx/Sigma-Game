@@ -6,7 +6,6 @@ namespace Odumbrata.Behaviour.Common.Door
     public interface IDoorHandler : IBehaviour
     {
         public Task HandleDoorPreOpening(DoorTransitionData data);
-        public Task HandleDoorPostOpening(DoorTransitionData data);
     }
 
     public class DoorTransitionData

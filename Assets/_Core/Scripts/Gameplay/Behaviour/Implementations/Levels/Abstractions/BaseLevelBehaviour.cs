@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Better.Attributes.Runtime.Select;
 using Better.Commons.Runtime.Extensions;
 using Odumbrata.Behaviour.Levels.Modules;
+using Odumbrata.Core.EventSystem;
 using UnityEngine;
 
 namespace Odumbrata.Behaviour.Levels
@@ -14,13 +15,13 @@ namespace Odumbrata.Behaviour.Levels
 
         private List<BaseLevelModule> _activeModules;
 
-        public virtual Task Enter()
+        protected virtual Task Enter(EventSystem events)
         {
             _activeModules = new List<BaseLevelModule>();
 
             foreach (var module in _modulesToAdd)
             {
-                module.Initialize();
+                module.Initialize(events);
                 _activeModules.Add(module);
             }
 
@@ -43,15 +44,15 @@ namespace Odumbrata.Behaviour.Levels
             return Task.CompletedTask;
         }
 
-        public sealed override Task Enter(object data)
+        public sealed override Task Enter(EventSystem events, object data)
         {
-            return Enter();
+            return Enter(events);
         }
     }
 
     public abstract class BaseLevelBehaviour<TData> : BaseBehaviour
     {
-        public abstract Task Enter(TData data);
+        public abstract Task Enter(EventSystem events, TData data);
         public abstract Task Exit();
     }
 }

@@ -7,7 +7,7 @@ namespace Odumbrata.Core.EventSystem
     {
         private readonly Dictionary<Type, List<Delegate>> _eventHandlers = new Dictionary<Type, List<Delegate>>();
 
-        public void Subscribe<T>(Action<object, T> handler) where T : IEvent
+        public void Subscribe<T>(Action<object, T> handler) where T : IEventArg
         {
             var eventType = typeof(T);
 
@@ -19,7 +19,7 @@ namespace Odumbrata.Core.EventSystem
             _eventHandlers[eventType].Add(handler);
         }
 
-        public void Unsubscribe<T>(Action<object, T> handler) where T : IEvent
+        public void Unsubscribe<T>(Action<object, T> handler) where T : IEventArg
         {
             var eventType = typeof(T);
 
@@ -29,7 +29,7 @@ namespace Odumbrata.Core.EventSystem
             }
         }
 
-        public void Publish<T>(object sender, T eventArgs) where T : IEvent
+        public void Publish<T>(object sender, T eventArgs) where T : IEventArg
         {
             var eventType = typeof(T);
 
@@ -43,7 +43,7 @@ namespace Odumbrata.Core.EventSystem
         }
     }
 
-    public interface IEvent
+    public interface IEventArg
     {
     }
 }

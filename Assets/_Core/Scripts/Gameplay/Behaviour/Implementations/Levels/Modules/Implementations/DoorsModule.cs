@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Odumbrata.Behaviour.Common.Door;
+using Odumbrata.Core.EventSystem;
 using UnityEngine;
 
 namespace Odumbrata.Behaviour.Levels.Modules
@@ -8,25 +9,25 @@ namespace Odumbrata.Behaviour.Levels.Modules
     [Serializable]
     public class DoorsModuleConfig
     {
-        [SerializeField] private float _preOpenDuration;
+        [SerializeField] private float _transitionDuration;
         [SerializeField] private BaseDoorBehaviour[] _doors;
 
         public BaseDoorBehaviour[] Doors => _doors;
-        public float PreOpenDuration => _preOpenDuration;
+        public float TransitionDuration => _transitionDuration;
     }
 
     [Serializable]
-    public class DoorsModule : BaseLevelModule<DoorsModuleConfig>
+    public sealed class DoorsModule : BaseLevelModule<DoorsModuleConfig>
     {
         private const int ToMillisecondsEquivalent = 1000;
 
-        public override void Initialize()
+        public override void Initialize(EventSystem events)
         {
-            base.Initialize();
+            base.Initialize(events);
 
             foreach (var door in Config.Doors)
             {
-                door.OnHandlerEnter += OnDoorsTransition;
+                door.OnInteraction += OnDoorsTransition;
             }
         }
 
@@ -36,7 +37,7 @@ namespace Odumbrata.Behaviour.Levels.Modules
 
             foreach (var door in Config.Doors)
             {
-                door.OnHandlerEnter -= OnDoorsTransition;
+                door.OnInteraction -= OnDoorsTransition;
             }
         }
 
@@ -49,21 +50,21 @@ namespace Odumbrata.Behaviour.Levels.Modules
 
             var transitionPosition = door.GetInteractionPosition(handler);
             var lookAt = door.LookAtPoint.position;
-            var data = new DoorTransitionData(transitionPosition, lookAt, Config.PreOpenDuration);
+            var data = new DoorTransitionData(transitionPosition, lookAt, Config.TransitionDuration);
 
-            door.SetActiveObservers(false);
             await handler.HandleDoorPreOpening(data);
             await door.Open();
-            await handler.HandleDoorPostOpening(data);
 
             if (door.LeftOpenedAfterTransition)
             {
                 return;
             }
 
-            await Task.Delay((int)door.DelayBeforeClosing * ToMillisecondsEquivalent);
+            var delay = (int)door.DelayBeforeClosing * ToMillisecondsEquivalent;
+
+            await Task.Delay(delay);
             await door.Close();
-            door.SetActiveObservers(true);
+            door.FireFinishInteraction();
         }
     }
 }

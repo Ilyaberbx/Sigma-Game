@@ -32,5 +32,16 @@ namespace Odumbrata.Utils
 
             return physicsService.TryRaycast(ray, out info);
         }
+
+        public static bool TryRaycastScreenPoint<TComponent>(out TComponent component)
+        {
+            if (TryRaycastScreenPoint(out var info))
+            {
+                return info.transform.TryGetComponent(out component);
+            }
+
+            component = default;
+            return false;
+        }
     }
 }

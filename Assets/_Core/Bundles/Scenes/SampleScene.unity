@@ -478,12 +478,16 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: 1112485053817421825
+      type: {class: InputService, ns: Odumbrata.Services.Input, asm: Assembly-CSharp}
+      data: 
     - rid: 4135814469679579136
       type: {class: PocoServicesInstaller, ns: Better.Contexts.Runtime.Installers,
         asm: Better.Contexts.Runtime}
       data:
         _services:
         - rid: 4135814469679579137
+        - rid: 1112485053817421825
     - rid: 4135814469679579137
       type: {class: PhysicsService, ns: Odumbrata.Services.Physics, asm: Assembly-CSharp}
       data: 
@@ -760,40 +764,15 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1179742751731679906, guid: 3c1cedc736319cf468a68cc56be7e36a,
+        type: 3}
+      propertyPath: managedReferences[1112485053817421824]._player
+      value: 
+      objectReference: {fileID: 523539049}
     - target: {fileID: 4626351592921514201, guid: 3c1cedc736319cf468a68cc56be7e36a,
         type: 3}
       propertyPath: m_Name
       value: CharacterDwelling
-      objectReference: {fileID: 0}
-    - target: {fileID: 6398345029421085287, guid: 3c1cedc736319cf468a68cc56be7e36a,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6398345029421085287, guid: 3c1cedc736319cf468a68cc56be7e36a,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6398345029421085287, guid: 3c1cedc736319cf468a68cc56be7e36a,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8036995860019192663, guid: 3c1cedc736319cf468a68cc56be7e36a,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8036995860019192663, guid: 3c1cedc736319cf468a68cc56be7e36a,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8036995860019192663, guid: 3c1cedc736319cf468a68cc56be7e36a,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8864323027157403627, guid: 3c1cedc736319cf468a68cc56be7e36a,
         type: 3}
@@ -912,6 +891,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: _systems.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: _systems.Array.data[4]
+      value: 1112484852716797953
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
+        type: 3}
+      propertyPath: _systems.Array.data[5]
+      value: -2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
