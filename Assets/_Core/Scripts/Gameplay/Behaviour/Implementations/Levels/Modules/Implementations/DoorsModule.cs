@@ -7,6 +7,16 @@ using UnityEngine;
 namespace Odumbrata.Behaviour.Levels.Modules
 {
     [Serializable]
+    public class DoorData
+    {
+        [SerializeField] private float _transitionDuration;
+        [SerializeField] private BaseDoorBehaviour _door;
+
+        public BaseDoorBehaviour Door => _door;
+        public float TransitionDuration => _transitionDuration;
+    }
+
+    [Serializable]
     public class DoorsModuleConfig
     {
         [SerializeField] private float _transitionDuration;

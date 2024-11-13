@@ -173,6 +173,7 @@ GameObject:
   - component: {fileID: 8817053394760173621}
   - component: {fileID: 2901260923204860409}
   - component: {fileID: 4636005424450661269}
+  - component: {fileID: 6614896884986857562}
   m_Layer: 0
   m_Name: Child
   m_TagString: Untagged
@@ -312,7 +313,7 @@ MonoBehaviour:
   _root: {fileID: 4817163228742834279}
   _delayBeforeClosing: 2
   _leftOpenedAfterTransition: 0
-  _transitionDuration: 1
+  _transitionDuration: 2
   _transitionEase: 30
   _openedRotation: {x: 0, y: 85, z: 0}
   _closedRotation: {x: 0, y: 0, z: 0}
@@ -362,3 +363,19 @@ MonoBehaviour:
     - {x: 0.57735026, y: 0.57735026, z: -0.57735026}
     - {x: 0.57735026, y: 0.57735026, z: 0.57735026}
     - {x: 0.57735026, y: -0.57735026, z: 0.57735026}
+--- !u!208 &6614896884986857562
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8178109432529595029}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5

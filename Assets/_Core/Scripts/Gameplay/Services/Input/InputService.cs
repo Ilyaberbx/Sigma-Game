@@ -22,12 +22,12 @@ namespace Odumbrata.Services.Input
     {
         private UpdateService _updateService;
 
-        private readonly Dictionary<KeyCode, Action> _keysUpMap = new();
-        private readonly Dictionary<KeyCode, Action> _keysDownMap = new();
-        private readonly Dictionary<KeyCode, Action> _keysHoldMap = new();
-        private readonly Dictionary<int, Action> _mouseHoldMap = new();
-        private readonly Dictionary<int, Action> _mouseUpMap = new();
-        private readonly Dictionary<int, Action> _mouseDownMap = new();
+        private readonly Dictionary<Action, KeyCode> _keysUpMap = new();
+        private readonly Dictionary<Action, KeyCode> _keysDownMap = new();
+        private readonly Dictionary<Action, KeyCode> _keysHoldMap = new();
+        private readonly Dictionary<Action, int> _mouseHoldMap = new();
+        private readonly Dictionary<Action, int> _mouseUpMap = new();
+        private readonly Dictionary<Action, int> _mouseDownMap = new();
         private bool _isLocked;
 
         protected override Task OnInitializeAsync(CancellationToken cancellationToken)
@@ -78,31 +78,19 @@ namespace Odumbrata.Services.Input
         {
             var map = GetKeysMap(input);
 
-            if (map.ContainsValue(action))
+            if (map.ContainsKey(action))
             {
                 Unsubscribe(key, input, action);
             }
 
-            map.Add(key, action);
-        }
-
-        public void Subscribe(int mouse, KeyInput input, Action action)
-        {
-            var map = GetMousesMap(input);
-
-            if (map.ContainsValue(action))
-            {
-                Unsubscribe(mouse, input, action);
-            }
-
-            map.Add(mouse, action);
+            map.Add(action, key);
         }
 
         public void Unsubscribe(KeyCode key, KeyInput input, Action action)
         {
             var map = GetKeysMap(input);
 
-            if (!map.TryGetKey(action, out var existingKey)) return;
+            if (!map.TryGetValue(action, out var existingKey)) return;
 
             if (existingKey == key)
             {
@@ -110,11 +98,23 @@ namespace Odumbrata.Services.Input
             }
         }
 
+        public void Subscribe(int mouse, KeyInput input, Action action)
+        {
+            var map = GetMousesMap(input);
+
+            if (map.ContainsKey(action))
+            {
+                Unsubscribe(mouse, input, action);
+            }
+
+            map.Add(action, mouse);
+        }
+
         public void Unsubscribe(int mouse, KeyInput input, Action action)
         {
             var map = GetMousesMap(input);
 
-            if (!map.TryGetKey(action, out var existingMouse)) return;
+            if (!map.TryGetValue(action, out var existingMouse)) return;
 
             if (existingMouse == mouse)
             {
@@ -122,7 +122,7 @@ namespace Odumbrata.Services.Input
             }
         }
 
-        private void ProcessInput<TInput>(Dictionary<TInput, Action> inputMap, Func<TInput, bool> predicate)
+        private void ProcessInput<TInput>(Dictionary<Action, TInput> inputMap, Func<TInput, bool> predicate)
         {
             if (inputMap.IsEmpty())
             {
@@ -131,14 +131,14 @@ namespace Odumbrata.Services.Input
 
             foreach (var inputPair in inputMap)
             {
-                if (predicate(inputPair.Key))
+                if (predicate(inputPair.Value))
                 {
-                    inputPair.Value.SafeInvoke();
+                    inputPair.Key.SafeInvoke();
                 }
             }
         }
 
-        private Dictionary<KeyCode, Action> GetKeysMap(KeyInput input)
+        private Dictionary<Action, KeyCode> GetKeysMap(KeyInput input)
         {
             return input switch
             {
@@ -149,7 +149,7 @@ namespace Odumbrata.Services.Input
             };
         }
 
-        private Dictionary<int, Action> GetMousesMap(KeyInput input)
+        private Dictionary<Action, int> GetMousesMap(KeyInput input)
         {
             return input switch
             {

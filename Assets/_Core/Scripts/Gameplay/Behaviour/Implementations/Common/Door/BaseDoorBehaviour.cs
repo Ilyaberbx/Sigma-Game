@@ -32,11 +32,6 @@ namespace Odumbrata.Behaviour.Common.Door
             return _interactionSource.Task;
         }
 
-        public void CancelInteraction()
-        {
-            _interactionSource?.SetCanceled();
-        }
-
         public void FireFinishInteraction()
         {
             _interactionSource?.SetResult(true);

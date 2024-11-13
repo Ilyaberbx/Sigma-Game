@@ -14,7 +14,6 @@ namespace Odumbrata.Behaviour.Levels.Modules
     {
         public Outline Outline { get; }
         Task Interact(InteractionData data);
-        public void CancelInteraction();
     }
 
     public class InteractionData
