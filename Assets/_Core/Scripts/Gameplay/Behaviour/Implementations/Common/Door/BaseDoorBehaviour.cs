@@ -10,6 +10,7 @@ namespace Odumbrata.Behaviour.Common.Door
     {
         public event Action<IDoorHandler, BaseDoorBehaviour> OnInteraction;
 
+        [SerializeField] private Outline _outline;
         [SerializeField] private Transform _lookAt;
         [SerializeField] private Transform _root;
         [SerializeField] private float _delayBeforeClosing;
@@ -18,6 +19,7 @@ namespace Odumbrata.Behaviour.Common.Door
         public float DelayBeforeClosing => _delayBeforeClosing;
         public Transform LookAtPoint => _lookAt;
         protected Transform Root => _root;
+        public Outline Outline => _outline;
 
         public Task Interact(InteractionData data)
         {
@@ -28,6 +30,11 @@ namespace Odumbrata.Behaviour.Common.Door
             OnInteraction.SafeInvoke(player, this);
 
             return _interactionSource.Task;
+        }
+
+        public void CancelInteraction()
+        {
+            _interactionSource?.SetCanceled();
         }
 
         public void FireFinishInteraction()

@@ -60,11 +60,12 @@ namespace Odumbrata.Behaviour.Levels.Modules
                 return;
             }
 
+            door.FireFinishInteraction();
+
             var delay = (int)door.DelayBeforeClosing * ToMillisecondsEquivalent;
 
             await Task.Delay(delay);
             await door.Close();
-            door.FireFinishInteraction();
         }
     }
 }

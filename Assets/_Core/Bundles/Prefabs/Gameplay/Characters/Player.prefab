@@ -245,7 +245,6 @@ MonoBehaviour:
   - rid: 4135814479706062852
   - rid: 4135814479706062855
   - rid: 4135814479706062856
-  - rid: 4135814488785420288
   - rid: 1112484852716797953
   _logStateChanges: 1
   _agent: {fileID: 2217719864716318951}
@@ -311,10 +310,6 @@ MonoBehaviour:
       type: {class: WalkAnimation, ns: Odumbrata.Features.Animations.Implementations,
         asm: Assembly-CSharp}
       data: 
-    - rid: 4135814488785420288
-      type: {class: InteractionSystem, ns: Odumbrata.Features.Interaction, asm: Assembly-CSharp}
-      data:
-        _interactor: {fileID: 0}
     - rid: 4135814672798711808
       type: {class: IdleMove, ns: Odumbrata.Features.Movement.States, asm: Assembly-CSharp}
       data: 

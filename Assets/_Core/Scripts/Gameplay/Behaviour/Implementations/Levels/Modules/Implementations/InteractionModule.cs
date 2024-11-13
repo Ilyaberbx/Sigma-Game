@@ -1,5 +1,4 @@
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using Better.Locators.Runtime;
 using Odumbrata.Behaviour.Player;
@@ -13,7 +12,9 @@ namespace Odumbrata.Behaviour.Levels.Modules
 {
     public interface IInteractable
     {
+        public Outline Outline { get; }
         Task Interact(InteractionData data);
+        public void CancelInteraction();
     }
 
     public class InteractionData
@@ -29,6 +30,10 @@ namespace Odumbrata.Behaviour.Levels.Modules
     [Serializable]
     public sealed class InteractionModule : BaseLevelModule, IUpdatable
     {
+        [SerializeField] private Color _preInteractionOutlineColor;
+        [SerializeField] private Color _interactionOutlineColor;
+        [SerializeField] private float _interactionOutlineWidth;
+        [SerializeField] private float _preInteractionOutlineWidth;
         [SerializeField] private PlayerBehaviour _player;
 
         private InputService _inputService;
@@ -52,38 +57,72 @@ namespace Odumbrata.Behaviour.Levels.Modules
         {
             base.Dispose();
 
-            _updateService.Remove(this);
             _inputService.Unsubscribe(0, KeyInput.Down, OnLeftMouseClicked);
+            _updateService.Remove(this);
         }
 
         public void Tick(float deltaTime)
         {
-            if (_currentInInteraction != null)
-            {
-                return;
-            }
+            if (HasActiveInteraction()) return;
 
-            var success = PhysicsHelper.TryRaycastScreenPoint<IInteractable>(out var interactable);
-
-            if (!success)
+            if (HasMarkedForInteraction())
             {
+                ClearInteraction(_markedForInteraction);
                 _markedForInteraction = null;
-                return;
             }
 
-            _markedForInteraction = interactable;
+            if (TryMarkInteractable())
+            {
+                SetOutline(_markedForInteraction, _preInteractionOutlineWidth, _preInteractionOutlineColor);
+            }
         }
 
         private async void OnLeftMouseClicked()
         {
-            if (_currentInInteraction != null) return;
-            if (_markedForInteraction == null) return;
+            if (!HasMarkedForInteraction()) return;
 
-            var data = new InteractionData(_player);
-
-            _currentInInteraction = _markedForInteraction;
-            await _currentInInteraction.Interact(data);
+            StartInteraction(_markedForInteraction);
+            await InteractWithCurrent();
+            ClearInteraction(_currentInInteraction);
             _currentInInteraction = null;
+        }
+
+        private bool HasActiveInteraction() => _currentInInteraction != null;
+
+        private bool HasMarkedForInteraction() => _markedForInteraction != null;
+
+        private bool TryMarkInteractable()
+        {
+            if (!PhysicsHelper.TryRaycastScreenPoint<IInteractable>(out var interactable))
+                return false;
+
+            _markedForInteraction = interactable;
+            return true;
+        }
+
+        private void SetOutline(IInteractable interactable, float width, Color color)
+        {
+            interactable.Outline.OutlineWidth = width;
+            interactable.Outline.OutlineColor = color;
+        }
+
+        private void ClearInteraction(IInteractable interactable)
+        {
+            SetOutline(interactable, 0, Color.white);
+        }
+
+        private void StartInteraction(IInteractable interactable)
+        {
+            _currentInInteraction = interactable;
+            _markedForInteraction = null;
+
+            SetOutline(_currentInInteraction, _interactionOutlineWidth, _interactionOutlineColor);
+        }
+
+        private async Task InteractWithCurrent()
+        {
+            var data = new InteractionData(_player);
+            await _currentInInteraction.Interact(data);
         }
     }
 }
