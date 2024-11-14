@@ -577,6 +577,12 @@ Transform:
   - {fileID: 1488677853}
   m_Father: {fileID: 390618310}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &428774067 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4552081759403356904, guid: 3c1cedc736319cf468a68cc56be7e36a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1539620065}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &523539049 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9027714210997880714, guid: 763831d3042391b468f200733202bc68,
@@ -756,6 +762,81 @@ MonoBehaviour:
   _brain: {fileID: 330585548}
   _virtualCameras:
   - {fileID: 1184670803}
+--- !u!1 &1528360728
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1528360729}
+  - component: {fileID: 1528360730}
+  m_Layer: 0
+  m_Name: FogOfWar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1528360729
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1528360728}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1528360730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1528360728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5de54c084f472845b61ee9a97cb8a48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fogRevealers:
+  - revealerTransform: {fileID: 2030316102}
+    sightRange: 30000
+    updateOnlyOnMove: 1
+    lastSeenAt: {x: 0, y: 0}
+  levelMidPoint: {fileID: 428774067}
+  FogRefreshRate: 10
+  fogPlaneHeight: 1
+  fogPlaneMaterial: {fileID: 2100000, guid: 36b93ac6fcf129c449491654e397fe4a, type: 2}
+  fogColor: {r: 0.019607844, g: 0.05882353, b: 0.09803922, a: 1}
+  fogPlaneAlpha: 1
+  fogLerpSpeed: 5
+  keepRevealedTiles: 1
+  revealedTileOpacity: 0.5
+  fogPlaneTextureLerpTarget: {fileID: 0}
+  fogPlaneTextureLerpBuffer: {fileID: 0}
+  LevelDataToLoad: {fileID: 0}
+  saveDataOnScan: 1
+  levelNameToSave: Default
+  levelDimensionX: 70
+  levelDimensionY: 70
+  unitScale: 1
+  scanSpacingPerUnit: 0.25
+  rayStartHeight: 5
+  rayMaxDistance: 10
+  obstacleLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  ignoreTriggers: 1
+  drawGizmos: 0
+  LogOutOfRange: 0
 --- !u!1001 &1539620065
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -764,31 +845,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 806497265421902273, guid: 3c1cedc736319cf468a68cc56be7e36a,
-        type: 3}
-      propertyPath: outlineMode
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1179742751731679906, guid: 3c1cedc736319cf468a68cc56be7e36a,
         type: 3}
       propertyPath: managedReferences[1112485053817421824]._player
       value: 
       objectReference: {fileID: 523539049}
-    - target: {fileID: 1179742751731679906, guid: 3c1cedc736319cf468a68cc56be7e36a,
-        type: 3}
-      propertyPath: managedReferences[1112485053817421824]._interactionOutlineWidth
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1179742751731679906, guid: 3c1cedc736319cf468a68cc56be7e36a,
-        type: 3}
-      propertyPath: managedReferences[1112485053817421824]._preInteractionOutlineWidth
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4211835744521856146, guid: 3c1cedc736319cf468a68cc56be7e36a,
-        type: 3}
-      propertyPath: outlineMode
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4626351592921514201, guid: 3c1cedc736319cf468a68cc56be7e36a,
         type: 3}
       propertyPath: m_Name
@@ -917,6 +978,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 763831d3042391b468f200733202bc68, type: 3}
+--- !u!4 &2030316102 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6959046158441511856, guid: 763831d3042391b468f200733202bc68,
+    type: 3}
+  m_PrefabInstance: {fileID: 2030316101}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1882370598035227863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1094,3 +1161,4 @@ SceneRoots:
   - {fileID: 2030316101}
   - {fileID: 1539620065}
   - {fileID: 212780015}
+  - {fileID: 1528360729}

@@ -56,6 +56,38 @@ MonoBehaviour:
     m_HintWeight: 1
     m_MaintainTargetPositionOffset: 0
     m_MaintainTargetRotationOffset: 0
+--- !u!1 &1361948801557000023
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1935935558477531296}
+  m_Layer: 0
+  m_Name: Points
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1935935558477531296
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1361948801557000023}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6959046158441511856}
+  m_Father: {fileID: 2518035927926355745}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1687257206323961903
 GameObject:
   m_ObjectHideFlags: 0
@@ -170,6 +202,37 @@ Transform:
   - {fileID: 8009209523469343578}
   m_Father: {fileID: 6247166696133721796}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2356332911975663147
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6959046158441511856}
+  m_Layer: 0
+  m_Name: RevealerPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6959046158441511856
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2356332911975663147}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 7.12, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1935935558477531296}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3598425598833424416
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,6 +267,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6247166696133721796}
+  - {fileID: 1935935558477531296}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &2217719864716318951
@@ -263,6 +327,10 @@ MonoBehaviour:
       type: {class: IkSystem, ns: Odumbrata.Features.InversionKinematics, asm: Assembly-CSharp}
       data:
         _builder: {fileID: 1918500884066897082}
+    - rid: 1112485096576778240
+      type: {class: OpenDoorStat, ns: Odumbrata.Features.Stats, asm: Assembly-CSharp}
+      data:
+        _value: 2
     - rid: 4135814479706062848
       type: {class: StatsSystem, ns: Odumbrata.Features.Stats, asm: Assembly-CSharp}
       data:
@@ -270,6 +338,7 @@ MonoBehaviour:
         - rid: 4135814479706062849
         - rid: 4135814479706062850
         - rid: 4135814479706062851
+        - rid: 1112485096576778240
     - rid: 4135814479706062849
       type: {class: AccelerationStat, ns: Odumbrata.Features.Stats, asm: Assembly-CSharp}
       data:

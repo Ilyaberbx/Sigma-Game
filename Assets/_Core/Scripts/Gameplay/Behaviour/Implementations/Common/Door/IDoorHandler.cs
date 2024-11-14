@@ -5,20 +5,18 @@ namespace Odumbrata.Behaviour.Common.Door
 {
     public interface IDoorHandler : IBehaviour
     {
-        public Task HandleDoorPreOpening(DoorTransitionData data);
+        public Task HandleDoorPreOpening(DoorHandleData data);
     }
 
-    public class DoorTransitionData
+    public class DoorHandleData
     {
-        public float Duration { get; }
         public Vector3 InteractionPosition { get; }
         public Vector3 LookAtPosition { get; }
 
-        public DoorTransitionData(Vector3 interactionPosition, Vector3 lookAtPosition, float duration)
+        public DoorHandleData(Vector3 interactionPosition, Vector3 lookAtPosition)
         {
             InteractionPosition = interactionPosition;
             LookAtPosition = lookAtPosition;
-            Duration = duration;
         }
     }
 }

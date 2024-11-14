@@ -16,24 +16,24 @@ namespace Odumbrata.Behaviour.Common.Door
         [SerializeField] private Transform _backInteractionPoint;
 
         private bool _isOpened;
-        public override bool LeftOpenedAfterTransition => _leftOpenedAfterTransition;
-        public override bool IsOpened => _isOpened;
+        protected override bool LeftOpenedAfterTransition => _leftOpenedAfterTransition;
+        protected override bool IsOpened => _isOpened;
 
-        public override Task Open()
+        protected override Task Open()
         {
             return Rotate(_openedRotation)
                 .OnComplete(OnOpened)
                 .AsTask(destroyCancellationToken);
         }
 
-        public override Task Close()
+        protected override Task Close()
         {
             return Rotate(_closedRotation)
                 .OnComplete(OnClosed)
                 .AsTask(destroyCancellationToken);
         }
 
-        public override Vector3 GetInteractionPosition(IDoorHandler handler)
+        protected override Vector3 GetInteractionPosition(IDoorHandler handler)
         {
             var handlerPosition = handler.Position;
 

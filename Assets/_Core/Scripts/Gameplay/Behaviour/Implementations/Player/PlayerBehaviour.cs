@@ -3,6 +3,7 @@ using Better.Commons.Runtime.Extensions;
 using Odumbrata.Behaviour.Common.Door;
 using Odumbrata.Behaviour.Player.States;
 using Odumbrata.Entity;
+using Odumbrata.Features.Stats;
 using Odumbrata.Services.Camera;
 using UnityEngine;
 using UnityEngine.AI;
@@ -16,13 +17,18 @@ namespace Odumbrata.Behaviour.Player
 
         private PlayerMoveState _moveState;
         private PlayerWaitForCallState _waitForCallState;
+
+        private StatsSystem _statsSystem;
         private bool _waitingForDoor;
         public Transform CameraFollow => _cameraFollowPoint;
         public Transform CameraLookAt => _cameraLookAt;
 
+
         protected override void Start()
         {
             base.Start();
+
+            _statsSystem = GetSystem<StatsSystem>();
 
             _moveState = new PlayerMoveState(this);
             _waitForCallState = new PlayerWaitForCallState(this);
@@ -56,18 +62,26 @@ namespace Odumbrata.Behaviour.Player
             SetStateAsync(_waitForCallState).Forget();
         }
 
-        public async Task HandleDoorPreOpening(DoorTransitionData data)
+        public async Task HandleDoorPreOpening(DoorHandleData data)
         {
+            var canNotHandle = !_statsSystem.TryGet(out OpenDoorStat openDoorStat);
+
+            if (canNotHandle)
+            {
+                return;
+            }
+
+            var duration = openDoorStat.Value;
+            
             _waitingForDoor = true;
 
-            var facingData = new FacingData(Transform,
+            var openDoorData = new OpenDoorData(Transform,
                 data.InteractionPosition,
-                data.LookAtPosition,
-                data.Duration / 2);
+                data.LookAtPosition, duration);
 
-            var faceAtState = new PlayerOpenDoorState(this);
+            var openDoorState = new PlayerOpenDoorState(this);
 
-            await SetStateAsync(faceAtState, facingData);
+            await SetStateAsync(openDoorState, openDoorData);
             await SetStateAsync(_waitForCallState);
 
             _waitingForDoor = false;

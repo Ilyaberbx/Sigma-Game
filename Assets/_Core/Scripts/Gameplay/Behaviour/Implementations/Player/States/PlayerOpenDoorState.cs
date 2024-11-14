@@ -22,14 +22,14 @@ using UnityEngine.AI;
 
 namespace Odumbrata.Behaviour.Player.States
 {
-    public class FacingData
+    public class OpenDoorData
     {
         public Vector3 StayAtPosition { get; }
         public Vector3 LookAtPosition { get; }
         public Transform Player { get; }
         public float Duration { get; }
 
-        public FacingData(Transform player, Vector3 stayAtPosition, Vector3 lookAtPosition, float duration)
+        public OpenDoorData(Transform player, Vector3 stayAtPosition, Vector3 lookAtPosition, float duration)
         {
             StayAtPosition = stayAtPosition;
             LookAtPosition = lookAtPosition;
@@ -38,7 +38,7 @@ namespace Odumbrata.Behaviour.Player.States
         }
     }
 
-    public class PlayerOpenDoorState : BasePlayerState<FacingData>, IUpdatable
+    public class PlayerOpenDoorState : BasePlayerState<OpenDoorData>, IUpdatable
     {
         private const float DoorOpenedClearDuration = 1;
 
@@ -63,7 +63,7 @@ namespace Odumbrata.Behaviour.Player.States
             _humanoidContext = humanoidContext;
         }
 
-        public override void Initialize(ISystemsContainer container, FacingData data)
+        public override void Initialize(ISystemsContainer container, OpenDoorData data)
         {
             base.Initialize(container, data);
 
