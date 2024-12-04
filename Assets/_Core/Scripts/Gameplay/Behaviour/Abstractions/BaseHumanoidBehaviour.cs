@@ -1,6 +1,6 @@
+using Odumbrata.Components.InversionKinematics.Contexts;
+using Odumbrata.Components.InversionKinematics.Profiles;
 using Odumbrata.Entity;
-using Odumbrata.Features.InversionKinematics.Contexts;
-using Odumbrata.Features.InversionKinematics.Profiles;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;

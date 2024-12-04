@@ -1,53 +1,77 @@
+using System;
 using System.Threading.Tasks;
 using Odumbrata.Behaviour.Levels.Modules;
-using Odumbrata.Utils;
+using Odumbrata.Data.Runtime;
+using Odumbrata.Extensions;
 using UnityEngine;
 
 namespace Odumbrata.Behaviour.Common.Door
 {
     public abstract class BaseDoorBehaviour : BaseBehaviour, IInteractable
     {
+        public event Action<IDoorHandler, BaseDoorBehaviour> OnInteraction;
+
         [SerializeField] private Outline _outline;
         [SerializeField] private Transform _lookAt;
         [SerializeField] private Transform _root;
-        [SerializeField] private int _secondsBeforeClosing;
+        [SerializeField] private float _delayBeforeClosing;
+        private TaskCompletionSource<bool> _interactionSource;
+
+        public bool IsOpened => RuntimeData.IsOpen;
+        public float DelayBeforeClosing => _delayBeforeClosing;
+        public Transform LookAtPoint => _lookAt;
         protected Transform Root => _root;
         public Outline Outline => _outline;
+        protected DoorRuntimeData RuntimeData { get; private set; }
 
-        public async Task Interact(InteractionData data)
+        public void SetData(DoorRuntimeData data)
         {
-            if (IsOpened)
-            {
-                return;
-            }
+            RuntimeData = data;
 
-            var canNotHandle = !data.Player.TryGetComponent(out IDoorHandler handler);
-
-            if (canNotHandle)
-            {
-                return;
-            }
-
-            var transitionPosition = GetInteractionPosition(handler);
-            var lookAt = _lookAt.position;
-            var handleData = new DoorHandleData(transitionPosition, lookAt);
-
-            await handler.HandleDoorPreOpening(handleData);
-            await Open();
-
-            if (LeftOpenedAfterTransition)
-            {
-                return;
-            }
-
-            await TasksHelper.DelayInSeconds(_secondsBeforeClosing);
-            await Close();
+            //TODO: Finalize
+            // if (RuntimeData.IsLocked)
+            // {
+            //     CloseImmediately();
+            //     return;
+            // }
+            //
+            // if (RuntimeData.IsOpen)
+            // {
+            //     OpenImmediately();
+            // }
+            // else
+            // {
+            //     CloseImmediately();
+            // }
         }
 
-        protected abstract bool LeftOpenedAfterTransition { get; }
-        protected abstract bool IsOpened { get; }
-        protected abstract Task Close();
-        protected abstract Task Open();
-        protected abstract Vector3 GetInteractionPosition(IDoorHandler handler);
+        public Task Interact(InteractionData data)
+        {
+            var player = data.Player;
+
+            _interactionSource = new TaskCompletionSource<bool>();
+
+            OnInteraction.SafeInvoke(player, this);
+
+            return _interactionSource.Task;
+        }
+
+        private void OnDestroy()
+        {
+            _interactionSource?.SetResult(true);
+        }
+
+        public void FinishInteraction()
+        {
+            _interactionSource?.SetResult(true);
+        }
+
+        public abstract bool LeftOpenedAfterTransition { get; }
+        public abstract Vector3 FrontInteractionPosition { get; }
+        public abstract Vector3 BackInteractionPosition { get; }
+        public abstract Task Close();
+        public abstract Task Open();
+        public abstract void CloseImmediately();
+        public abstract void OpenImmediately();
     }
 }

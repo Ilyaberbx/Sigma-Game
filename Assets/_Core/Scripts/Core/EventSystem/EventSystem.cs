@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Odumbrata.Core.EventSystem
 {
-    public sealed class EventSystem
+    public sealed class EventSystem : IDisposable
     {
         private readonly Dictionary<Type, List<Delegate>> _eventHandlers = new Dictionary<Type, List<Delegate>>();
 
@@ -33,6 +34,8 @@ namespace Odumbrata.Core.EventSystem
         {
             var eventType = typeof(T);
 
+            Debug.Log("Publishing: " + eventType.Name);
+
             if (_eventHandlers.TryGetValue(eventType, out var handlers))
             {
                 foreach (var handler in handlers)
@@ -40,6 +43,11 @@ namespace Odumbrata.Core.EventSystem
                     ((Action<object, T>)handler)?.Invoke(sender, eventArgs);
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            _eventHandlers.Clear();
         }
     }
 

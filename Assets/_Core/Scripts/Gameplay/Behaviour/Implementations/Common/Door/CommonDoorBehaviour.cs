@@ -15,52 +15,49 @@ namespace Odumbrata.Behaviour.Common.Door
         [SerializeField] private Transform _frontInteractionPoint;
         [SerializeField] private Transform _backInteractionPoint;
 
-        private bool _isOpened;
-        protected override bool LeftOpenedAfterTransition => _leftOpenedAfterTransition;
-        protected override bool IsOpened => _isOpened;
+        public override bool LeftOpenedAfterTransition => _leftOpenedAfterTransition;
+        public override Vector3 FrontInteractionPosition => _frontInteractionPoint.position;
+        public override Vector3 BackInteractionPosition => _backInteractionPoint.position;
 
-        protected override Task Open()
+        public override Task Open()
         {
-            return Rotate(_openedRotation)
+            return Rotate(_openedRotation, _transitionDuration)
                 .OnComplete(OnOpened)
                 .AsTask(destroyCancellationToken);
         }
 
-        protected override Task Close()
+        public override Task Close()
         {
-            return Rotate(_closedRotation)
+            return Rotate(_closedRotation, _transitionDuration)
                 .OnComplete(OnClosed)
                 .AsTask(destroyCancellationToken);
         }
 
-        protected override Vector3 GetInteractionPosition(IDoorHandler handler)
+        public override void CloseImmediately()
         {
-            var handlerPosition = handler.Position;
-
-            var frontPosition = _frontInteractionPoint.position;
-            var backPosition = _backInteractionPoint.position;
-
-            var frontDistance = Vector3.Distance(handlerPosition, frontPosition);
-            var backDistance = Vector3.Distance(handlerPosition, backPosition);
-
-            return frontDistance < backDistance ? frontPosition : backPosition;
+            Rotate(_closedRotation, 0f);
         }
 
-        private Tween Rotate(Vector3 to)
+        public override void OpenImmediately()
+        {
+            Rotate(_openedRotation, 0f);
+        }
+
+        private Tween Rotate(Vector3 to, float duration)
         {
             return Root
-                .DORotate(to, _transitionDuration)
+                .DORotate(to, duration)
                 .SetEase(_transitionEase);
         }
 
         private void OnOpened()
         {
-            _isOpened = true;
+            RuntimeData.IsOpen = true;
         }
 
         private void OnClosed()
         {
-            _isOpened = false;
+            RuntimeData.IsOpen = false;
         }
     }
 }

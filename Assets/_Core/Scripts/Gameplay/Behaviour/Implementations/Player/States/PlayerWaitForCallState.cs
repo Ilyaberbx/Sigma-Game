@@ -1,14 +1,14 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Odumbrata.Components.Animations;
+using Odumbrata.Components.Animations.Implementations;
+using Odumbrata.Components.Brains;
+using Odumbrata.Components.InversionKinematics.Contexts;
+using Odumbrata.Components.Movement;
+using Odumbrata.Components.Movement.States;
 using Odumbrata.Core.Container;
 using Odumbrata.Extensions;
-using Odumbrata.Features.Animations;
-using Odumbrata.Features.Animations.Implementations;
-using Odumbrata.Features.Brains;
-using Odumbrata.Features.InversionKinematics.Contexts;
-using Odumbrata.Features.Movement;
-using Odumbrata.Features.Movement.States;
 using UnityEngine.AI;
 
 namespace Odumbrata.Behaviour.Player.States

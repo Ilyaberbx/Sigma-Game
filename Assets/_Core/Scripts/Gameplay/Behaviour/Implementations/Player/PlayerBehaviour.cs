@@ -2,8 +2,8 @@ using System.Threading.Tasks;
 using Better.Commons.Runtime.Extensions;
 using Odumbrata.Behaviour.Common.Door;
 using Odumbrata.Behaviour.Player.States;
+using Odumbrata.Components.Stats;
 using Odumbrata.Entity;
-using Odumbrata.Features.Stats;
 using Odumbrata.Services.Camera;
 using UnityEngine;
 using UnityEngine.AI;
@@ -17,8 +17,7 @@ namespace Odumbrata.Behaviour.Player
 
         private PlayerMoveState _moveState;
         private PlayerWaitForCallState _waitForCallState;
-
-        private StatsSystem _statsSystem;
+        
         private bool _waitingForDoor;
         public Transform CameraFollow => _cameraFollowPoint;
         public Transform CameraLookAt => _cameraLookAt;
@@ -27,9 +26,7 @@ namespace Odumbrata.Behaviour.Player
         protected override void Start()
         {
             base.Start();
-
-            _statsSystem = GetSystem<StatsSystem>();
-
+            
             _moveState = new PlayerMoveState(this);
             _waitForCallState = new PlayerWaitForCallState(this);
 
@@ -64,15 +61,8 @@ namespace Odumbrata.Behaviour.Player
 
         public async Task HandleDoorPreOpening(DoorHandleData data)
         {
-            var canNotHandle = !_statsSystem.TryGet(out OpenDoorStat openDoorStat);
+            var duration = data.TransitionDuration;
 
-            if (canNotHandle)
-            {
-                return;
-            }
-
-            var duration = openDoorStat.Value;
-            
             _waitingForDoor = true;
 
             var openDoorData = new OpenDoorData(Transform,

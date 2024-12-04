@@ -1,58 +1,59 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Better.Attributes.Runtime.Select;
-using Better.Commons.Runtime.Extensions;
 using Odumbrata.Behaviour.Levels.Modules;
 using Odumbrata.Core.EventSystem;
-using UnityEngine;
 
 namespace Odumbrata.Behaviour.Levels
 {
     public abstract class BaseLevelBehaviour : BaseLevelBehaviour<object>
     {
-        [SerializeReference, Select] private BaseLevelModule[] _modulesToAdd;
+        private EventSystem _events;
 
-        private List<BaseLevelModule> _activeModules;
-
-        protected virtual Task Enter(EventSystem events)
+        public virtual Task Enter()
         {
-            _activeModules = new List<BaseLevelModule>();
-
-            foreach (var module in _modulesToAdd)
-            {
-                module.Initialize(events);
-                _activeModules.Add(module);
-            }
+            _events = new EventSystem();
 
             return Task.CompletedTask;
         }
 
         public override Task Exit()
         {
-            if (_activeModules.IsEmpty())
-            {
-                return Task.CompletedTask;
-            }
-
-            foreach (var module in _activeModules.ToList())
-            {
-                module.Dispose();
-                _activeModules.Remove(module);
-            }
+            _events.Dispose();
+            _events = null;
 
             return Task.CompletedTask;
         }
 
-        public sealed override Task Enter(EventSystem events, object data)
+        public sealed override Task Enter(object data)
         {
-            return Enter(events);
+            return Enter();
+        }
+
+        protected void AddModule<TModule>() where TModule : BaseLevelModule, new()
+        {
+            var module = new TModule();
+            module.Initialize(GetType(), _events);
+        }
+
+        protected void AddModule<TModule, TConfig>(TConfig config) where TModule : BaseLevelModule<TConfig>, new()
+        {
+            var module = new TModule();
+            module.SetConfiguration(config);
+            module.Initialize(GetType(), _events);
+        }
+
+        protected void AddModule<TModule, TConfig, TRuntimeData>(TConfig config, TRuntimeData data)
+            where TModule : BaseLevelModule<TConfig, TRuntimeData>, new()
+        {
+            var module = new TModule();
+            module.SetConfiguration(config);
+            module.SetRuntime(data);
+            module.Initialize(GetType(), _events);
         }
     }
 
     public abstract class BaseLevelBehaviour<TData> : BaseBehaviour
     {
-        public abstract Task Enter(EventSystem events, TData data);
+        public abstract Task Enter(TData data);
         public abstract Task Exit();
     }
 }

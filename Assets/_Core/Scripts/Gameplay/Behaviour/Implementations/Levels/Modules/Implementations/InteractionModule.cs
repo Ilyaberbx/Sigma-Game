@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Better.Locators.Runtime;
 using Odumbrata.Behaviour.Player;
 using Odumbrata.Core.EventSystem;
+using Odumbrata.Data.Static;
 using Odumbrata.Global.Services;
 using Odumbrata.Services.Input;
 using Odumbrata.Utils;
@@ -27,23 +28,17 @@ namespace Odumbrata.Behaviour.Levels.Modules
     }
 
     [Serializable]
-    public sealed class InteractionModule : BaseLevelModule, IUpdatable
+    public sealed class InteractionModule : BaseLevelModule<InteractionModuleConfig>, IUpdatable
     {
-        [SerializeField] private Color _preInteractionOutlineColor;
-        [SerializeField] private Color _interactionOutlineColor;
-        [SerializeField] private float _interactionOutlineWidth;
-        [SerializeField] private float _preInteractionOutlineWidth;
-        [SerializeField] private PlayerBehaviour _player;
-
         private InputService _inputService;
         private UpdateService _updateService;
 
         private IInteractable _markedForInteraction;
         private IInteractable _currentInInteraction;
 
-        public override void Initialize(EventSystem events)
+        public override void Initialize(Type context, EventSystem events)
         {
-            base.Initialize(events);
+            base.Initialize(context, events);
 
             _inputService = ServiceLocator.Get<InputService>();
             _updateService = ServiceLocator.Get<UpdateService>();
@@ -72,7 +67,7 @@ namespace Odumbrata.Behaviour.Levels.Modules
 
             if (TryMarkInteractable())
             {
-                SetOutline(_markedForInteraction, _preInteractionOutlineWidth, _preInteractionOutlineColor);
+                SetOutline(_markedForInteraction, Config.PreInteractionOutlineWidth, Config.PreInteractionOutlineColor);
             }
         }
 
@@ -115,12 +110,12 @@ namespace Odumbrata.Behaviour.Levels.Modules
             _currentInInteraction = interactable;
             _markedForInteraction = null;
 
-            SetOutline(_currentInInteraction, _interactionOutlineWidth, _interactionOutlineColor);
+            SetOutline(_currentInInteraction, Config.InteractionOutlineWidth, Config.InteractionOutlineColor);
         }
 
         private async Task InteractWithCurrent()
         {
-            var data = new InteractionData(_player);
+            var data = new InteractionData(Config.Player);
             await _currentInInteraction.Interact(data);
         }
     }
