@@ -15,30 +15,28 @@ namespace Odumbrata.Behaviour.Common.Door
         [SerializeField] private Transform _frontInteractionPoint;
         [SerializeField] private Transform _backInteractionPoint;
 
-        public override bool LeftOpenedAfterTransition => _leftOpenedAfterTransition;
-        public override Vector3 FrontInteractionPosition => _frontInteractionPoint.position;
-        public override Vector3 BackInteractionPosition => _backInteractionPoint.position;
+        protected override bool LeftOpenedAfterTransition => _leftOpenedAfterTransition;
+        protected override Vector3 FrontInteractionPosition => _frontInteractionPoint.position;
+        protected override Vector3 BackInteractionPosition => _backInteractionPoint.position;
 
-        public override Task Open()
+        protected override Task Open()
         {
             return Rotate(_openedRotation, _transitionDuration)
-                .OnComplete(OnOpened)
                 .AsTask(destroyCancellationToken);
         }
 
-        public override Task Close()
+        protected override Task Close()
         {
             return Rotate(_closedRotation, _transitionDuration)
-                .OnComplete(OnClosed)
                 .AsTask(destroyCancellationToken);
         }
 
-        public override void CloseImmediately()
+        protected override void CloseImmediately()
         {
             Rotate(_closedRotation, 0f);
         }
 
-        public override void OpenImmediately()
+        protected override void OpenImmediately()
         {
             Rotate(_openedRotation, 0f);
         }
@@ -48,16 +46,6 @@ namespace Odumbrata.Behaviour.Common.Door
             return Root
                 .DORotate(to, duration)
                 .SetEase(_transitionEase);
-        }
-
-        private void OnOpened()
-        {
-            RuntimeData.IsOpen = true;
-        }
-
-        private void OnClosed()
-        {
-            RuntimeData.IsOpen = false;
         }
     }
 }

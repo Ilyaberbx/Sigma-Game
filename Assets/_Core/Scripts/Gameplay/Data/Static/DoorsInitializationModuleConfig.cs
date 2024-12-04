@@ -5,12 +5,10 @@ using UnityEngine;
 namespace Odumbrata.Data.Static
 {
     [Serializable]
-    public sealed class DoorsModuleConfig
+    public sealed class DoorsInitializationModuleConfig
     {
-        [SerializeField] private float _transitionDuration;
         [SerializeField] private BaseDoorBehaviour[] _doors;
 
         public BaseDoorBehaviour[] Doors => _doors;
-        public float TransitionDuration => _transitionDuration;
     }
 }

@@ -11,12 +11,12 @@ using Odumbrata.Services.Rooms;
 
 namespace Odumbrata.Behaviour.Rooms
 {
-    public sealed class RoomsSelectionModule : BaseRoomModule, IConfigurableModule<RoomsSelectionModuleConfig>
+    public sealed class RoomsActivationModule : BaseRoomModule, IConfigurableModule<RoomsActivationModuleConfig>
     {
         private RoomsService _roomsService;
-        private readonly ConfigurableModule<RoomsSelectionModuleConfig> _configurable = new();
+        private readonly ConfigurableModule<RoomsActivationModuleConfig> _configurable = new();
 
-        public RoomsSelectionModuleConfig Config => _configurable.Config;
+        public RoomsActivationModuleConfig Config => _configurable.Config;
 
         public override void Initialize(Type context, EventSystem events)
         {
@@ -35,7 +35,7 @@ namespace Odumbrata.Behaviour.Rooms
             Events.Unsubscribe<DoorPreOpenArg>(OnDoorPreOpen);
         }
 
-        public void SetConfiguration(RoomsSelectionModuleConfig config)
+        public void SetConfiguration(RoomsActivationModuleConfig config)
         {
             _configurable.SetConfiguration(config);
         }
@@ -61,13 +61,13 @@ namespace Odumbrata.Behaviour.Rooms
             }
         }
 
-        private bool TryGetSelectionData(BaseDoorBehaviour door, out RoomSelectionConfig currentTransitionData)
+        private bool TryGetSelectionData(BaseDoorBehaviour door, out RoomsActivationConfig activationData)
         {
-            currentTransitionData = Config
-                .TransitionsData
+            activationData = Config
+                .ActivationsData
                 .FirstOrDefault(temp => temp.Door == door);
 
-            return currentTransitionData != null;
+            return activationData != null;
         }
     }
 }

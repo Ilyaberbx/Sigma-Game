@@ -45,8 +45,8 @@ namespace Odumbrata.Behaviour.Rooms.Abstractions
 
     public abstract class BaseRoomBehaviour : BaseBehaviour, IDisposable, IModuleContainer<BaseRoomModule>
     {
-        [SerializeField] private DoorsModuleConfig _doorsModuleConfig;
-        [SerializeField] private RoomsSelectionModuleConfig _roomsSelectionModuleConfig;
+        [SerializeField] private DoorsInitializationModuleConfig _doorsInitializationModuleConfig;
+        [SerializeField] private RoomsActivationModuleConfig _roomsActivationModuleConfig;
         [SerializeField] private DebugRoomModuleConfig _debugRoomModuleConfig;
 
         private IModuleContainer<BaseRoomModule> _container;
@@ -92,15 +92,15 @@ namespace Odumbrata.Behaviour.Rooms.Abstractions
                 new DoorRuntimeData()
                 {
                     IsLocked = false,
-                    IsOpen = false,
+                    IsOpened = false,
                 }
             };
 
-            var doorsCoreModule = Factory.CreateFullSetup<DoorsCoreModule,
-                DoorsModuleConfig, DoorRuntimeData[]>(_doorsModuleConfig, doorsRuntimeData);
+            var doorsCoreModule = Factory.CreateFullSetup<DoorsInitializationModule,
+                DoorsInitializationModuleConfig, DoorRuntimeData[]>(_doorsInitializationModuleConfig, doorsRuntimeData);
 
-            var roomsSelectionModule = Factory.CreateWithConfiguration<RoomsSelectionModule,
-                RoomsSelectionModuleConfig>(_roomsSelectionModuleConfig);
+            var roomsSelectionModule = Factory.CreateWithConfiguration<RoomsActivationModule,
+                RoomsActivationModuleConfig>(_roomsActivationModuleConfig);
 
             AddModule(debugModule);
             AddModule(doorsCoreModule);
@@ -110,8 +110,8 @@ namespace Odumbrata.Behaviour.Rooms.Abstractions
         protected virtual void DisposeModules()
         {
             RemoveModule<DebugRoomModule>();
-            RemoveModule<DoorsCoreModule>();
-            RemoveModule<RoomsSelectionModule>();
+            RemoveModule<DoorsInitializationModule>();
+            RemoveModule<RoomsActivationModule>();
         }
 
         public void AddModule<TModule>(TModule module) where TModule : BaseRoomModule

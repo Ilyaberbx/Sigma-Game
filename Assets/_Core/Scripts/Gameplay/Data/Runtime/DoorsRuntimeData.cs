@@ -6,7 +6,7 @@ namespace Odumbrata.Data.Runtime
     [Serializable]
     public sealed class DoorRuntimeData : Observable
     {
-        public bool IsOpen { get; set; }
+        public bool IsOpened { get; set; }
         public bool IsLocked { get; set; }
     }
 }

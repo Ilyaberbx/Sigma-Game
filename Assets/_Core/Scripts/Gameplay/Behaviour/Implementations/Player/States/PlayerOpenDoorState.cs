@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Better.Commons.Runtime.Extensions;
@@ -27,13 +25,11 @@ namespace Odumbrata.Behaviour.Player.States
         public Vector3 StayAtPosition { get; }
         public Vector3 LookAtPosition { get; }
         public Transform Player { get; }
-        public float Duration { get; }
 
-        public OpenDoorData(Transform player, Vector3 stayAtPosition, Vector3 lookAtPosition, float duration)
+        public OpenDoorData(Transform player, Vector3 stayAtPosition, Vector3 lookAtPosition)
         {
             StayAtPosition = stayAtPosition;
             LookAtPosition = lookAtPosition;
-            Duration = duration;
             Player = player;
         }
     }
@@ -121,9 +117,14 @@ namespace Odumbrata.Behaviour.Player.States
             _movementSystem.Set<IdleMove>();
             _animationSystem.Set<IdleAnimation>();
 
-            var tween = agent.transform.DOLookAt(LookAtPosition, Data.Duration / 2, AxisConstraint.Y);
+            if (!_statsSystem.TryGet<OpenDoorStat>(out var openDoorStat))
+            {
+                return;
+            }
+
+            var tween = agent.transform.DOLookAt(LookAtPosition, openDoorStat.Value / 2, AxisConstraint.Y);
             var rotationTask = tween.AsTask(_token);
-            var ikTask = ApplyIkProfiles();
+            var ikTask = ApplyIkProfiles(openDoorStat);
 
             await rotationTask;
             await ikTask;
@@ -133,7 +134,7 @@ namespace Odumbrata.Behaviour.Player.States
             _completionSource.SetResult(true);
         }
 
-        private async Task ApplyIkProfiles()
+        private async Task ApplyIkProfiles(OpenDoorStat stat)
         {
             _ikSystem.ClearImmediately();
 
@@ -143,7 +144,7 @@ namespace Odumbrata.Behaviour.Player.States
             faceAtProfile.Initialize(_humanoidContext, Data.LookAtPosition);
             grabProfile.Initialize(_humanoidContext, new GrabData(HandType.Right, Data.LookAtPosition));
 
-            var ikData = new IkTransitionData(Data.Duration, faceAtProfile, grabProfile);
+            var ikData = new IkTransitionData(stat.Value / 2, faceAtProfile, grabProfile);
             await _ikSystem.ProcessTransition(ikData);
         }
 

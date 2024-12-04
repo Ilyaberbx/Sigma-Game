@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Better.Commons.Runtime.DataStructures.SerializedTypes;
-using Odumbrata.Behaviour.Rooms.Abstractions;
 using UnityEngine;
 
 namespace Odumbrata.Data.Static
@@ -12,7 +10,7 @@ namespace Odumbrata.Data.Static
         [SerializeField] private Color _activeColor;
         [SerializeField] private Color _inactiveColor;
         [SerializeField] private List<MeshRenderer> _renderers;
-        
+
         public Color ActiveColor => _activeColor;
         public Color InactiveColor => _inactiveColor;
         public List<MeshRenderer> Renderers => _renderers;

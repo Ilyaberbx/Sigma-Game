@@ -9,15 +9,14 @@ using UnityEngine;
 namespace Odumbrata.Data.Static
 {
     [Serializable]
-    public sealed class RoomsSelectionModuleConfig
+    public sealed class RoomsActivationModuleConfig
     {
-        [SerializeField] private RoomSelectionConfig[] _transitionsData;
-
-        public RoomSelectionConfig[] TransitionsData => _transitionsData;
+        [SerializeField] private RoomsActivationConfig[] _activationsData;
+        public RoomsActivationConfig[] ActivationsData => _activationsData;
     }
 
     [Serializable]
-    public sealed class RoomSelectionConfig
+    public sealed class RoomsActivationConfig
     {
         [SerializeReference, Select(typeof(BaseRoomBehaviour))]
         private List<SerializedType> _activateOnOpen;
@@ -25,7 +24,6 @@ namespace Odumbrata.Data.Static
         [SerializeField] private BaseDoorBehaviour _door;
 
         public BaseDoorBehaviour Door => _door;
-
         public List<SerializedType> ActivateOnOpen => _activateOnOpen;
     }
 }

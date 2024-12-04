@@ -312,7 +312,7 @@ MonoBehaviour:
   _lookAt: {fileID: 4883462777404826429}
   _root: {fileID: 4817163228742834279}
   _delayBeforeClosing: 2
-  _leftOpenedAfterTransition: 0
+  _leftOpenedAfterTransition: 1
   _transitionDuration: 2
   _transitionEase: 30
   _openedRotation: {x: 0, y: 85, z: 0}

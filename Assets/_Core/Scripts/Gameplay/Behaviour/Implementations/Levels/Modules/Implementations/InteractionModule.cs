@@ -20,6 +20,7 @@ namespace Odumbrata.Behaviour.Levels.Modules
 
     public class InteractionData
     {
+        //TODO: Rework with generic Handler 
         public PlayerBehaviour Player { get; }
 
         public InteractionData(PlayerBehaviour player)

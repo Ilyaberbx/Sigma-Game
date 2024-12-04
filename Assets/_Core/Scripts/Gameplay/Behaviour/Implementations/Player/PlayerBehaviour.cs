@@ -61,13 +61,11 @@ namespace Odumbrata.Behaviour.Player
 
         public async Task HandleDoorPreOpening(DoorHandleData data)
         {
-            var duration = data.TransitionDuration;
-
             _waitingForDoor = true;
 
             var openDoorData = new OpenDoorData(Transform,
                 data.InteractionPosition,
-                data.LookAtPosition, duration);
+                data.LookAtPosition);
 
             var openDoorState = new PlayerOpenDoorState(this);
 
