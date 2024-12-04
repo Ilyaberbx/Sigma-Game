@@ -314,6 +314,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2901260923204860409, guid: 30cfb420bca4a974e80e7ebc453145e2,
         type: 3}
+      propertyPath: _transitionEase
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 2901260923204860409, guid: 30cfb420bca4a974e80e7ebc453145e2,
+        type: 3}
       propertyPath: _leftOpenedAfterTransition
       value: 1
       objectReference: {fileID: 0}
@@ -1862,6 +1867,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2901260923204860409, guid: 30cfb420bca4a974e80e7ebc453145e2,
         type: 3}
+      propertyPath: _transitionEase
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 2901260923204860409, guid: 30cfb420bca4a974e80e7ebc453145e2,
+        type: 3}
       propertyPath: _leftOpenedAfterTransition
       value: 1
       objectReference: {fileID: 0}
@@ -2137,6 +2147,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2901260923204860409, guid: 30cfb420bca4a974e80e7ebc453145e2,
+        type: 3}
+      propertyPath: _transitionEase
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 2901260923204860409, guid: 30cfb420bca4a974e80e7ebc453145e2,
         type: 3}
@@ -2555,17 +2570,17 @@ MonoBehaviour:
     _interactionOutlineWidth: 15
     _preInteractionOutlineWidth: 10
     _player: {fileID: 9027714209001139663}
-  roomsInitializationModule:
+  _roomsInitializationModuleConfig:
     _rooms:
     - {fileID: 545604087}
     - {fileID: 89197447}
     - {fileID: 65352505}
     _activeOnStart:
-    - rid: 1409578407847788558
+    - rid: 1409578407847788561
   references:
     version: 2
     RefIds:
-    - rid: 1409578407847788558
+    - rid: 1409578407847788561
       type: {class: SerializedType, ns: Better.Commons.Runtime.DataStructures.SerializedTypes,
         asm: BetterCommons.Runtime}
       data:

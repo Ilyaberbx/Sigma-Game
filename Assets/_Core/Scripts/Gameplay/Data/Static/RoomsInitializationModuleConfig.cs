@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Odumbrata.Data.Static
 {
     [Serializable]
-    public sealed class RoomsInitializationModule
+    public sealed class RoomsInitializationModuleConfig
     {
         [SerializeField] private BaseRoomBehaviour[] _rooms;
         [SerializeReference, Select(typeof(BaseRoomBehaviour))] private List<SerializedType> _activeOnStart;

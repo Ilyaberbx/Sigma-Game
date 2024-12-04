@@ -5,7 +5,7 @@ using Odumbrata.Behaviour.Levels.Modules;
 namespace Odumbrata.Core.Modules.Management
 {
     public sealed class ModuleContainer<TDerivedModule> : IModuleContainer<TDerivedModule>
-        where TDerivedModule : BaseEntityModule
+        where TDerivedModule : BaseBehaviourModule
     {
         private readonly Dictionary<Type, TDerivedModule> _modules = new();
 

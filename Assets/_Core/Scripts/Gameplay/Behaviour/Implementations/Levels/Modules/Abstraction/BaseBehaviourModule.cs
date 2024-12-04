@@ -7,7 +7,7 @@ namespace Odumbrata.Behaviour.Levels.Modules
     #region Core
 
     [Serializable]
-    public abstract class BaseEntityModule
+    public abstract class BaseBehaviourModule
     {
         private CancellationTokenSource _disposeCancellationSource;
         protected EventSystem Events { get; private set; }
@@ -39,7 +39,7 @@ namespace Odumbrata.Behaviour.Levels.Modules
     #region Level
 
     [Serializable]
-    public abstract class BaseLevelModule : BaseEntityModule
+    public abstract class BaseLevelModule : BaseBehaviourModule
     {
     }
 
@@ -48,7 +48,7 @@ namespace Odumbrata.Behaviour.Levels.Modules
     #region Room
 
     [Serializable]
-    public abstract class BaseRoomModule : BaseEntityModule
+    public abstract class BaseRoomModule : BaseBehaviourModule
     {
     }
 
