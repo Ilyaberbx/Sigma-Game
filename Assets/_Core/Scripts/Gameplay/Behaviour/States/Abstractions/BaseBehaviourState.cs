@@ -1,20 +1,22 @@
-using System.IO;
-using Better.Commons.Runtime.Utility;
+using Better.StateMachine.Runtime.States;
 using Odumbrata.Core.Container;
-using Odumbrata.Entity;
 
 namespace Odumbrata.Behaviour
 {
+    public abstract class BaseEntityState : BaseState
+    {
+    }
+
     public abstract class BaseBehaviourState : BaseBehaviourState<object>
     {
         public sealed override void Initialize(ISystemsContainer container, object data)
         {
             base.Initialize(container, data);
 
-            Initialize(container);
+            Initialize();
         }
 
-        protected abstract void Initialize(ISystemsContainer container);
+        protected abstract void Initialize();
     }
 
     public abstract class BaseBehaviourState<TData> : BaseEntityState

@@ -28,7 +28,7 @@ namespace Odumbrata.Behaviour.Player.States
             _humanoidContext = humanoidContext;
         }
 
-        protected override void Initialize(ISystemsContainer container)
+        protected override void Initialize()
         {
             _inputBrainSystem = Container.GetSystem<InputBrainSystem>();
             _movementSystem = Container.GetSystem<MovementSystem>();

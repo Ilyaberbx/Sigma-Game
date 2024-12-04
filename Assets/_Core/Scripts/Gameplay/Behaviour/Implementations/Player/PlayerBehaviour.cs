@@ -2,8 +2,6 @@ using System.Threading.Tasks;
 using Better.Commons.Runtime.Extensions;
 using Odumbrata.Behaviour.Common.Door;
 using Odumbrata.Behaviour.Player.States;
-using Odumbrata.Components.Stats;
-using Odumbrata.Entity;
 using Odumbrata.Services.Camera;
 using UnityEngine;
 using UnityEngine.AI;
