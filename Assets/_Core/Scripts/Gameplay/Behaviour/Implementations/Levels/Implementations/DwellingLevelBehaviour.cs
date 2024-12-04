@@ -15,13 +15,18 @@ namespace Odumbrata.Behaviour.Levels
         {
             await base.Enter();
 
-            AddModule<InteractionModule, InteractionModuleConfig>(_interactionModuleConfig);
-            AddModule<RoomsCoreModule, RoomsCoreModuleConfig>(_roomsCoreModuleConfig);
+            var interactionModule = Factory.CreateWithConfiguration<InteractionModule, InteractionModuleConfig>(_interactionModuleConfig);
+            var roomsCoreModule = Factory.CreateWithConfiguration<RoomsCoreModule, RoomsCoreModuleConfig>(_roomsCoreModuleConfig);
+            AddModule(interactionModule);
+            AddModule(roomsCoreModule);
         }
 
-        public override Task Exit()
+        public override async Task Exit()
         {
-            return base.Exit();
+            await base.Exit();
+            
+            RemoveModule<InteractionModule>();
+            RemoveModule<RoomsCoreModule>();
         }
     }
 }

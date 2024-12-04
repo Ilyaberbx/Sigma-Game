@@ -2,6 +2,7 @@ using System;
 using Odumbrata.Behaviour.Levels.Modules;
 using Odumbrata.Behaviour.Rooms.Debug;
 using Odumbrata.Core.EventSystem;
+using Odumbrata.Core.Modules.Management;
 using Odumbrata.Data.Runtime;
 using Odumbrata.Data.Static;
 using UnityEngine;
@@ -42,24 +43,29 @@ namespace Odumbrata.Behaviour.Rooms.Abstractions
 
     #endregion
 
-    public abstract class BaseRoomBehaviour : BaseBehaviour, IDisposable
+    public abstract class BaseRoomBehaviour : BaseBehaviour, IDisposable, IModuleContainer<BaseRoomModule>
     {
         [SerializeField] private DoorsModuleConfig _doorsModuleConfig;
-        [SerializeField] private DebugRoomModuleConfig _debugRoomModuleConfig;
         [SerializeField] private RoomsSelectionModuleConfig _roomsSelectionModuleConfig;
+        [SerializeField] private DebugRoomModuleConfig _debugRoomModuleConfig;
 
-        public bool IsActive { get; private set; }
+        private IModuleContainer<BaseRoomModule> _container;
         private EventSystem _events;
+        public bool IsActive { get; private set; }
+        protected ModulesFactory<BaseRoomModule> Factory { get; private set; }
 
         public void Initialize(EventSystem events)
         {
             _events = events;
+            _container = new ModuleContainer<BaseRoomModule>();
+            Factory = new ModulesFactory<BaseRoomModule>(_events, GetType());
             InitializeModules();
             _events.Publish(this, new RoomInitializedArg(GetType()));
         }
 
-        public virtual void Dispose()
+        public void Dispose()
         {
+            DisposeModules();
             _events.Dispose();
             _events = null;
         }
@@ -76,51 +82,64 @@ namespace Odumbrata.Behaviour.Rooms.Abstractions
             _events.Publish(this, new RoomDeactivatedArg(GetType()));
         }
 
-        protected void AddModule<TModule>() where TModule : BaseRoomModule, new()
-        {
-            var module = new TModule();
-            module.Initialize(GetType(), _events);
-        }
-
-        protected void AddModule<TModule, TConfig>(TConfig config) where TModule : BaseRoomModule<TConfig>, new()
-        {
-            var module = new TModule();
-            module.SetConfiguration(config);
-            module.Initialize(GetType(), _events);
-        }
-
-        protected void AddModule<TModule, TConfig, TRuntimeData>(TConfig config, TRuntimeData data)
-            where TModule : BaseRoomModule<TConfig, TRuntimeData>, new()
-        {
-            var module = new TModule();
-            module.SetConfiguration(config);
-            module.SetRuntime(data);
-            module.Initialize(GetType(), _events);
-        }
-
         protected virtual void InitializeModules()
         {
-            InitializeDoorsModule();
-            AddModule<DebugRoomModule, DebugRoomModuleConfig>(_debugRoomModuleConfig);
-            AddModule<DoorsRoomSelectionModule, RoomsSelectionModuleConfig>(_roomsSelectionModuleConfig);
-        }
+            var debugModule = Factory.CreateWithConfiguration<DebugRoomModule,
+                DebugRoomModuleConfig>(_debugRoomModuleConfig);
 
-        private void InitializeDoorsModule()
-        {
-            var doorsRuntimeData = new DoorRuntimeData[]
+            var doorsRuntimeData = new[]
             {
-                new()
+                new DoorRuntimeData()
                 {
-                    IsOpen = false, IsLocked = false,
-                },
-                new()
-                {
-                    IsOpen = false, IsLocked = false,
-                },
+                    IsLocked = false,
+                    IsOpen = false,
+                }
             };
 
-            AddModule<DoorsCoreModule, DoorsModuleConfig, DoorRuntimeData[]>(_doorsModuleConfig,
-                doorsRuntimeData);
+            var doorsCoreModule = Factory.CreateFullSetup<DoorsCoreModule,
+                DoorsModuleConfig, DoorRuntimeData[]>(_doorsModuleConfig, doorsRuntimeData);
+
+            var roomsSelectionModule = Factory.CreateWithConfiguration<RoomsSelectionModule,
+                RoomsSelectionModuleConfig>(_roomsSelectionModuleConfig);
+
+            AddModule(debugModule);
+            AddModule(doorsCoreModule);
+            AddModule(roomsSelectionModule);
+        }
+
+        protected virtual void DisposeModules()
+        {
+            RemoveModule<DebugRoomModule>();
+            RemoveModule<DoorsCoreModule>();
+            RemoveModule<RoomsSelectionModule>();
+        }
+
+        public void AddModule<TModule>(TModule module) where TModule : BaseRoomModule
+        {
+            _container.AddModule(module);
+        }
+
+        public void RemoveModule<TModule>() where TModule : BaseRoomModule
+        {
+            var module = _container.GetModule<TModule>();
+
+            if (module == null)
+            {
+                return;
+            }
+
+            module.Dispose();
+            _container.RemoveModule<TModule>();
+        }
+
+        public TModule GetModule<TModule>() where TModule : BaseRoomModule
+        {
+            return _container.GetModule<TModule>();
+        }
+
+        public void Clear()
+        {
+            _container.Clear();
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Odumbrata.Behaviour.Common.Door;
 using Odumbrata.Behaviour.Levels.Modules;
 using Odumbrata.Core.EventSystem;
+using Odumbrata.Core.Modules;
 using Odumbrata.Data.Runtime;
 using Odumbrata.Data.Static;
 using UnityEngine;
@@ -50,9 +51,15 @@ namespace Odumbrata.Behaviour.Rooms
 
     #endregion
 
-    public sealed class DoorsCoreModule : BaseRoomModule<DoorsModuleConfig, DoorRuntimeData[]>
+    public sealed class DoorsCoreModule : BaseRoomModule, IConfigurableModule<DoorsModuleConfig>,
+        IRuntimeDataModule<DoorRuntimeData[]>
     {
         private const int ToMillisecondsEquivalent = 1000;
+
+        private readonly ConfigurableModule<DoorsModuleConfig> _configurableModule = new();
+        private readonly RuntimeDataModule<DoorRuntimeData[]> _runtimeDataModule = new();
+        public DoorsModuleConfig Config => _configurableModule.Config;
+        public DoorRuntimeData[] RuntimeData => _runtimeDataModule.RuntimeData;
 
         public override void Initialize(Type context, EventSystem events)
         {
@@ -75,6 +82,19 @@ namespace Odumbrata.Behaviour.Rooms
             {
                 door.OnInteraction -= OnDoorsTransition;
             }
+
+            _configurableModule.Dispose();
+            _runtimeDataModule.Dispose();
+        }
+
+        public void SetConfiguration(DoorsModuleConfig config)
+        {
+            _configurableModule.SetConfiguration(config);
+        }
+
+        public void SetRuntime(DoorRuntimeData[] runtime)
+        {
+            _runtimeDataModule.SetRuntime(runtime);
         }
 
         private async void OnDoorsTransition(IDoorHandler handler, BaseDoorBehaviour door)

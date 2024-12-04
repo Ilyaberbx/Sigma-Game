@@ -1,14 +1,17 @@
 using System;
 using Better.Locators.Runtime;
 using Odumbrata.Core.EventSystem;
+using Odumbrata.Core.Modules;
 using Odumbrata.Data.Static;
 using Odumbrata.Services.Rooms;
 
 namespace Odumbrata.Behaviour.Levels.Modules
 {
-    public sealed class RoomsCoreModule : BaseLevelModule<RoomsCoreModuleConfig>
+    public sealed class RoomsCoreModule : BaseLevelModule, IConfigurableModule<RoomsCoreModuleConfig>
     {
         private RoomsService _roomsService;
+        private readonly ConfigurableModule<RoomsCoreModuleConfig> _configurable = new();
+        public RoomsCoreModuleConfig Config => _configurable.Config;
 
         public override void Initialize(Type context, EventSystem events)
         {
@@ -42,6 +45,13 @@ namespace Odumbrata.Behaviour.Levels.Modules
                 room.Dispose();
                 _roomsService.Remove(room);
             }
+
+            _configurable.Dispose();
+        }
+
+        public void SetConfiguration(RoomsCoreModuleConfig config)
+        {
+            _configurable.SetConfiguration(config);
         }
     }
 }

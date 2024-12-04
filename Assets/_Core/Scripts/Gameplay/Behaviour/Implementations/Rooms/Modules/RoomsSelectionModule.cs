@@ -5,14 +5,18 @@ using Better.Locators.Runtime;
 using Odumbrata.Behaviour.Common.Door;
 using Odumbrata.Behaviour.Levels.Modules;
 using Odumbrata.Core.EventSystem;
+using Odumbrata.Core.Modules;
 using Odumbrata.Data.Static;
 using Odumbrata.Services.Rooms;
 
 namespace Odumbrata.Behaviour.Rooms
 {
-    public sealed class DoorsRoomSelectionModule : BaseRoomModule<RoomsSelectionModuleConfig>
+    public sealed class RoomsSelectionModule : BaseRoomModule, IConfigurableModule<RoomsSelectionModuleConfig>
     {
         private RoomsService _roomsService;
+        private readonly ConfigurableModule<RoomsSelectionModuleConfig> _configurable = new();
+
+        public RoomsSelectionModuleConfig Config => _configurable.Config;
 
         public override void Initialize(Type context, EventSystem events)
         {
@@ -27,7 +31,13 @@ namespace Odumbrata.Behaviour.Rooms
         {
             base.Dispose();
 
+            _configurable.Dispose();
             Events.Unsubscribe<DoorPreOpenArg>(OnDoorPreOpen);
+        }
+
+        public void SetConfiguration(RoomsSelectionModuleConfig config)
+        {
+            _configurable.SetConfiguration(config);
         }
 
         private void OnDoorPreOpen(object sender, DoorPreOpenArg arg)

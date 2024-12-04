@@ -1,21 +1,25 @@
 using System.Threading.Tasks;
 using Odumbrata.Behaviour.Levels.Modules;
 using Odumbrata.Core.EventSystem;
+using Odumbrata.Core.Modules.Management;
 
 namespace Odumbrata.Behaviour.Levels
 {
-    public abstract class BaseLevelBehaviour : BaseLevelBehaviour<object>
+    public abstract class BaseLevelBehaviour : BaseBehaviour, IModuleContainer<BaseLevelModule>
     {
         private EventSystem _events;
+        private IModuleContainer<BaseLevelModule> _container;
+        protected ModulesFactory<BaseLevelModule> Factory { get; private set; }
 
         public virtual Task Enter()
         {
             _events = new EventSystem();
-
+            _container = new ModuleContainer<BaseLevelModule>();
+            Factory = new ModulesFactory<BaseLevelModule>(_events, GetType());
             return Task.CompletedTask;
         }
 
-        public override Task Exit()
+        public virtual Task Exit()
         {
             _events.Dispose();
             _events = null;
@@ -23,37 +27,32 @@ namespace Odumbrata.Behaviour.Levels
             return Task.CompletedTask;
         }
 
-        public sealed override Task Enter(object data)
+        public void AddModule<TModule>(TModule module) where TModule : BaseLevelModule
         {
-            return Enter();
+            _container.AddModule(module);
         }
 
-        protected void AddModule<TModule>() where TModule : BaseLevelModule, new()
+        public void RemoveModule<TModule>() where TModule : BaseLevelModule
         {
-            var module = new TModule();
-            module.Initialize(GetType(), _events);
+            var module = _container.GetModule<TModule>();
+
+            if (module == null)
+            {
+                return;
+            }
+
+            module.Dispose();
+            _container.RemoveModule<TModule>();
         }
 
-        protected void AddModule<TModule, TConfig>(TConfig config) where TModule : BaseLevelModule<TConfig>, new()
+        public void Clear()
         {
-            var module = new TModule();
-            module.SetConfiguration(config);
-            module.Initialize(GetType(), _events);
+            _container.Clear();
         }
 
-        protected void AddModule<TModule, TConfig, TRuntimeData>(TConfig config, TRuntimeData data)
-            where TModule : BaseLevelModule<TConfig, TRuntimeData>, new()
+        public TModule GetModule<TModule>() where TModule : BaseLevelModule
         {
-            var module = new TModule();
-            module.SetConfiguration(config);
-            module.SetRuntime(data);
-            module.Initialize(GetType(), _events);
+            return _container.GetModule<TModule>();
         }
-    }
-
-    public abstract class BaseLevelBehaviour<TData> : BaseBehaviour
-    {
-        public abstract Task Enter(TData data);
-        public abstract Task Exit();
     }
 }

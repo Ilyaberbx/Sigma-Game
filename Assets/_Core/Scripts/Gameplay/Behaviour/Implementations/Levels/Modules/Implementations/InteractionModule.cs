@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Better.Locators.Runtime;
 using Odumbrata.Behaviour.Player;
 using Odumbrata.Core.EventSystem;
+using Odumbrata.Core.Modules;
 using Odumbrata.Data.Static;
 using Odumbrata.Global.Services;
 using Odumbrata.Services.Input;
@@ -28,13 +29,15 @@ namespace Odumbrata.Behaviour.Levels.Modules
     }
 
     [Serializable]
-    public sealed class InteractionModule : BaseLevelModule<InteractionModuleConfig>, IUpdatable
+    public sealed class InteractionModule : BaseLevelModule, IUpdatable, IConfigurableModule<InteractionModuleConfig>
     {
         private InputService _inputService;
         private UpdateService _updateService;
 
         private IInteractable _markedForInteraction;
         private IInteractable _currentInInteraction;
+        private readonly ConfigurableModule<InteractionModuleConfig> _configurable = new();
+        public InteractionModuleConfig Config => _configurable.Config;
 
         public override void Initialize(Type context, EventSystem events)
         {
@@ -51,8 +54,14 @@ namespace Odumbrata.Behaviour.Levels.Modules
         {
             base.Dispose();
 
+            _configurable.Dispose();
             _inputService.Unsubscribe(0, KeyInput.Down, OnLeftMouseClicked);
             _updateService.Remove(this);
+        }
+
+        public void SetConfiguration(InteractionModuleConfig config)
+        {
+            _configurable.SetConfiguration(config);
         }
 
         public void Tick(float deltaTime)

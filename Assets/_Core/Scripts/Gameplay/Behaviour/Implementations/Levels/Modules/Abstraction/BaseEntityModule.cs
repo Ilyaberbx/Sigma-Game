@@ -7,18 +7,6 @@ namespace Odumbrata.Behaviour.Levels.Modules
     #region Core
 
     [Serializable]
-    public abstract class BaseEntityModule<TConfig> : BaseEntityModule
-    {
-        protected TConfig Config => _config;
-        private TConfig _config;
-
-        public void SetConfiguration(TConfig config)
-        {
-            _config = config;
-        }
-    }
-
-    [Serializable]
     public abstract class BaseEntityModule
     {
         private CancellationTokenSource _disposeCancellationSource;
@@ -44,16 +32,6 @@ namespace Odumbrata.Behaviour.Levels.Modules
         }
     }
 
-    public abstract class BaseEntityModule<TConfig, TRuntimeData> : BaseEntityModule<TConfig>
-    {
-        protected TRuntimeData RuntimeData;
-
-        public void SetRuntime(TRuntimeData data)
-        {
-            RuntimeData = data;
-        }
-    }
-
     #endregion
 
     #region Variations
@@ -65,32 +43,12 @@ namespace Odumbrata.Behaviour.Levels.Modules
     {
     }
 
-    [Serializable]
-    public abstract class BaseLevelModule<TConfig> : BaseEntityModule<TConfig>
-    {
-    }
-
-    [Serializable]
-    public abstract class BaseLevelModule<TConfig, TRuntimeData> : BaseEntityModule<TConfig, TRuntimeData>
-    {
-    }
-
     #endregion
 
     #region Room
 
     [Serializable]
     public abstract class BaseRoomModule : BaseEntityModule
-    {
-    }
-
-    [Serializable]
-    public abstract class BaseRoomModule<TConfig> : BaseEntityModule<TConfig>
-    {
-    }
-
-    [Serializable]
-    public abstract class BaseRoomModule<TConfig, TRuntimeData> : BaseEntityModule<TConfig, TRuntimeData>
     {
     }
 

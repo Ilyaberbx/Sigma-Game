@@ -281,20 +281,20 @@ MonoBehaviour:
     _transitionDuration: 1
     _doors:
     - {fileID: 1006961363}
-  _debugRoomModuleConfig:
-    _activeColor: {r: 0.14923966, g: 1, b: 0, a: 1}
-    _inactiveColor: {r: 1, g: 0.06028847, b: 0, a: 1}
-    _renderers:
-    - {fileID: 594725653}
   _roomsSelectionModuleConfig:
     _transitionsData:
     - _activateOnOpen:
-      - rid: 1409578395180728326
+      - rid: 1409578407847788549
       _door: {fileID: 1006961363}
+  _debugRoomModuleConfig:
+    _activeColor: {r: 0.21925282, g: 1, b: 0, a: 1}
+    _inactiveColor: {r: 1, g: 0.27761674, b: 0, a: 1}
+    _renderers:
+    - {fileID: 594725653}
   references:
     version: 2
     RefIds:
-    - rid: 1409578395180728326
+    - rid: 1409578407847788549
       type: {class: SerializedType, ns: Better.Commons.Runtime.DataStructures.SerializedTypes,
         asm: BetterCommons.Runtime}
       data:
@@ -429,20 +429,20 @@ MonoBehaviour:
     _transitionDuration: 1
     _doors:
     - {fileID: 84489933}
-  _debugRoomModuleConfig:
-    _activeColor: {r: 0.14923966, g: 1, b: 0, a: 1}
-    _inactiveColor: {r: 1, g: 0.06028847, b: 0, a: 1}
-    _renderers:
-    - {fileID: 600380970}
   _roomsSelectionModuleConfig:
     _transitionsData:
     - _activateOnOpen:
-      - rid: 1409578395180728325
+      - rid: 1409578407847788548
       _door: {fileID: 84489933}
+  _debugRoomModuleConfig:
+    _activeColor: {r: 0.21925282, g: 1, b: 0, a: 1}
+    _inactiveColor: {r: 1, g: 0.27761674, b: 0, a: 1}
+    _renderers:
+    - {fileID: 600380970}
   references:
     version: 2
     RefIds:
-    - rid: 1409578395180728325
+    - rid: 1409578407847788548
       type: {class: SerializedType, ns: Better.Commons.Runtime.DataStructures.SerializedTypes,
         asm: BetterCommons.Runtime}
       data:
@@ -1141,24 +1141,31 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    - rid: 1409578407847788544
+      type: {class: RoomsService, ns: Odumbrata.Services.Rooms, asm: Assembly-CSharp}
+      data: 
+    - rid: 1409578407847788545
+      type: {class: PhysicsService, ns: Odumbrata.Services.Physics, asm: Assembly-CSharp}
+      data: 
+    - rid: 1409578407847788546
+      type: {class: InputService, ns: Odumbrata.Services.Input, asm: Assembly-CSharp}
+      data: 
     - rid: 4135814469679579136
       type: {class: PocoServicesInstaller, ns: Better.Contexts.Runtime.Installers,
         asm: Better.Contexts.Runtime}
       data:
         _services:
-        - rid: -2
-        - rid: -2
-        - rid: -2
+        - rid: 1409578407847788544
+        - rid: 1409578407847788545
+        - rid: 1409578407847788546
     - rid: 4530876712640839680
       type: {class: MonoServicesInstaller, ns: Better.Contexts.Runtime.Installers,
         asm: Better.Contexts.Runtime}
       data:
         _services:
-        - {fileID: 0}
-        - {fileID: 0}
-        - {fileID: 0}
+        - {fileID: 407933051}
+        - {fileID: 889357431}
+        - {fileID: 1488677854}
 --- !u!1 &407933049
 GameObject:
   m_ObjectHideFlags: 0
@@ -1309,20 +1316,20 @@ MonoBehaviour:
     _transitionDuration: 1
     _doors:
     - {fileID: 1330671647}
-  _debugRoomModuleConfig:
-    _activeColor: {r: 0.14923966, g: 1, b: 0, a: 1}
-    _inactiveColor: {r: 1, g: 0.06028847, b: 0, a: 1}
-    _renderers:
-    - {fileID: 1954256196}
   _roomsSelectionModuleConfig:
     _transitionsData:
     - _activateOnOpen:
-      - rid: 1409578395180728324
+      - rid: 1409578407847788547
       _door: {fileID: 1330671647}
+  _debugRoomModuleConfig:
+    _activeColor: {r: 0.21925282, g: 1, b: 0, a: 1}
+    _inactiveColor: {r: 1, g: 0.27761674, b: 0, a: 1}
+    _renderers:
+    - {fileID: 1954256196}
   references:
     version: 2
     RefIds:
-    - rid: 1409578395180728324
+    - rid: 1409578407847788547
       type: {class: SerializedType, ns: Better.Commons.Runtime.DataStructures.SerializedTypes,
         asm: BetterCommons.Runtime}
       data:
