@@ -9,13 +9,13 @@ namespace Odumbrata.Behaviour.Levels
     {
         private EventSystem _events;
         private IModuleContainer<BaseLevelModule> _container;
-        protected ModulesFactory<BaseLevelModule> Factory { get; private set; }
+        protected ModuleFactory<BaseLevelModule> Factory { get; private set; }
 
         public virtual Task Enter()
         {
             _events = new EventSystem();
             _container = new ModuleContainer<BaseLevelModule>();
-            Factory = new ModulesFactory<BaseLevelModule>(_events, GetType());
+            Factory = new ModuleFactory<BaseLevelModule>(_events, GetType());
             return Task.CompletedTask;
         }
 

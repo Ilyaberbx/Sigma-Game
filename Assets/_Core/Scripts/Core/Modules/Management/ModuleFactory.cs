@@ -3,12 +3,12 @@ using Odumbrata.Behaviour.Levels.Modules;
 
 namespace Odumbrata.Core.Modules.Management
 {
-    public class ModulesFactory<TDerivedModule> where TDerivedModule : BaseBehaviourModule
+    public class ModuleFactory<TDerivedModule> where TDerivedModule : BaseBehaviourModule
     {
         private readonly EventSystem.EventSystem _events;
         private readonly Type _contextType;
 
-        public ModulesFactory(EventSystem.EventSystem events,
+        public ModuleFactory(EventSystem.EventSystem events,
             Type contextType)
         {
             _events = events;

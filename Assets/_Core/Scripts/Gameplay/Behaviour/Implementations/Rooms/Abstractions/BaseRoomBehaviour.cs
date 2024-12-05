@@ -52,13 +52,13 @@ namespace Odumbrata.Behaviour.Rooms.Abstractions
         private IModuleContainer<BaseRoomModule> _container;
         private EventSystem _events;
         public bool IsActive { get; private set; }
-        protected ModulesFactory<BaseRoomModule> Factory { get; private set; }
+        protected ModuleFactory<BaseRoomModule> Factory { get; private set; }
 
         public void Initialize(EventSystem events)
         {
             _events = events;
             _container = new ModuleContainer<BaseRoomModule>();
-            Factory = new ModulesFactory<BaseRoomModule>(_events, GetType());
+            Factory = new ModuleFactory<BaseRoomModule>(_events, GetType());
             InitializeModules();
             _events.Publish(this, new RoomInitializedArg(GetType()));
         }
