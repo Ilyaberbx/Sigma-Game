@@ -1,4 +1,3 @@
-using System;
 using Better.Commons.Runtime.Extensions;
 using Better.Locators.Runtime;
 using Odumbrata.Behaviour.Levels;
@@ -12,7 +11,7 @@ namespace Odumbrata
     {
         [SerializeField] private PlayerBehaviour _player;
         [SerializeField] private DwellingLevelBehaviour _level;
-        
+
         private CameraService _cameraService;
         private float _prevSize;
 
