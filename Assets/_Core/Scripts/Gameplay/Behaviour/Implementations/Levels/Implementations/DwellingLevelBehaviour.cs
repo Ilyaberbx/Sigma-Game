@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Odumbrata.Behaviour.Levels.Modules;
+using Odumbrata.Core.EventSystem;
 using Odumbrata.Data.Static;
 using UnityEngine;
 
@@ -11,9 +12,9 @@ namespace Odumbrata.Behaviour.Levels
         [SerializeField] private RoomsInitializationModuleConfig _roomsInitializationModuleConfig;
 
 
-        public override async Task Enter()
+        public override async Task Enter(EventSystem events)
         {
-            await base.Enter();
+            await base.Enter(events);
 
             var interactionModule = Factory.CreateWithConfiguration<InteractionModule, InteractionModuleConfig>(_interactionModuleConfig);
             var roomsCoreModule = Factory.CreateWithConfiguration<RoomsInitializationModule, RoomsInitializationModuleConfig>(_roomsInitializationModuleConfig);

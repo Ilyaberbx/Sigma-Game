@@ -1,19 +1,15 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Better.Services.Runtime;
+using Odumbrata.Core.Commons.Observable;
 using Odumbrata.Core.Saves;
-using Odumbrata.Data.Runtime;
-using UnityEngine;
 
 namespace Odumbrata.Global.Services.User
 {
-    [CreateAssetMenu(fileName = "New User Service Config", menuName = "Configs/Services/User", order = 0)]
-    public class UserSettings : ScriptableObject
+    public sealed class UserService : PocoService<UserServiceSettings>, ISavesSystem
     {
-    }
-
-    public sealed class UserService : PocoService<UserSettings>
-    {
+        private readonly Dictionary<string, Observable> _cacehDataMap = new();
         private ISavesSystem _savesSystem;
 
         protected override Task OnInitializeAsync(CancellationToken cancellationToken)
@@ -25,6 +21,28 @@ namespace Odumbrata.Global.Services.User
         protected override Task OnPostInitializeAsync(CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
+        }
+
+        public TData Load<TData>(string key, TData defaultValue) where TData : Observable
+        {
+            if (!_cacehDataMap.TryGetValue(key, out var result))
+            {
+                var loadedData = _savesSystem.Load(key, defaultValue);
+                _cacehDataMap.Add(key, loadedData);
+                return loadedData;
+            }
+
+            if (result is TData data)
+            {
+                return data;
+            }
+
+            return null;
+        }
+
+        public void Save<TData>(TData data, string key) where TData : Observable
+        {
+            _savesSystem.Save(data, key);
         }
     }
 }

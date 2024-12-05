@@ -11,9 +11,9 @@ namespace Odumbrata.Behaviour.Levels
         private IModuleContainer<BaseLevelModule> _container;
         protected ModuleFactory<BaseLevelModule> Factory { get; private set; }
 
-        public virtual Task Enter()
+        public virtual Task Enter(EventSystem events)
         {
-            _events = new EventSystem();
+            _events = events;
             _container = new ModuleContainer<BaseLevelModule>();
             Factory = new ModuleFactory<BaseLevelModule>(_events, GetType());
             return Task.CompletedTask;

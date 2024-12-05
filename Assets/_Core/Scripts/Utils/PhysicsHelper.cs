@@ -27,7 +27,7 @@ namespace Odumbrata.Utils
             var physicsService = PhysicsProperty.CachedService;
             var cameraService = CameraProperty.CachedService;
 
-            var camera = cameraService.BrainMainCamera;
+            var camera = cameraService.MainCamera;
             var ray = camera.ScreenPointToRay(Input.mousePosition);
 
             return physicsService.TryRaycast(ray, out info);

@@ -17,20 +17,20 @@ namespace Odumbrata.Services.Camera
 
         [SerializeField] private CinemachineBrain _brain;
         [SerializeField] private CinemachineVirtualCameraBase[] _virtualCameras;
-        public CinemachineVirtualCamera Current => Brain.ActiveVirtualCamera as CinemachineVirtualCamera;
-        public CinemachineBrain Brain => _brain;
-        public UnityEngine.Camera BrainMainCamera { get; private set; }
+        private CinemachineVirtualCamera Current => Brain.ActiveVirtualCamera as CinemachineVirtualCamera;
+        private CinemachineBrain Brain => _brain;
+        public UnityEngine.Camera MainCamera { get; private set; }
 
         public float OrthographicSize
         {
             get => Current.m_Lens.OrthographicSize;
 
-            set => Current.m_Lens.OrthographicSize = value;
+            private set => Current.m_Lens.OrthographicSize = value;
         }
 
         protected override Task OnInitializeAsync(CancellationToken cancellationToken)
         {
-            BrainMainCamera = _brain.GetComponent<UnityEngine.Camera>();
+            MainCamera = _brain.GetComponent<UnityEngine.Camera>();
 
             return Task.CompletedTask;
         }
@@ -54,13 +54,9 @@ namespace Odumbrata.Services.Camera
             }
 
             var cameraToActivate = _virtualCameras[index];
-
             cameraToActivate.Priority = 1;
-
-
             var follow = Current.Follow;
             var lookAt = Current.LookAt;
-
             cameraToActivate.Follow = follow;
             cameraToActivate.LookAt = lookAt;
         }
@@ -78,7 +74,6 @@ namespace Odumbrata.Services.Camera
         public Task Zoom(float to, float durationOrSpeed, bool speedBased = false)
         {
             var processedValue = GetProcessedOrthographicSize(to);
-
             if (Current == null)
             {
                 return Task.CompletedTask;
@@ -94,7 +89,6 @@ namespace Odumbrata.Services.Camera
         public void ZoomImmediately(float to)
         {
             var processedValue = GetProcessedOrthographicSize(to);
-
             if (Current == null)
             {
                 return;
