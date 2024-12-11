@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Better.Commons.Runtime.Extensions;
@@ -7,11 +8,15 @@ using Odumbrata.Behaviour.Levels;
 using Odumbrata.Core.EventSystem;
 using Odumbrata.Data.Runtime;
 using Odumbrata.Global.Services.User;
+using UnityEngine;
 
 namespace Odumbrata.Services.Levels
 {
+    [Serializable]
     public sealed class LevelsService : PocoService<LevelsServiceSettings>
     {
+        [SerializeField] private Transform _root;
+
         private UserService _userService;
         private LevelsFactory _factory;
         private LevelsData _data;
@@ -35,7 +40,7 @@ namespace Odumbrata.Services.Levels
         protected override Task OnInitializeAsync(CancellationToken cancellationToken)
         {
             _events = new EventSystem();
-            _factory = new LevelsFactory(Settings.Prefabs, Settings.Root);
+            _factory = new LevelsFactory(Settings.Prefabs, _root);
             return Task.CompletedTask;
         }
 
@@ -64,9 +69,13 @@ namespace Odumbrata.Services.Levels
             await _currentLevel.Enter(_events);
         }
 
-        public Task Clear()
+        public async Task Clear()
         {
-            return _currentLevel != null ? _currentLevel.Exit() : Task.CompletedTask;
+            if (_currentLevel != null)
+            {
+                await _currentLevel.Exit();
+                _factory.Destroy(_currentLevel);
+            }
         }
 
         public void NextLevel()

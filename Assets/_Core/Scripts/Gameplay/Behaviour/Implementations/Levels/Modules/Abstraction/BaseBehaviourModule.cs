@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Odumbrata.Core.EventSystem;
 
 namespace Odumbrata.Behaviour.Levels.Modules
@@ -14,11 +15,12 @@ namespace Odumbrata.Behaviour.Levels.Modules
         protected CancellationToken DisposeCancellationToken => _disposeCancellationSource.Token;
         protected Type ContextType { get; private set; }
 
-        public virtual void Initialize(Type context, EventSystem events)
+        public virtual Task Initialize(Type context, EventSystem events)
         {
             ContextType = context;
             Events = events;
             _disposeCancellationSource = new CancellationTokenSource();
+            return Task.CompletedTask;
         }
 
         public virtual void Dispose()

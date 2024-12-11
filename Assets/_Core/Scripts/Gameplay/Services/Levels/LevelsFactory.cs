@@ -1,3 +1,4 @@
+using Better.Commons.Runtime.Extensions;
 using Odumbrata.Behaviour.Levels;
 using UnityEngine;
 
@@ -23,6 +24,11 @@ namespace Odumbrata.Services.Levels
 
             var prefab = _prefabs[index];
             return Object.Instantiate(prefab, at, Quaternion.identity, _root);
+        }
+
+        public void Destroy(BaseLevelBehaviour level)
+        {
+            level.Destroy();
         }
     }
 }

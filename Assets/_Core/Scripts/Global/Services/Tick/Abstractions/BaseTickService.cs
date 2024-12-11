@@ -47,6 +47,11 @@ namespace Odumbrata.Global.Services
 
         public void Tick(float deltaTime)
         {
+            if (!Initialized)
+            {
+                return;
+            }
+
             _tickSystem.Tick(deltaTime);
         }
 

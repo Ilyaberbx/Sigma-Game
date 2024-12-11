@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Better.Commons.Runtime.Extensions;
 using Better.Locators.Runtime;
 using Odumbrata.Behaviour.Common.Door;
@@ -18,9 +19,9 @@ namespace Odumbrata.Behaviour.Rooms
 
         public RoomsActivationModuleConfig Config => _configurable.Config;
 
-        public override void Initialize(Type context, EventSystem events)
+        public override async Task Initialize(Type context, EventSystem events)
         {
-            base.Initialize(context, events);
+            await base.Initialize(context, events);
 
             _roomsService = ServiceLocator.Get<RoomsService>();
 

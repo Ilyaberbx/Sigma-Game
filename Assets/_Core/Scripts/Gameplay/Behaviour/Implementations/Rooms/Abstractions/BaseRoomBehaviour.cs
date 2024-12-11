@@ -52,7 +52,7 @@ namespace Odumbrata.Behaviour.Rooms.Abstractions
         private IModuleContainer<BaseRoomModule> _container;
         private EventSystem _events;
         public bool IsActive { get; private set; }
-        protected ModuleFactory<BaseRoomModule> Factory { get; private set; }
+        private ModuleFactory<BaseRoomModule> Factory { get; set; }
 
         public void Initialize(EventSystem events)
         {
@@ -82,9 +82,9 @@ namespace Odumbrata.Behaviour.Rooms.Abstractions
             _events.Publish(this, new RoomDeactivatedArg(GetType()));
         }
 
-        protected virtual void InitializeModules()
+        protected virtual async void InitializeModules()
         {
-            var debugModule = Factory.CreateWithConfiguration<DebugRoomModule,
+            var debugModule = await Factory.CreateWithConfiguration<DebugRoomModule,
                 DebugRoomModuleConfig>(_debugRoomModuleConfig);
 
             var doorsRuntimeData = new[]
@@ -96,15 +96,15 @@ namespace Odumbrata.Behaviour.Rooms.Abstractions
                 }
             };
 
-            var doorsCoreModule = Factory.CreateFullSetup<DoorsInitializationModule,
+            var doorsCoreModule = await Factory.CreateFullSetup<DoorsInitializationModule,
                 DoorsInitializationModuleConfig, DoorRuntimeData[]>(_doorsInitializationModuleConfig, doorsRuntimeData);
 
-            var roomsSelectionModule = Factory.CreateWithConfiguration<RoomsActivationModule,
+            var roomsActivationModule = await Factory.CreateWithConfiguration<RoomsActivationModule,
                 RoomsActivationModuleConfig>(_roomsActivationModuleConfig);
 
             AddModule(debugModule);
             AddModule(doorsCoreModule);
-            AddModule(roomsSelectionModule);
+            AddModule(roomsActivationModule);
         }
 
         protected virtual void DisposeModules()

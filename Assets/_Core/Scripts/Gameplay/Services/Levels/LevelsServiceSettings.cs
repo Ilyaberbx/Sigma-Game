@@ -4,15 +4,13 @@ using UnityEngine;
 
 namespace Odumbrata.Services.Levels
 {
+    [CreateAssetMenu(menuName = "Configs/Services/Levels", fileName = "New Levels Service Settings", order = 0)]
     public class LevelsServiceSettings : ScriptableObject
     {
-        [SerializeField] private Transform _root;
         [SerializeField] private BaseLevelBehaviour[] _prefabs;
         [SerializeField] private LevelsData _defaultData;
 
         public BaseLevelBehaviour[] Prefabs => _prefabs;
-        public Transform Root => _root;
-
         public LevelsData DefaultData => _defaultData;
     }
 }

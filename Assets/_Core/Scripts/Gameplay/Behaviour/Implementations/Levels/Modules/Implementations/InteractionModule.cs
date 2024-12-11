@@ -7,6 +7,7 @@ using Odumbrata.Core.Modules;
 using Odumbrata.Data.Static;
 using Odumbrata.Global.Services;
 using Odumbrata.Services.Input;
+using Odumbrata.Services.Player;
 using Odumbrata.Utils;
 using UnityEngine;
 
@@ -15,6 +16,7 @@ namespace Odumbrata.Behaviour.Levels.Modules
     public interface IInteractable
     {
         public Outline Outline { get; }
+        public bool CanInteract { get; }
         Task Interact(InteractionData data);
     }
 
@@ -32,6 +34,7 @@ namespace Odumbrata.Behaviour.Levels.Modules
     [Serializable]
     public sealed class InteractionModule : BaseLevelModule, IUpdatable, IConfigurableModule<InteractionModuleConfig>
     {
+        private PlayersService _playersService;
         private InputService _inputService;
         private UpdateService _updateService;
 
@@ -40,12 +43,13 @@ namespace Odumbrata.Behaviour.Levels.Modules
         private readonly ConfigurableModule<InteractionModuleConfig> _configurable = new();
         public InteractionModuleConfig Config => _configurable.Config;
 
-        public override void Initialize(Type context, EventSystem events)
+        public override async Task Initialize(Type context, EventSystem events)
         {
-            base.Initialize(context, events);
+            await base.Initialize(context, events);
 
             _inputService = ServiceLocator.Get<InputService>();
             _updateService = ServiceLocator.Get<UpdateService>();
+            _playersService = ServiceLocator.Get<PlayersService>();
 
             _inputService.Subscribe(0, KeyInput.Down, OnLeftMouseClicked);
             _updateService.Add(this);
@@ -77,6 +81,11 @@ namespace Odumbrata.Behaviour.Levels.Modules
 
             if (TryMarkInteractable())
             {
+                if (_markedForInteraction is not { CanInteract: true })
+                {
+                    return;
+                }
+
                 SetOutline(_markedForInteraction, Config.PreInteractionOutlineWidth, Config.PreInteractionOutlineColor);
             }
         }
@@ -99,6 +108,7 @@ namespace Odumbrata.Behaviour.Levels.Modules
         {
             if (!PhysicsHelper.TryRaycastScreenPoint<IInteractable>(out var interactable))
                 return false;
+
 
             _markedForInteraction = interactable;
             return true;
@@ -125,7 +135,7 @@ namespace Odumbrata.Behaviour.Levels.Modules
 
         private async Task InteractWithCurrent()
         {
-            var data = new InteractionData(Config.Player);
+            var data = new InteractionData(_playersService.Player);
             await _currentInInteraction.Interact(data);
         }
     }

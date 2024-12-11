@@ -61,6 +61,7 @@ namespace Odumbrata.Behaviour.Common.Door
         private bool IsOpened => _runtimeData.IsOpened;
         protected Transform Root => _root;
         public Outline Outline => _outline;
+        public bool CanInteract => !IsOpened;
 
         public void Initialize(DoorRuntimeData data, EventSystem events)
         {

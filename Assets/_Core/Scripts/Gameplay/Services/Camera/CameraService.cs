@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Better.Commons.Runtime.Utility;
@@ -16,9 +17,9 @@ namespace Odumbrata.Services.Camera
         [SerializeField] private float _minOrthographicSize;
 
         [SerializeField] private CinemachineBrain _brain;
-        [SerializeField] private CinemachineVirtualCameraBase[] _virtualCameras;
-        private CinemachineVirtualCamera Current => Brain.ActiveVirtualCamera as CinemachineVirtualCamera;
-        private CinemachineBrain Brain => _brain;
+        [SerializeField] private CinemachineVirtualCamera[] _virtualCameras;
+        private int _activeIndex;
+        private CinemachineVirtualCamera Current => _virtualCameras[_activeIndex];
         public UnityEngine.Camera MainCamera { get; private set; }
 
         public float OrthographicSize
@@ -42,6 +43,8 @@ namespace Odumbrata.Services.Camera
 
         public void SetActive(int index)
         {
+            _activeIndex = index;
+
             if (_virtualCameras.Length <= index)
             {
                 DebugUtility.LogException<IndexOutOfRangeException>();

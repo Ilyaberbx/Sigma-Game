@@ -1,6 +1,6 @@
 namespace Odumbrata.Global.States
 {
-    public sealed class MainMenuState : BaseGameState
+    public sealed class MainMenuState : BaseLoadingState
     {
     }
 }

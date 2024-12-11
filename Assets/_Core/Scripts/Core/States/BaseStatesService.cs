@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Better.Services.Runtime;
@@ -10,6 +11,7 @@ namespace Odumbrata.Core.States
 {
     public abstract class BaseStatesService<TState> : PocoService, IStateMachine<TState> where TState : BaseState
     {
+#pragma warning disable 0067
         public event Action<TState> StateChanged;
         private IStateMachine<TState> _stateMachine;
 

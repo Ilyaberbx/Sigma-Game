@@ -13,14 +13,17 @@ namespace Odumbrata.Behaviour
     {
         [SerializeReference, Select(typeof(BaseSystem))]
         private BaseSystem[] _systems;
-
         private Transform _cachedTransform;
         protected SystemsContainer SystemsContainer { get; private set; }
 
+        protected override void Awake()
+        {
+            base.Awake();
+            SystemsContainer = new SystemsContainer();
+        }
+
         protected virtual void Start()
         {
-            SystemsContainer = new SystemsContainer();
-
             InitializeSystems();
         }
 

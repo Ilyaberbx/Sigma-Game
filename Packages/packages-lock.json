@@ -1,18 +1,28 @@
 {
   "dependencies": {
+    "com.eflatun.scenereference": {
+      "version": "git+https://github.com/starikcetin/Eflatun.SceneReference.git#4.1.1",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.settings-manager": "2.0.1",
+        "com.unity.nuget.newtonsoft-json": "3.0.2"
+      },
+      "hash": "b849990020c30ac6ead4e4fb4881428f86dcde0d"
+    },
     "com.tdw.better.attributes": {
-      "version": "0.0.1",
-      "depth": 1,
+      "version": "0.0.4",
+      "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.tdw.better.commons": "0.0.41",
+        "com.tdw.better.commons": "0.0.57",
         "com.tdw.better.internal.core": "0.0.2"
       },
       "url": "https://package.openupm.com"
     },
     "com.tdw.better.commons": {
-      "version": "0.0.44",
-      "depth": 1,
+      "version": "0.0.60",
+      "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.tdw.better.internal.core": "0.0.2"
@@ -20,24 +30,24 @@
       "url": "https://package.openupm.com"
     },
     "com.tdw.better.conditions": {
-      "version": "0.0.4",
+      "version": "0.0.5",
       "depth": 1,
       "source": "registry",
       "dependencies": {
         "com.tdw.better.internal.core": "0.0.2",
-        "com.tdw.better.commons": "0.0.44",
-        "com.tdw.better.attributes": "0.0.1"
+        "com.tdw.better.commons": "0.0.57",
+        "com.tdw.better.attributes": "0.0.2"
       },
       "url": "https://package.openupm.com"
     },
     "com.tdw.better.contexts": {
-      "version": "0.0.3",
+      "version": "0.0.4",
       "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.tdw.better.internal.core": "0.0.2",
-        "com.tdw.better.commons": "0.0.44",
-        "com.tdw.better.attributes": "0.0.1"
+        "com.tdw.better.commons": "0.0.57",
+        "com.tdw.better.attributes": "0.0.2"
       },
       "url": "https://package.openupm.com"
     },
@@ -49,17 +59,17 @@
       "url": "https://package.openupm.com"
     },
     "com.tdw.better.locators": {
-      "version": "0.1.12",
-      "depth": 1,
+      "version": "0.1.14",
+      "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.tdw.better.internal.core": "0.0.2",
-        "com.tdw.better.commons": "0.0.7"
+        "com.tdw.better.commons": "0.0.57"
       },
       "url": "https://package.openupm.com"
     },
     "com.tdw.better.services": {
-      "version": "0.1.3",
+      "version": "0.1.4",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -68,14 +78,14 @@
       "url": "https://package.openupm.com"
     },
     "com.tdw.better.statemachine": {
-      "version": "0.1.17",
+      "version": "0.1.18",
       "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.tdw.better.internal.core": "0.0.2",
-        "com.tdw.better.commons": "0.0.44",
-        "com.tdw.better.locators": "0.1.12",
-        "com.tdw.better.conditions": "0.0.4"
+        "com.tdw.better.commons": "0.0.57",
+        "com.tdw.better.locators": "0.1.13",
+        "com.tdw.better.conditions": "0.0.5"
       },
       "url": "https://package.openupm.com"
     },
@@ -177,6 +187,13 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.unity.nuget.newtonsoft-json": {
+      "version": "3.2.1",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.render-pipelines.core": {
       "version": "14.0.11",
       "depth": 1,
@@ -218,6 +235,13 @@
     "com.unity.searcher": {
       "version": "4.9.2",
       "depth": 2,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.settings-manager": {
+      "version": "2.0.1",
+      "depth": 1,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"

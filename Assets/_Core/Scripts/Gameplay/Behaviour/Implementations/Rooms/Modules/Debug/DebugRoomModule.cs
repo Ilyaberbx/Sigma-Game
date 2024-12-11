@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Better.Commons.Runtime.Extensions;
 using Odumbrata.Behaviour.Levels.Modules;
 using Odumbrata.Behaviour.Rooms.Abstractions;
@@ -16,9 +17,9 @@ namespace Odumbrata.Behaviour.Rooms.Debug
 
         public DebugRoomModuleConfig Config => _configurable.Config;
 
-        public override void Initialize(Type context, EventSystem events)
+        public override async Task Initialize(Type context, EventSystem events)
         {
-            base.Initialize(context, events);
+            await base.Initialize(context, events);
             Events.Subscribe<RoomActivatedArg>(OnRoomActivated);
             Events.Subscribe<RoomDeactivatedArg>(OnRoomDeactivated);
         }

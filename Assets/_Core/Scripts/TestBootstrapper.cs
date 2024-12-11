@@ -10,13 +10,12 @@ namespace Odumbrata
         [SerializeField] private PlayerBehaviour _player;
 
         private CameraService _cameraService;
-        private float _prevSize;
 
         private void Start()
         {
-            _cameraService = ServiceLocator.Get<CameraService>();
-            _cameraService.SetActive(0);
-            _cameraService.SetTarget(_player);
+            // _cameraService = ServiceLocator.Get<CameraService>();
+            // _cameraService.SetActive(0);
+            // _cameraService.SetTarget(_player);
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Odumbrata.Behaviour.Levels.Modules;
 
 namespace Odumbrata.Core.Modules.Management
@@ -15,39 +16,39 @@ namespace Odumbrata.Core.Modules.Management
             _contextType = contextType;
         }
 
-        public TModule Create<TModule>() where TModule : class, TDerivedModule, new()
+        public async Task<TModule> Create<TModule>() where TModule : class, TDerivedModule, new()
         {
             var module = new TModule();
-            module.Initialize(_contextType, _events);
+            await module.Initialize(_contextType, _events);
             return module;
         }
 
-        public TModule CreateWithConfiguration<TModule, TConfig>(TConfig config)
+        public async Task<TModule> CreateWithConfiguration<TModule, TConfig>(TConfig config)
             where TModule : class, TDerivedModule, IConfigurableModule<TConfig>, new()
         {
             var module = new TModule();
             module.SetConfiguration(config);
-            module.Initialize(_contextType, _events);
+            await module.Initialize(_contextType, _events);
             return module;
         }
 
-        public TModule CreateWithRuntime<TModule, TRuntimeData>(TRuntimeData runtime)
+        public async Task<TModule> CreateWithRuntime<TModule, TRuntimeData>(TRuntimeData runtime)
             where TModule : class, TDerivedModule, IRuntimeDataModule<TRuntimeData>, new()
         {
             var module = new TModule();
             module.SetRuntime(runtime);
-            module.Initialize(_contextType, _events);
+            await module.Initialize(_contextType, _events);
             return module;
         }
 
-        public TModule CreateFullSetup<TModule, TConfig, TRuntimeData>(TConfig config, TRuntimeData runtime)
+        public async Task<TModule> CreateFullSetup<TModule, TConfig, TRuntimeData>(TConfig config, TRuntimeData runtime)
             where TModule : class, TDerivedModule, IConfigurableModule<TConfig>, IRuntimeDataModule<TRuntimeData>, new
             ()
         {
             var module = new TModule();
             module.SetConfiguration(config);
             module.SetRuntime(runtime);
-            module.Initialize(_contextType, _events);
+            await module.Initialize(_contextType, _events);
             return module;
         }
     }

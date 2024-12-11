@@ -7,9 +7,9 @@ using Odumbrata.Core.Saves;
 
 namespace Odumbrata.Global.Services.User
 {
-    public sealed class UserService : PocoService<UserServiceSettings>, ISavesSystem
+    public sealed class UserService : PocoService, ISavesSystem
     {
-        private readonly Dictionary<string, Observable> _cacehDataMap = new();
+        private readonly Dictionary<string, Observable> _cachedDataMap = new();
         private ISavesSystem _savesSystem;
 
         protected override Task OnInitializeAsync(CancellationToken cancellationToken)
@@ -25,10 +25,10 @@ namespace Odumbrata.Global.Services.User
 
         public TData Load<TData>(string key, TData defaultValue) where TData : Observable
         {
-            if (!_cacehDataMap.TryGetValue(key, out var result))
+            if (!_cachedDataMap.TryGetValue(key, out var result))
             {
                 var loadedData = _savesSystem.Load(key, defaultValue);
-                _cacehDataMap.Add(key, loadedData);
+                _cachedDataMap.Add(key, loadedData);
                 return loadedData;
             }
 

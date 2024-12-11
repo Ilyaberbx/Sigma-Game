@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Better.Locators.Runtime;
 using Odumbrata.Core.EventSystem;
 using Odumbrata.Core.Modules;
@@ -7,15 +8,16 @@ using Odumbrata.Services.Rooms;
 
 namespace Odumbrata.Behaviour.Levels.Modules
 {
-    public sealed class RoomsInitializationModule : BaseLevelModule, IConfigurableModule<RoomsInitializationModuleConfig>
+    public sealed class RoomsInitializationModule : BaseLevelModule,
+        IConfigurableModule<RoomsInitializationModuleConfig>
     {
         private RoomsService _roomsService;
         private readonly ConfigurableModule<RoomsInitializationModuleConfig> _configurable = new();
         public RoomsInitializationModuleConfig Config => _configurable.Config;
 
-        public override void Initialize(Type context, EventSystem events)
+        public override async Task Initialize(Type context, EventSystem events)
         {
-            base.Initialize(context, events);
+            await base.Initialize(context, events);
 
             _roomsService = ServiceLocator.Get<RoomsService>();
 
